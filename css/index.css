@@ -1,0 +1,124 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Warna */
+  --primary-color: #FFFFFF;
+  --secondary-color: #d9d9d9;
+  --text-color: #333333;
+
+  /* Font */
+  --font-family: "Poppins", sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    scroll-behavior: smooth;
+    -webkit-text-fill-color: var(--text-color);
+}
+
+/* header */
+header{
+    background-color: var(--secondary-color);
+    padding-inline: 36px;
+}
+
+header :not(.nav-menu){
+    z-index: 2;
+}
+
+header ul li{
+    list-style: none;
+}
+
+header>nav>h1{
+    font-size: 1.6rem;
+}
+
+a{
+    text-decoration: none;
+}
+
+.navbar{
+    min-height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+.nav-menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   }
+
+.nav-link{
+    transition: 0.7s;
+    font-size: 1.2rem;
+    padding: 7px 25px 7px 25px;
+    border-radius: 10px;
+}
+.nav-link:hover{
+    background-color: white;
+}
+.menu-icon{
+    display: none;
+    cursor: pointer;
+}
+.bar{
+    display: block;
+    width: 24px;
+    height: 3px;
+    margin: 5px;
+    -webkit-transition: all 0.7s ease-in-out;
+    transition: all 0.7s ease-in-out;
+    background-color: black;
+}
+
+/* dashboard */
+
+
+/* Insight */
+
+
+/* About Us*/
+
+
+/* Feedback/Footer */
+
+@media screen and (max-width: 768px){
+    /* Header/Navigation Bar */
+    .menu-icon{
+        display: block;
+    }
+    .menu-icon.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-icon.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .menu-icon.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
+        flex-direction: column;
+        background-color: var(--secondary-color);
+        width: 100%;
+        text-align: center;
+        transition: 1s;
+    }
+    .nav-item{
+        margin: 16px 0;
+    }
+    .nav-menu.active{
+        top: calc(0% + 80px);
+    }
+
+}
