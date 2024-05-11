@@ -1,10 +1,11 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Warna */
-  --primary-color: #FFFFFF;
-  --secondary-color: #d9d9d9;
+  --background-color: #FFFFFF;
+  --primary-color: #124076;
+  --secondary-color: #7F9F80;
+  --title-color: #F7C686;
   --text-color: #333333;
 
   /* Font */
@@ -17,12 +18,17 @@
     padding: 0;
     font-family: var(--font-family);
     scroll-behavior: smooth;
+}
+* > h1, .nav-link{
+    -webkit-text-fill-color: var(--title-color);
+}
+* > p {
     -webkit-text-fill-color: var(--text-color);
 }
 
 /* header */
 header{
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     padding-inline: 36px;
 }
 
@@ -62,7 +68,7 @@ a{
     border-radius: 10px;
 }
 .nav-link:hover{
-    background-color: white;
+    background-color: var(--secondary-color);
 }
 .menu-icon{
     display: none;
@@ -75,7 +81,7 @@ a{
     margin: 5px;
     -webkit-transition: all 0.7s ease-in-out;
     transition: all 0.7s ease-in-out;
-    background-color: black;
+    background-color: var(--title-color);
 }
 
 /* dashboard */
@@ -109,7 +115,7 @@ a{
         left: 0;
         gap: 0;
         flex-direction: column;
-        background-color: var(--secondary-color);
+        background-color: var(--primary-color);
         width: 100%;
         text-align: center;
         transition: 1s;
