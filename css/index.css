@@ -30,12 +30,11 @@
 
 /* header */
 header{
+    position: sticky;
+    top: 0;
     background-color: var(--primary-color);
     padding-inline: 36px;
-}
-
-header :not(.nav-menu){
-    z-index: 2;
+    z-index: 1;
 }
 
 header ul li{
@@ -91,7 +90,7 @@ a{
     border: 1px solid ;
     border-radius: 24px;
     width: calc(100% - 48px);
-    height: 200px; /* Jangan Lupa Hapus*/
+    height: 1000px; /* Jangan Lupa Hapus*/
     margin: 24px auto;
 }
 .dashboard-header{
@@ -142,8 +141,8 @@ a{
 .insight-list{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    height: 1000px;
 }
 .insight-div {
     margin-bottom: 20px;

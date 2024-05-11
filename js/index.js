@@ -12,6 +12,22 @@ document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", 
     navMenu.classList.remove("active");
 }));
 
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      const target = document.querySelector(this.getAttribute('href'));
+      const offsetTop = 100; // Ubah sesuai dengan jumlah pixel yang ingin Anda turunkan
+      const scrollPosition = target.offsetTop - offsetTop;
+
+      window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth'
+      });
+  });
+});
+
+
 
 //Insight
 document.addEventListener("DOMContentLoaded", function() {
