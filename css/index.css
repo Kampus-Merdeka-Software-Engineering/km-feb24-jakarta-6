@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Warna */
+  --background-color: #FFFFFF;
+  --primary-color: #124076;
+  --secondary-color: #7F9F80;
+  --title-color: #F7C686;
+  --text-color: #333333;
+
+  /* Font */
+  --font-family: "Poppins", sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    scroll-behavior: smooth;
+    -webkit-text-fill-color: var(--text-color);
+}
+* > h1, .nav-link{
+    -webkit-text-fill-color: var(--title-color);
+
+}
+* > p {
+    -webkit-text-fill-color: var(--text-color);
+}
+
+/* header */
+header{
+    background-color: var(--primary-color);
+    padding-inline: 36px;
+}
+
+header :not(.nav-menu){
+    z-index: 2;
+}
+
+header ul li{
+    list-style: none;
+}
+
+header>nav>h1{
+    font-size: 1.6rem;
+}
+
+a{
+    text-decoration: none;
+}
+
+.navbar{
+    min-height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+.nav-menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   }
+
+.nav-link{
+    transition: 0.7s;
+    font-size: 1.2rem;
+    padding: 7px 25px 7px 25px;
+    border-radius: 10px;
+}
+.nav-link:hover{
+    background-color: var(--secondary-color);
+}
+.menu-icon{
+    display: none;
+    cursor: pointer;
+}
+.bar{
+    display: block;
+    width: 24px;
+    height: 3px;
+    margin: 5px;
+    -webkit-transition: all 0.7s ease-in-out;
+    transition: all 0.7s ease-in-out;
+    background-color: var(--title-color);
+}
+
+/* dashboard */
+.dashboard{
+    border: 1px solid ;
+    border-radius: 24px;
+    width: calc(100% - 48px);
+    height: 200px; /* Jangan Lupa Hapus*/
+    margin: 24px auto;
+}
+.dashboard-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--secondary-color);
+    border-radius: 24px 24px 0px 0px;
+    border-bottom: 1px solid;
+}
+.dashboard h1{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.dashboard-feature{
+    border: none;
+    border-radius: 8px;
+    padding: 4px 18px;
+    background-color: white;
+}
+.dashboard-feature:hover{
+    background-color: var(--text-color);
+    color: white;
+}
+
+
+/* Insight */
+.insight-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 48px 0px;
+}
+.background-line{
+    position: absolute;
+}
+.insight-title{
+    position: absolute;
+    background-color: white;
+    padding: 0px 24px;
+}
+.insight-title h1{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.insight-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.insight-div {
+    margin-bottom: 20px;
+    width: calc(100% - 48px);
+    margin: 12px auto;
+}
+.question {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    padding: 24px 48px;
+    border-radius: 12px;
+    transition: all 0.5s;
+    font-size: 1rem;
+    font-weight: 300;
+}
+.active .question {
+    border-radius: 12px 12px 0px 0px;
+}  
+.answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    padding: 0 24px;
+    border: inset 1px var(--text-color);
+    border-radius: 0px 0px 12px 12px;
+}
+  
+.active .answer {
+    max-height: 500px;
+    opacity: 1;
+    padding: 24px 24px;
+    border: inset 1px var(--text-color);
+    border-radius: 0px 0px 12px 12px;
+    transition: max-height 0.5s, opacity 1s ease-in-out;
+}
+.answer-item {
+    border-bottom: 1px solid var(--text-color);
+    padding: 12px 24px;
+    width: calc(100% - 48px);
+    margin: auto;
+}
+
+/* About Us*/
+
+
+
+
+/* Feedback*/
+
+
+
+
+/*Footer */
+
+@media screen and (max-width: 768px){
+    /* Header/Navigation Bar */
+    .menu-icon{
+        display: block;
+    }
+    .menu-icon.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-icon.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .menu-icon.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        width: 100%;
+        text-align: center;
+        transition: 1s;
+    }
+    .nav-item{
+        margin: 16px 0;
+    }
+    .nav-menu.active{
+        top: calc(0% + 80px);
+    }
+
+}
