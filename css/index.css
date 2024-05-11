@@ -85,6 +85,36 @@ a{
 }
 
 /* dashboard */
+.dashboard{
+    border: 1px solid ;
+    border-radius: 24px;
+    width: calc(100% - 48px);
+    height: 200px; /* Jangan Lupa Hapus*/
+    margin: 24px auto;
+}
+.dashboard-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--secondary-color);
+    border-radius: 24px 24px 0px 0px;
+    border-bottom: 1px solid;
+}
+.dashboard h1{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.dashboard-feature{
+    border: none;
+    border-radius: 8px;
+    padding: 4px 18px;
+    background-color: white;
+}
+.dashboard-feature:hover{
+    background-color: var(--text-color);
+    color: white;
+}
 
 
 /* Insight */
