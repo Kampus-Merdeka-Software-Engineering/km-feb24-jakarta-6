@@ -11,8 +11,8 @@
     <nav class="navbar">
         <h1 class="title">Team 6</h1>
         <ul class="nav-menu">
-            <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
-            <li class="nav-item"><a href="#aaa" class="nav-link">Insight</a></li>
+            <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
+            <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
             <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Feedback</a></li>
         </ul>
@@ -25,17 +25,63 @@
 </header>
 <body>
     <!-- Dashboard -->
-
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+            <div class="dashboard-button">
+                <button class="dashboard-feature">Sort</button>
+                <button class="dashboard-feature">Filter</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Insight -->
+    <div class="insight">
+        <div class="insight-header">
+            <svg width="100%" height="3" class="background-line">
+                <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
+            </svg>
+            <div class="insight-title" id="insight"><h1>Insight</h1></div>  
+        </div>
+    </div>
+    <div class="insight-container">
+        <div class="insight-list"></div>
+    </div>
 
 
     <!-- About Us -->
 
+    
 
+    <!-- Feedback  -->
+    <div class="feedback">
+        <div class="feedback-content">
+            <div class="feedback-text">
+                <h1 class="feedback-title">FEEDBACK</h1>
+                <p class="feedback-description">Is there anything we could have<br>done to make your experience<br>better?</p>
+            </div>
+            <div class="feedback-form">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br>
+                <label for="email">E-mail:</label><br>
+                <input type="email" id="email" name="email"><br>
+                <label for="message">Feedback / Suggestion:</label><br>
+                <input id="message" name="message"></input><br>
+                <button class="feedback-button">Send Feedback</button>
+            </div>
+        </div>
+        <div class="feedback-footer">
+            <p>Support by</p>
+            <div class="logo-support">
+                <img src="./logo-kampusmerdeka.png" alt="logo-kampusmerdeka" class="logo">
+                <img src="./logo-revou.png" alt="logo-revou" class="logo">
+            </div>
+        </div>
+    </div>
+    
 </body>
 <footer>
-    <!-- Footer/Feedback -->
+    <!-- Footer -->
 
 
 </footer>
