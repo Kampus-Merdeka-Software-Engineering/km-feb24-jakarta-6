@@ -192,9 +192,71 @@ a{
 
 
 /* Feedback*/
-
-
-
+.feedback{
+    background-color: #ADBCCD;
+}
+.feedback-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 48px 24px 48px;
+}
+.feedback-text{
+    text-align: right;
+    padding: 0px 48px 48px 48px;
+}
+.feedback-title{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+.feedback-description{
+    font-size: 1rem;
+}
+.feedback-form{
+    text-align: left;
+    padding: 28px 48px 0px 48px;
+}
+label{
+    font-size: 1rem;
+    font-weight: 500;
+}
+input{
+    width: 20rem;
+    height: 2,5rem;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px 0px 10px 0px;
+}
+.feedback-button{
+    background-color: #697c92;
+    color: #f7e0c3;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 12px;
+    cursor: pointer;
+}
+.feedback-button:hover{
+    background-color: #F7E0C3;
+    color: #697C92;
+}
+.feedback-footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0,5rem;
+    padding: 24px 48px
+}
+.logo{
+    width: 4rem;
+    height: 4rem;
+    padding: 10px;
+}
 
 /*Footer */
 
