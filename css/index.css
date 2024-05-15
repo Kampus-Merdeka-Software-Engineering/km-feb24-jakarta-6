@@ -275,12 +275,11 @@ input{
         transform: translateY(-8px) rotate(-45deg);
     }
     .nav-menu {
-        position: fixed;
-        top: -100%;
-        left: 0;
-        gap: 0;
+        margin-right: auto;
+        top: 100px;
+        left: 20px;
+        gap: 0px;
         flex-direction: column;
-        background-color: var(--primary-color);
         width: 100%;
         text-align: right;
         transition: 1s;
@@ -296,11 +295,17 @@ input{
 
 .phoenix-bikes {
     background-color: #0c2746;
+    display: flex;
+    align-items: start;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 70px 77px;
 }
 
 .phoenix-bikes__info {
     display: flex;
     flex-direction: column;
+    text-align:start;
 }
 
 .phoenix-bikes__title {
@@ -311,7 +316,7 @@ input{
 
 .phoenix-bikes__subtitle {
     color: #fff3bb;
-    scroll-margin-right:  45px;
+    scroll-margin-right:  50px;
     font: 400 24px Poppins, sans-serif;
 }
 
@@ -326,30 +331,31 @@ input{
 .phoenix-bikes__logo-github {
     aspect-ratio: 0.99;
     object-fit: auto;
-    object-position: right;
+    object-position: left;
     width: 75px;
     margin: auto 0;
 }
 
 .phoenix-bikes__logo-email {
-    aspect-ratio: 1.04;
+    aspect-ratio: 1.2;
     object-fit: auto;
     object-position: right;
-    width: 105px;
-    max-width: 100%;
+    width: 75px;
+    max-width: 100px;
+    margin-bottom: 20px;
 }
 
 .phoenix-bikes__location {
     color: #fff3bb;
     align-self: end;
-    margin-right: 30%;
+    margin-top: 116px;
     font: 300 18px Poppins, sans-serif;
 }
 
 .phoenix-bikes__nav {
     display: flex;
-    margin-top: 43px;
     flex-direction: column;
+    margin-top: 43px;
     font-size: 24px;
     color: #fff3bb;
     font-weight: 400;
@@ -357,23 +363,38 @@ input{
 
 .phoenix-bikes__nav-title {
     font: 600 30px Poppins, sans-serif;
-    margin-right: auto;
-    text-align: right;
-    margin-top: auto;
+    margin-left: 200px;
 
 }
 
 .phoenix-bikes__nav{
     font-family: Poppins, sans-serif;
-    text-align: right;
+    margin-top: 24px;
 }
 
 .phoenix-bikes__nav-item--dashboard {
+    font-family: Poppins, sans-serif;
     margin-top: 38px;
-    text-align: right;
+}
+
+.phoenix-bikes__nav-item--insigt{
+    font-family: Poppins, sans-serif;
+    margin-top: 24px;
 }
 
 .phoenix-bikes__nav-item--about {
+    font-family: Poppins, sans-serif;
     margin-top: 18px;
-    text-align: right;
 }
+
+.phoenix-bikes__nav-item--dashboard {
+    font-family: Poppins, sans-serif;
+    margin-top: 24px;
+}
+
+.p{
+    color: #fff3bb;
+    justify-content: center;
+    align-items: center;
+    font: 300 18px Poppins, sans-serif;
+  }
