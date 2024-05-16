@@ -18,14 +18,14 @@
     padding: 0;
     font-family: var(--font-family);
     scroll-behavior: smooth;
-    -webkit-text-fill-color: var(--text-color);
+    color: var(--text-color);
 }
 * > h1, .nav-link{
-    -webkit-text-fill-color: var(--title-color);
+    color: var(--title-color);
 
 }
 * > p {
-    -webkit-text-fill-color: var(--text-color);
+    color: var(--text-color);
 }
 
 /* header */
@@ -292,14 +292,16 @@ input{
         top: calc(0% + 80px);
     }
 }
-
-.phoenix-bikes {
-    background-color: #7F9F80;
+element.style{
     display: flex;
+    justify-content: space-between;
+}
+.phoenix-bikes {
+    background-color: #124076;
     align-items: start;
     gap: 20px;
-    justify-content: space-between;
     padding: 70px 77px;
+    justify-content: space-between;
 }
 
 .phoenix-bikes__info {
@@ -309,7 +311,7 @@ input{
 }
 
 .phoenix-bikes__title {
-    color: #f7c686;
+    color: #F7C686;
     font: 600 44px Poppins, sans-serif;
     margin-right: 30;
 }
@@ -345,11 +347,14 @@ input{
 }
 
  .location-description {
+    text-align: center;
     color: #fff3bb;
     align-self: end;
     margin-top: 60px;
     font: 300 18px Poppins, sans-serif;
  }
+
+
 .phoenix-bikes__nav {
     display: flex;
     flex-direction: column;
@@ -361,12 +366,13 @@ input{
 
 .phoenix-bikes__nav-title {
         font-weight: bold;
-        color: #343a40;
+        color: #fff3bb;
         margin-bottom: 10px;
         font: 600 30px Poppins, sans-serif;
 
     
 }
+
 
 .phoenix-bikes__nav-item--dashboard {
     font-family: Poppins, sans-serif;
@@ -376,16 +382,19 @@ input{
 .phoenix-bikes__nav-item--insigt{
     font-family: Poppins, sans-serif;
     margin-top: 24px;
+    
 }
 
 .phoenix-bikes__nav-item--about {
     font-family: Poppins, sans-serif;
     margin-top: 18px;
+    
 }
 
-.phoenix-bikes__nav-item--dashboard {
+.phoenix-bikes__nav-item--feedback {
     font-family: Poppins, sans-serif;
     margin-top: 24px;
+    
 }
 
 .phoenix-bikes__nav-item:hover {
