@@ -211,7 +211,7 @@ a{
     margin-bottom: 2rem;
 }
 .feedback-description{
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 .feedback-form{
     text-align: left;
@@ -223,7 +223,8 @@ label{
 }
 input{
     width: 20rem;
-    height: 2,5rem;
+    height: 2rem;
+    font-size: 1rem;
     border: none;
     border-radius: 8px;
     padding: 8px;
@@ -293,5 +294,38 @@ input{
     .nav-menu.active{
         top: calc(0% + 80px);
     }
+
+    /* Feedback */
+    .feedback-content{
+        flex-direction: column;
+    }
+    .feedback-text{
+        text-align: center;
+        padding: 0px 24px 48px 24px;
+    }
+    .feedback-title{
+        font-size: 1.5rem;
+    }
+    .feedback-description{
+        font-size: 0.8rem;
+    }
+    .feedback-form{
+        padding: 28px 24px 0px 24px;
+    }
+    label{
+        font-size: 0.8rem;
+    }
+    input{
+        width: 15rem;
+        height: 1.5rem;
+        font-size: 0.8rem;
+    }
+    .feedback-button{
+        font-size: 0.8rem;
+    }
+    .feedback-footer{
+        font-size: 0.5rem;
+        padding: 24px 24px
+    }   
 
 }
