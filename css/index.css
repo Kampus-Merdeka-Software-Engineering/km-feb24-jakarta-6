@@ -258,8 +258,6 @@ input{
     height: 4rem;
     padding: 10px;
 }
-    
-
 
 /*Footer */
 
@@ -307,7 +305,7 @@ input{
         font-size: 1.5rem;
     }
     .feedback-description{
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
     .feedback-form{
         padding: 28px 24px 0px 24px;
