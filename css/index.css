@@ -329,7 +329,6 @@ input{
 
 
 .phoenix-bikes__logo-github {
-    aspect-ratio: 0.99;
     object-fit: auto;
     object-position: left;
     width: 75px;
@@ -362,14 +361,12 @@ input{
 }
 
 .phoenix-bikes__nav-title {
-    font: 600 30px Poppins, sans-serif;
-    margin-left: 200px;
+        font-weight: bold;
+        color: #343a40;
+        margin-bottom: 10px;
+        font: 600 30px Poppins, sans-serif;
 
-}
-
-.phoenix-bikes__nav{
-    font-family: Poppins, sans-serif;
-    margin-top: 24px;
+    
 }
 
 .phoenix-bikes__nav-item--dashboard {
@@ -392,9 +389,14 @@ input{
     margin-top: 24px;
 }
 
-.p{
+.phoenix-bikes__nav-item:hover {
+    text-decoration: underline;
+}
+
+.phoenix-bikes__location{
     color: #fff3bb;
     justify-content: center;
-    align-items: center;
+    align-items:flex-end;
     font: 300 18px Poppins, sans-serif;
+    padding: 24px 48px
   }
