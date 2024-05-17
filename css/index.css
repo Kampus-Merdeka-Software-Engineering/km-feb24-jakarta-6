@@ -300,6 +300,7 @@ input{
     align-items: start;
     gap: 20px;
     padding: 70px 77px;
+    flex-wrap: wrap;
 }
 
 .phoenix-bikes__info {
@@ -307,6 +308,11 @@ input{
     flex-direction: column;
     text-align:start;
 }
+
+.phoenix-bikes__text {
+    display: flex;
+    flex-direction: column;
+  }
 
 .phoenix-bikes__title {
     color: #F7C686;
@@ -356,6 +362,8 @@ input{
 .phoenix-bikes__nav {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
     margin-top: 43px;
     font-size: 24px;
     color: #fff3bb;
