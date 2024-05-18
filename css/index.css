@@ -295,6 +295,7 @@ input{
 }
 
 .phoenix-bikes {
+    display: flex;
     background-color: #124076;
     justify-content: space-between;
     align-items: start;
@@ -304,6 +305,7 @@ input{
 
 .phoenix-bikes__info {
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     text-align:start;
 }
@@ -347,7 +349,8 @@ input{
 
  .location-description {
     text-align: center;
-    color: #fff3bb;
+    background-color: #124076;
+    color: black;
     align-self: end;
     margin-top: 60px;
     font: 300 18px Poppins, sans-serif;
@@ -358,10 +361,8 @@ input{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
     font-size: 24px;
     color: #fff3bb;
-    font-weight: 400;
 }
 
 .phoenix-bikes__nav-title {
@@ -396,6 +397,11 @@ input{
 
 .phoenix-bikes__nav-item:hover {
     text-decoration: underline;
+}
+.footer{
+    display: flex;
+    background-color: #124076;
+    justify-content: center;
 }
 
     /* Feedback */
