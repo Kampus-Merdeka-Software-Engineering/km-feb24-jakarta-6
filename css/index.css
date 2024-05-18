@@ -298,7 +298,6 @@ input{
     background-color: #124076;
     justify-content: space-between;
     align-items: start;
-    gap: 20px;
     padding: 70px 77px;
     flex-wrap: wrap;
 }
@@ -308,11 +307,6 @@ input{
     flex-direction: column;
     text-align:start;
 }
-
-.phoenix-bikes__text {
-    display: flex;
-    flex-direction: column;
-  }
 
 .phoenix-bikes__title {
     color: #F7C686;
@@ -329,8 +323,9 @@ input{
 .phoenix-bikes__images {
     align-self: start;
     display: flex;
+    justify-content: space-between;
     margin-top: 65px;
-    gap: 0;
+    width: 100%;
 }
 
 
@@ -347,7 +342,7 @@ input{
     object-position: right;
     width: 75px;
     max-width: 100px;
-    margin-bottom: 20px;
+    margin-bottom: 0px; 
 }
 
  .location-description {
@@ -364,7 +359,6 @@ input{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 43px;
     font-size: 24px;
     color: #fff3bb;
     font-weight: 400;
