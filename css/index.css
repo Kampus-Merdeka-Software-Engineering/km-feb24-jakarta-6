@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Warna */
-  --background-color: #FFFFFF;
-  --primary-color: #124076;
-  --secondary-color: #7F9F80;
-  --title-color: #F7C686;
-  --text-color: #333333;
-
-  /* Font */
-  --font-family: "Poppins", sans-serif;
+    /* Warna */
+    --background-color: #FFFFFF;
+    --primary-color: #124076;
+    --secondary-color: #7F9F80;
+    --title-color: #F7C686;
+    --text-color: #333333;
+    
+    /* Font */
+    --font-family: "Poppins", sans-serif;
 }
 
 *{
@@ -22,7 +22,7 @@
 }
 * > h1, .nav-link{
     color: var(--title-color);
-
+    
 }
 * > p {
     color: var(--text-color);
@@ -60,10 +60,10 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-   }
+}
 
 .nav-link{
-    transition: 0.7s;
+    transition: all 0.5s ease;
     font-size: 1.2rem;
     padding: 7px 25px 7px 25px;
     border-radius: 10px;
@@ -71,6 +71,11 @@ a{
 .nav-link:hover{
     background-color: var(--secondary-color);
 }
+
+.nav-link.active {
+    color: var(--secondary-color);
+}
+
 .menu-icon{
     display: none;
     cursor: pointer;
@@ -113,13 +118,13 @@ a{
     background-color: white;
 }
 .dashboard-feature:hover{
-    background-color: var(--text-color);
+    background-color: var(--primary-color);
     color: white;
 }
 
 
 /* Insight */
-.insight-header {
+.section-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,7 +134,7 @@ a{
 .background-line{
     position: absolute;
 }
-.insight-title{
+.section-title{
     position: absolute;
     background-color: white;
     padding: 0px 24px;
@@ -142,7 +147,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 1000px;
+    min-height: 48px;
 }
 .insight-div {
     margin-bottom: 20px;
@@ -170,7 +175,7 @@ a{
     border: inset 1px var(--text-color);
     border-radius: 0px 0px 12px 12px;
 }
-  
+
 .active .answer {
     max-height: 500px;
     opacity: 1;
@@ -186,7 +191,7 @@ a{
     margin: auto;
 }
 
-/* About Us*/
+/* About Us
 .global{
     background-color: #222222;
     text-align: center;
@@ -213,7 +218,7 @@ a{
     width:230px;
     margin: 30px;
     border-radius: 10px;
-    }
+}
 #foto{
     height: 110px;
     width: 110px;
@@ -226,13 +231,76 @@ a{
     justify-content: center;
 }
 .logoaboutus{
-display:flex;
-justify-content:space-evenly;
-margin:15px;
+    display:flex;
+    justify-content:space-evenly;
+    margin:15px;
 }
 .nameandrole{max-height: 200px;}
 .name{font-size: 20; margin :3px}
+*/
 
+.cards-container{
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-evenly;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--secondary-color);
+    margin: 10px; /* Memberikan jarak antar kartu */
+    transition: all 0.5s ease;
+    border-radius: 24px;
+    border: 1px solid var(--text-color) ;
+}
+
+.card .image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.card .image img {
+    border-radius: 18px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease; 
+}
+
+.card:hover .image img {
+    width: 300px;
+    height: 300px;
+    transform: scale(0.90);
+}
+
+.name, .role, .icons {
+    display: none;
+    text-align: center;
+    width: 100%;
+}
+
+.card:hover .name, .card:hover .role, .card:hover .icons {
+    display: block;
+    padding-bottom: 20px;
+}
+
+.icons a {
+    display: inline-flex;
+    width: 50px;
+    height: 20px;
+    justify-content: space-around;
+}
 
 
 /* Feedback*/
@@ -242,19 +310,20 @@ margin:15px;
 .feedback-content{
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 24px 48px 24px 48px;
 }
 .feedback-text{
-    text-align: right;
     padding: 0px 48px 48px 48px;
 }
 .feedback-title{
+    text-align: right;
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 2rem;
+    padding-top: 28px;
 }
 .feedback-description{
+    text-align: right;
     font-size: 1.2rem;
 }
 .feedback-form{
@@ -272,7 +341,17 @@ input{
     border: none;
     border-radius: 8px;
     padding: 8px;
-    margin: 8px 0px 10px 0px;
+    margin: 8px 0px 0px 0px;
+}
+textarea{
+    width: 15rem;
+    height: 5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px 0px 0% 0px;
+    resize: vertical;
 }
 .feedback-button{
     background-color: #697c92;
@@ -302,8 +381,76 @@ input{
     height: 4rem;
     padding: 10px;
 }
+.error {
+    color: red;
+    font-size: 12px;
+}
 
 /*Footer */
+
+.phoenix-bikes {
+    display: flex;
+    background-color: #124076;
+    justify-content: space-between;
+    align-items: start;
+    padding: 70px 77px;
+    flex-wrap: wrap;
+}
+
+.phoenix-bikes_info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align:start;
+}
+
+.phoenix-bikes_title {
+    color: var(--title-color);
+    margin-right: 30;
+}
+
+.phoenix-bikes_subtitle {
+    color: var(--title-color);
+}
+
+.phoenix-bikes_images {
+    margin-top: 48px;
+}
+
+.phoenix-bikes_logo {
+    height: 48px;
+    padding-right: 24px;
+}
+
+.location-description {
+    text-align: center;
+    background-color: var(--primary-color);
+    padding-bottom: 48px;
+}
+
+
+.phoenix-bikes_nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--title-color);
+}
+
+.phoenix-bikes_nav-title {
+    font-weight: bold;
+    color: var(--title-color);
+    margin-bottom: 10px;
+}
+
+.phoenix-bikes_nav-item:hover {
+    text-decoration: underline;
+}
+.footer{
+    display: flex;
+    background-color: #124076;
+    justify-content: center;
+}
+
 
 @media screen and (max-width: 768px){
     /* Header/Navigation Bar */
@@ -319,167 +466,95 @@ input{
     .menu-icon.active .bar:nth-child(3){
         transform: translateY(-8px) rotate(-45deg);
     }
-    .nav-menu {
-        margin-right: auto;
-        top: 100px;
-        left: 20px;
-        gap: 0px;
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
         flex-direction: column;
+        background-color: var(--primary-color);
         width: 100%;
-        text-align: right;
+        text-align: center;
         transition: 1s;
-    
     }
-    .nav-item {
+    .nav-item{
         margin: 16px 0;
     }
-    .nav-menu.active {
+    .nav-menu.active{
         top: calc(0% + 80px);
     }
-}
+    
+    .section-title{
+        font-size: 0.8rem;
+    }
 
-.phoenix-bikes {
-    display: flex;
-    background-color: #124076;
-    justify-content: space-between;
-    align-items: start;
-    padding: 70px 77px;
-    flex-wrap: wrap;
-}
-
-.phoenix-bikes__info {
-    display: flex;
-    justify-content: space-between;
+    
+/* Feedback */
+.feedback-content{
     flex-direction: column;
-    text-align:start;
-}
-
-.phoenix-bikes__title {
-    color: #F7C686;
-    font: 600 44px Poppins, sans-serif;
-    margin-right: 30;
-}
-
-.phoenix-bikes__subtitle {
-    color: #fff3bb;
-    scroll-margin-right:  50px;
-    font: 400 24px Poppins, sans-serif;
-}
-
-.phoenix-bikes__images {
-    align-self: start;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 65px;
+    align-items: center;
     width: 100%;
 }
-
-
-.phoenix-bikes__logo-github {
-    object-fit: auto;
-    object-position: left;
-    width: 75px;
-    margin: auto 0;
-}
-
-.phoenix-bikes__logo-email {
-    aspect-ratio: 1.2;
-    object-fit: auto;
-    object-position: right;
-    width: 75px;
-    max-width: 100px;
-    margin-bottom: 0px; 
-}
-
- .location-description {
+.feedback-text{
     text-align: center;
-    background-color: #124076;
-    color: black;
-    align-self: end;
-    margin-top: 60px;
-    font: 300 18px Poppins, sans-serif;
- }
-
-
-.phoenix-bikes__nav {
+    padding: 0px 24px 48px 24px;
+}
+.feedback-title{
+    text-align: center;
+    font-size: 1.5rem;
+}
+.feedback-description{
+    text-align: center;
+    font-size: 1rem;
+}
+.feedback-form{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    font-size: 24px;
-    color: #fff3bb;
+    padding: 28px 24px 0px 24px;
+    width: 100%;
+}
+label{
+    font-size: 0.8rem;
+}
+input{
+    width: 100%;
+    height: 1.5rem;
+    font-size: 0.8rem;
+}
+textarea{
+    width: 100%;
+    height: 5rem;
+    font-size: 0.8rem;
+}
+.feedback-button{
+    justify-self: center;
+    font-size: 0.8rem;
+}
+.feedback-footer{
+    font-size: 0.5rem;
+    padding: 24px 24px
+}
+.error{
+    margin-bottom: 24px;
+}
+br{
+    display: none;
 }
 
-.phoenix-bikes__nav-title {
-        font-weight: bold;
-        color: #fff3bb;
-        margin-bottom: 10px;
-        font: 600 30px Poppins, sans-serif;
+/*Footer*/
+.phoenix-bikes {
+    flex-direction: column-reverse;
+    align-items: center;
 }
 
-.phoenix-bikes__nav-item--dashboard {
-    font-family: Poppins, sans-serif;
-    margin-top: 38px;
+.phoenix-bikes_info {
+    flex-direction: column;
+    align-items: center;
+}
+.phoenix-bikes_nav {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 48px;
 }
 
-.phoenix-bikes__nav-item--insigt{
-    font-family: Poppins, sans-serif;
-    margin-top: 24px;
-    
 }
-
-.phoenix-bikes__nav-item--about {
-    font-family: Poppins, sans-serif;
-    margin-top: 18px;
-    
-}
-
-.phoenix-bikes__nav-item--feedback {
-    font-family: Poppins, sans-serif;
-    margin-top: 24px;
-    
-}
-
-.phoenix-bikes__nav-item:hover {
-    text-decoration: underline;
-}
-.footer{
-    display: flex;
-    background-color: #124076;
-    justify-content: center;
-}
-
-    /* Feedback */
-    .feedback-content{
-        flex-direction: column;
-    }
-    .feedback-text{
-        text-align: center;
-        padding: 0px 24px 48px 24px;
-    }
-    .feedback-title{
-        font-size: 1.5rem;
-    }
-    .feedback-description{
-        font-size: 1rem;
-    }
-    .feedback-form{
-        padding: 28px 24px 0px 24px;
-    }
-    label{
-        font-size: 0.8rem;
-    }
-    input{
-        width: 15rem;
-        height: 1.5rem;
-        font-size: 0.8rem;
-    }
-    .feedback-button{
-        font-size: 0.8rem;
-    }
-    .feedback-footer{
-        font-size: 0.5rem;
-        padding: 24px 24px
-    }   
-
-
-
