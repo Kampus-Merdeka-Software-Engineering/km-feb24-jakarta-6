@@ -98,3 +98,19 @@ function generateInsight(question, answers) {
     }
   });
   
+
+//Feedback
+window.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementsByClassName('feedback-form')[0];
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const feedback = document.getElementById('message');
+
+    name.value = '';
+    email.value = '';
+    feedback.value = '';
+  });
+});
