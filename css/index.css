@@ -300,7 +300,6 @@ input{
     justify-content: space-between;
     align-items: start;
     padding: 70px 77px;
-    flex-wrap: wrap;
 }
 
 .phoenix-bikes__info {
@@ -317,7 +316,7 @@ input{
 }
 
 .phoenix-bikes__subtitle {
-    color: #fff3bb;
+    color: #F7C686;
     scroll-margin-right:  50px;
     font: 400 24px Poppins, sans-serif;
 }
@@ -325,9 +324,8 @@ input{
 .phoenix-bikes__images {
     align-self: start;
     display: flex;
-    justify-content: space-between;
     margin-top: 65px;
-    width: 100%;
+    gap: 0px;
 }
 
 
@@ -339,68 +337,55 @@ input{
 }
 
 .phoenix-bikes__logo-email {
-    aspect-ratio: 1.2;
+    aspect-ratio: 0.99;
     object-fit: auto;
-    object-position: right;
+    object-position: center;
     width: 75px;
-    max-width: 100px;
-    margin-bottom: 0px; 
+    margin: auto 0;
 }
 
- .location-description {
+.location-description {
     text-align: center;
     background-color: #124076;
-    color: black;
-    align-self: end;
+    color: #F7C686;
+    align-self: center;
     margin-top: 60px;
     font: 300 18px Poppins, sans-serif;
  }
 
-
 .phoenix-bikes__nav {
     display: flex;
+    margin-top: 43px;
     flex-direction: column;
-    justify-content: space-between;
     font-size: 24px;
-    color: #fff3bb;
+    color: #F7C686;
+    font-weight: 400;
 }
 
 .phoenix-bikes__nav-title {
         font-weight: bold;
-        color: #fff3bb;
+        color:#F7C686;
         margin-bottom: 10px;
         font: 600 30px Poppins, sans-serif;
 }
 
-.phoenix-bikes__nav-item--dashboard {
-    font-family: Poppins, sans-serif;
-    margin-top: 38px;
-}
-
-.phoenix-bikes__nav-item--insigt{
-    font-family: Poppins, sans-serif;
-    margin-top: 24px;
-    
-}
-
-.phoenix-bikes__nav-item--about {
-    font-family: Poppins, sans-serif;
-    margin-top: 18px;
-    
-}
-
-.phoenix-bikes__nav-item--feedback {
-    font-family: Poppins, sans-serif;
-    margin-top: 24px;
-    
+.phoenix-bikes__nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 24px;
+    color: #F7C686;
 }
 
 .phoenix-bikes__nav-item:hover {
     text-decoration: underline;
+    color: white;
 }
-.footer{
+
+footer{
     display: flex;
     background-color: #124076;
+    flex-direction: column;
     justify-content: center;
 }
 
