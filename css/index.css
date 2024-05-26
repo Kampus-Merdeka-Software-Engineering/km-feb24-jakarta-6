@@ -445,12 +445,112 @@ textarea{
     .nav-menu.active{
         top: calc(0% + 80px);
     }
+<<<<<<< HEAD
     
     .section-title{
         font-size: 0.8rem;
     }
     
     
+=======
+}
+
+.phoenix-bikes {
+    display: flex;
+    background-color: #124076;
+    justify-content: space-between;
+    align-items: start;
+    padding: 70px 77px;
+}
+
+.phoenix-bikes__info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align:start;
+}
+
+.phoenix-bikes__title {
+    color: #F7C686;
+    font: 600 44px Poppins, sans-serif;
+    margin-right: 30;
+}
+
+.phoenix-bikes__subtitle {
+    color: #F7C686;
+    scroll-margin-right:  50px;
+    font: 400 24px Poppins, sans-serif;
+}
+
+.phoenix-bikes__images {
+    align-self: start;
+    display: flex;
+    margin-top: 65px;
+    gap: 0px;
+}
+
+
+.phoenix-bikes__logo-github {
+    object-fit: auto;
+    object-position: left;
+    width: 75px;
+    margin: auto 0;
+}
+
+.phoenix-bikes__logo-email {
+    aspect-ratio: 0.99;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+    margin: auto 0;
+}
+
+.location-description {
+    text-align: center;
+    background-color: #124076;
+    color: #F7C686;
+    align-self: center;
+    margin-top: 60px;
+    font: 300 18px Poppins, sans-serif;
+ }
+
+.phoenix-bikes__nav {
+    display: flex;
+    margin-top: 43px;
+    flex-direction: column;
+    font-size: 24px;
+    color: #F7C686;
+    font-weight: 400;
+}
+
+.phoenix-bikes__nav-title {
+        font-weight: bold;
+        color:#F7C686;
+        margin-bottom: 10px;
+        font: 600 30px Poppins, sans-serif;
+}
+
+.phoenix-bikes__nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 24px;
+    color: #F7C686;
+}
+
+.phoenix-bikes__nav-item:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+footer{
+    display: flex;
+    background-color: #124076;
+    flex-direction: column;
+    justify-content: center;
+}
+
+>>>>>>> c92c668a0fc77b76ae0aa138c8e3235022a4767f
     /* Feedback */
     .feedback-content{
         flex-direction: column;

@@ -123,6 +123,7 @@ const insightData = [
     }
   });
   
+<<<<<<< HEAD
   
   // About - Us
   var teamMembers = [
@@ -356,3 +357,21 @@ const insightData = [
       alert('Form submitted successfully!');
     }
   }
+=======
+
+//Feedback
+window.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementsByClassName('feedback-form')[0];
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const feedback = document.getElementById('message');
+
+    name.value = '';
+    email.value = '';
+    feedback.value = '';
+  });
+});
+>>>>>>> c92c668a0fc77b76ae0aa138c8e3235022a4767f
