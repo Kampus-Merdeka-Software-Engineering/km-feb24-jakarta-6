@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Warna */
-  --background-color: #FFFFFF;
-  --primary-color: #124076;
-  --secondary-color: #7F9F80;
-  --title-color: #F7C686;
-  --text-color: #333333;
-
-  /* Font */
-  --font-family: "Poppins", sans-serif;
+    /* Warna */
+    --background-color: #FFFFFF;
+    --primary-color: #124076;
+    --secondary-color: #7F9F80;
+    --title-color: #F7C686;
+    --text-color: #333333;
+    
+    /* Font */
+    --font-family: "Poppins", sans-serif;
 }
 
 *{
@@ -20,9 +20,10 @@
     scroll-behavior: smooth;
     color: var(--text-color);
 }
+
 * > h1, .nav-link{
     color: var(--title-color);
-
+    
 }
 * > p {
     color: var(--text-color);
@@ -60,10 +61,10 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-   }
+}
 
 .nav-link{
-    transition: 0.7s;
+    transition: all 0.5s ease;
     font-size: 1.2rem;
     padding: 7px 25px 7px 25px;
     border-radius: 10px;
@@ -71,6 +72,11 @@ a{
 .nav-link:hover{
     background-color: var(--secondary-color);
 }
+
+.nav-link.active {
+    color: var(--secondary-color);
+}
+
 .menu-icon{
     display: none;
     cursor: pointer;
@@ -113,13 +119,13 @@ a{
     background-color: white;
 }
 .dashboard-feature:hover{
-    background-color: var(--text-color);
+    background-color: var(--primary-color);
     color: white;
 }
 
 
 /* Insight */
-.insight-header {
+.section-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,7 +135,7 @@ a{
 .background-line{
     position: absolute;
 }
-.insight-title{
+.section-title{
     position: absolute;
     background-color: white;
     padding: 0px 24px;
@@ -142,7 +148,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 1000px;
+    min-height: 48px;
 }
 .insight-div {
     margin-bottom: 20px;
@@ -170,7 +176,7 @@ a{
     border: inset 1px var(--text-color);
     border-radius: 0px 0px 12px 12px;
 }
-  
+
 .active .answer {
     max-height: 500px;
     opacity: 1;
@@ -186,53 +192,76 @@ a{
     margin: auto;
 }
 
-/* About Us*/
-.global{
-    background-color: #222222;
-    text-align: center;
-}
-.judul{
-    display:flex;
-    justify-content: center;
-}
-.aboutus{
-    text-align: center;
-    background-color: azure;
-    height:20px;
-    width:100px;
-    margin: 10px;
-    color: rgb(187, 158, 115);
-}
-.card1{
+.cards-container{
     display: flex;
-    justify-content:center;
+    flex-wrap: wrap; 
+    justify-content: space-evenly;
 }
-.card{
-    background-color:rgb(184, 187, 190);
-    height:250px;
-    width:230px;
-    margin: 30px;
-    border-radius: 10px;
-    }
-#foto{
-    height: 110px;
-    width: 110px;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-.image{ 
-    display: flex;
-    justify-content: center;
-}
-.logoaboutus{
-display:flex;
-justify-content:space-evenly;
-margin:15px;
-}
-.nameandrole{max-height: 200px;}
-.name{font-size: 20; margin :3px}
 
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    width: 200px;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--secondary-color);
+    margin: 10px;
+    transition: all 0.5s ease;
+    border-radius: 24px;
+    border: 1px solid var(--text-color) ;
+}
+
+.card .image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+}   
+
+.card .image img {
+    border-radius: 18px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease; 
+}
+
+.card:hover .image{
+    flex: none;
+    width: 200px;
+    height: 200px;
+    transform: scale(0.90);
+    
+}
+
+.name, .role, .icons {
+    display: none;
+    text-align: center;
+    width: 100%;
+}
+
+.name{
+    font-size: 1.2rem;
+}
+
+.role{
+    font-size: 0.8rem;
+}
+
+.card:hover .name, .card:hover .role, .card:hover .icons {
+    display: block;
+}
+
+.icons a {
+    display: inline-flex;
+    height: 16px;
+    padding-inline: 12px;
+}
 
 
 /* Feedback*/
@@ -242,19 +271,20 @@ margin:15px;
 .feedback-content{
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 24px 48px 24px 48px;
 }
 .feedback-text{
-    text-align: right;
     padding: 0px 48px 48px 48px;
 }
 .feedback-title{
+    text-align: right;
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 2rem;
+    padding-top: 28px;
 }
 .feedback-description{
+    text-align: right;
     font-size: 1.2rem;
 }
 .feedback-form{
@@ -272,7 +302,17 @@ input{
     border: none;
     border-radius: 8px;
     padding: 8px;
-    margin: 8px 0px 10px 0px;
+    margin: 8px 0px 0px 0px;
+}
+textarea{
+    width: 15rem;
+    height: 5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px 0px 0% 0px;
+    resize: vertical;
 }
 .feedback-button{
     background-color: #697c92;
@@ -303,7 +343,87 @@ input{
     padding: 10px;
 }
 
+.success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-radius: 24px;
+    border: 3px solid var(--secondary-color);
+    background-color: rgba(0, 200, 0, 0.25);
+    padding: 10px;
+    margin-top: 48px;
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+
 /*Footer */
+
+.phoenix-bikes {
+    display: flex;
+    background-color: #124076;
+    justify-content: space-between;
+    align-items: start;
+    padding: 70px 77px;
+    flex-wrap: wrap;
+}
+
+.phoenix-bikes_info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align:start;
+}
+
+.phoenix-bikes_title {
+    color: var(--title-color);
+    margin-right: 30;
+}
+
+.phoenix-bikes_subtitle {
+    color: var(--title-color);
+}
+
+.phoenix-bikes_images {
+    margin-top: 48px;
+}
+
+.phoenix-bikes_logo {
+    height: 48px;
+    padding-right: 24px;
+}
+
+.location-description {
+    text-align: center;
+    background-color: var(--primary-color);
+    padding-bottom: 48px;
+}
+
+
+.phoenix-bikes_nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--title-color);
+}
+
+.phoenix-bikes_nav-title {
+    font-weight: bold;
+    color: var(--title-color);
+    margin-bottom: 10px;
+}
+
+.phoenix-bikes_nav-item:hover {
+    text-decoration: underline;
+}
+.footer{
+    display: flex;
+    background-color: #124076;
+    justify-content: center;
+}
+
 
 @media screen and (max-width: 768px){
     /* Header/Navigation Bar */
@@ -319,152 +439,94 @@ input{
     .menu-icon.active .bar:nth-child(3){
         transform: translateY(-8px) rotate(-45deg);
     }
-    .nav-menu {
-        margin-right: auto;
-        top: 100px;
-        left: 20px;
-        gap: 0px;
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
         flex-direction: column;
+        background-color: var(--primary-color);
         width: 100%;
-        text-align: right;
+        text-align: center;
         transition: 1s;
-    
     }
-    .nav-item {
+    .nav-item{
         margin: 16px 0;
     }
-    .nav-menu.active {
+    .nav-menu.active{
         top: calc(0% + 80px);
     }
-}
-
-.phoenix-bikes {
-    display: flex;
-    background-color: #124076;
-    justify-content: space-between;
-    align-items: start;
-    padding: 70px 77px;
-}
-
-.phoenix-bikes__info {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    text-align:start;
-}
-
-.phoenix-bikes__title {
-    color: #F7C686;
-    font: 600 44px Poppins, sans-serif;
-    margin-right: 30;
-}
-
-.phoenix-bikes__subtitle {
-    color: #F7C686;
-    scroll-margin-right:  50px;
-    font: 400 24px Poppins, sans-serif;
-}
-
-.phoenix-bikes__images {
-    align-self: start;
-    display: flex;
-    margin-top: 65px;
-    gap: 0px;
-}
-
-
-.phoenix-bikes__logo-github {
-    object-fit: auto;
-    object-position: left;
-    width: 75px;
-    margin: auto 0;
-}
-
-.phoenix-bikes__logo-email {
-    aspect-ratio: 0.99;
-    object-fit: auto;
-    object-position: center;
-    width: 75px;
-    margin: auto 0;
-}
-
-.location-description {
-    text-align: center;
-    background-color: #124076;
-    color: #F7C686;
-    align-self: center;
-    margin-top: 60px;
-    font: 300 18px Poppins, sans-serif;
- }
-
-.phoenix-bikes__nav {
-    display: flex;
-    margin-top: 43px;
-    flex-direction: column;
-    font-size: 24px;
-    color: #F7C686;
-    font-weight: 400;
-}
-
-.phoenix-bikes__nav-title {
-        font-weight: bold;
-        color:#F7C686;
-        margin-bottom: 10px;
-        font: 600 30px Poppins, sans-serif;
-}
-
-.phoenix-bikes__nav-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-size: 24px;
-    color: #F7C686;
-}
-
-.phoenix-bikes__nav-item:hover {
-    text-decoration: underline;
-    color: white;
-}
-
-footer{
-    display: flex;
-    background-color: #124076;
-    flex-direction: column;
-    justify-content: center;
-}
-
+    
+    .section-title{
+        font-size: 0.8rem;
+    }
+    
+    
     /* Feedback */
     .feedback-content{
         flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
     .feedback-text{
         text-align: center;
         padding: 0px 24px 48px 24px;
     }
     .feedback-title{
+        text-align: center;
         font-size: 1.5rem;
     }
     .feedback-description{
+        text-align: center;
         font-size: 1rem;
     }
     .feedback-form{
+        display: flex;
+        flex-direction: column;
         padding: 28px 24px 0px 24px;
+        width: 100%;
     }
     label{
         font-size: 0.8rem;
     }
     input{
-        width: 15rem;
+        width: 100%;
         height: 1.5rem;
         font-size: 0.8rem;
     }
+    textarea{
+        width: 100%;
+        height: 5rem;
+        font-size: 0.8rem;
+    }
     .feedback-button{
+        justify-self: center;
         font-size: 0.8rem;
     }
     .feedback-footer{
         font-size: 0.5rem;
         padding: 24px 24px
-    }   
-
-
-
+    }
+    .error{
+        margin-bottom: 24px;
+    }
+    br{
+        display: none;
+    }
+    
+    /*Footer*/
+    .phoenix-bikes {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    
+    .phoenix-bikes_info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .phoenix-bikes_nav {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 48px;
+    } 
+}
