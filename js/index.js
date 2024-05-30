@@ -1,75 +1,102 @@
-// header 
-const dynamicText = document.querySelector(".title");
-const words = ["Phoenix Bikes", "Team 6"];
+// ==================== //
+// ====== Header ====== //
+// ==================== //
+// Typing Animation Effect //
+function typeEffect(words, typingTitle) {
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
 
-// Variables to track the position and deletion status of the word
-let wordIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
+  function type() {
+      const currentWord = words[wordIndex];
+      const currentChar = currentWord.substring(0, charIndex);
+      typingTitle.textContent = currentChar;
+      typingTitle.classList.add("stop-blinking");
 
-const typeEffect = () => {
-    const currentWord = words[wordIndex];
-    const currentChar = currentWord.substring(0, charIndex);
-    dynamicText.textContent = currentChar;
-    dynamicText.classList.add("stop-blinking");
-
-    if (!isDeleting && charIndex < currentWord.length) {
-        // If condition is true, type the next character
-        charIndex++;
-        setTimeout(typeEffect, 200);
-    } else if (isDeleting && charIndex > 0) {
-        // If condition is true, remove the previous character
-        charIndex--;
-        setTimeout(typeEffect, 100);
-    } else {
-        // If word is deleted then switch to the next word
-        isDeleting = !isDeleting;
-        dynamicText.classList.remove("stop-blinking");
-        wordIndex = !isDeleting ? (wordIndex + 1) % words.length : wordIndex;
-        setTimeout(typeEffect, 1000);
-    }
+      if (!isDeleting && charIndex < currentWord.length) {
+          charIndex++;
+          setTimeout(type, 200);
+      } else if (isDeleting && charIndex > 0) {
+          charIndex--;
+          setTimeout(type, 100);
+      } else {
+          isDeleting = !isDeleting;
+          typingTitle.classList.remove("stop-blinking");
+          if (!isDeleting) {
+              wordIndex = (wordIndex + 1) % words.length;
+          }
+          setTimeout(type, 1000);
+      }
+  }
+  type();
 }
 
-typeEffect();
+const words = ["Phoenix Bikes", "Team 6"];
+const typingTitle = document.querySelector(".title");
+typeEffect(words, typingTitle);
 
+// Dropdown Menu //
+function toggleMenu(menuIcon, navMenu) {
+  menuIcon.classList.toggle("active");
+  navMenu.classList.toggle("active");
+}
+function addMenuToggleListener(menuIconSelector, navMenuSelector) {
+  const menuIcon = document.querySelector(menuIconSelector);
+  const navMenu = document.querySelector(navMenuSelector);
 
+  if (menuIcon && navMenu) {
+    menuIcon.addEventListener("click", () => toggleMenu(menuIcon, navMenu));
+    navMenu.addEventListener("click", () => toggleMenu(menuIcon, navMenu));
+  } else {
+    console.error("menuIcon or navMenu is not found");
+  }
+}
 const menuIcon = document.querySelector(".menu-icon");
 const navMenu = document.querySelector(".nav-menu");
 
-menuIcon.addEventListener("click", () => {
-  menuIcon.classList.toggle("active");
-  navMenu.classList.toggle("active");
-})
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    
-    const target = document.querySelector(this.getAttribute('href'));
-    const offsetTop = 100;
-    const scrollPosition = target.offsetTop - offsetTop;
-    
-    window.scrollTo({
-      top: scrollPosition,
-      behavior: 'smooth'
-    });
+// Smooth Scroll //
+function smoothScroll(event) {
+  event.preventDefault();
+  const targetId = event.currentTarget.getAttribute("href");
+  const targetElement = document.querySelector(targetId);
+  const offsetTop = 100;
+  const scrollPosition = targetElement.offsetTop - offsetTop;
+  window.scrollTo({
+    behavior: "smooth",
+    top: scrollPosition
   });
-});
+}
 
-// Dashboard
+function addSmoothScrollListener(anchorSelector) {
+  document.querySelectorAll(anchorSelector).forEach((anchor) => {
+    anchor.addEventListener('click', smoothScroll);
+  });
+}
+
+// Inisialisasi Menu //
+function initEventListeners() {
+  addMenuToggleListener(".menu-icon", ".nav-menu");
+  addSmoothScrollListener('a[href^="#"]');
+}
+document.addEventListener("DOMContentLoaded", initEventListeners);
+
+// ================= //
+// === Dashboard === //
+// ================= //
+// Load Dataset // 
 document.addEventListener('DOMContentLoaded', function() {
   const loadingIndicator = document.getElementById('loading-indicator');
-  loadingIndicator.style.display = 'block'; // Menampilkan elemen pemuatan
+  loadingIndicator.style.display = 'block';
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
       .then(data => {
-          loadingIndicator.style.display = 'none'; // Menyembunyikan elemen pemuatan setelah selesai memuat data
+          loadingIndicator.style.display = 'none'; 
           console.log(data);
         })
       .catch(error => {
           console.error('Error loading the dataset:', error);
-          loadingIndicator.style.display = 'none'; // Jika terjadi kesalahan, tetap sembunyikan elemen pemuatan
+          loadingIndicator.style.display = 'none'; 
       });
 });
 
