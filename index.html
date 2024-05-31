@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Phoenix Bikes - Team 6</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/logo-revou.ico">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/loading.css">
 </head>
 <header>
      <!-- Navigation Bar -->
@@ -24,6 +26,26 @@
     </nav>
 </header>
 <body>
+<<<<<<< HEAD
+=======
+    <header>
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <h1 class="title"></h1>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
+                <li class="nav-item"><a href="#about-us" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="#feedback" class="nav-link">Feedback</a></li>
+            </ul>
+            <div class="menu-icon">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+>>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <div class="dashboard-header">
@@ -32,6 +54,36 @@
                 <button class="dashboard-feature">Sort</button>
                 <button class="dashboard-feature">Filter</button>
             </div>
+        </div>
+        <div id="loading-indicator">
+            <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                    <g transform="translate(9.5,19)">
+                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                            <circle class="bike__spokes" r="5" />
+                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <g transform="translate(24,19)">
+                        <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
+                            <circle class="bike__pedals" r="4" />
+                            <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <g transform="translate(38.5,19)">
+                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                            <circle class="bike__spokes" r="5" />
+                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+                    <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+                    <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+                    <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+                </g>
+            </svg>
         </div>
     </div>
 
@@ -43,6 +95,7 @@
             </svg>
             <div class="insight-title" id="insight"><h1>Insight</h1></div>  
         </div>
+<<<<<<< HEAD
     </div>
     <div class="insight-container">
         <div class="insight-list"></div>
@@ -54,6 +107,51 @@
         <div class="judul">
             <div class="aboutus">
                 <b>ABOUT US</b>
+=======
+    </div>    
+    
+    <!-- About Us -->
+    <div class="insight" id="about-us">
+        <div class="section-header">
+            <svg width="100%" height="3" class="background-line">
+                <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
+            </svg>
+            <div class="section-title" id="About Us"><h1>About Us</h1></div>  
+        </div>
+        <section id="about-section">
+            <div class="cards-container" id="cards-container"></div>
+        </section>
+        
+        <!-- Feedback -->
+        <div class="feedback" id="feedback">
+            <div class="feedback-content">
+                <div class="feedback-text">
+                    <h1 class="feedback-title">FEEDBACK</h1>
+                    <p class="feedback-description">Is there anything we could have<br>done to make your experience<br>better?</p>
+                </div>
+                <form class="feedback-form" id="feedback-form">
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name"><br>
+                    <span id="name-error" class="error"></span><br>
+                    
+                    <label for="email">E-mail:</label><br>
+                    <input type="email" id="email" name="email"><br>
+                    <span id="email-error" class="error"></span><br>
+                    
+                    <label for="message">Feedback / Suggestion:</label><br>
+                    <textarea id="message" name="message"></textarea><br>
+                    <span id="message-error" class="error"></span><br>
+                    
+                    <button class="feedback-button" type="submit" onclick="submitForm(event)">Send Feedback</button>
+                </form>
+            </div>
+            <div class="feedback-footer">
+                <p>Support by</p>
+                <div class="logo-support">
+                    <img src="./assets/img/logo-kampusmerdeka.png" alt="logo-kampusmerdeka" class="logo">
+                    <img src="./assets/img/logo-revou.ico" alt="logo-revou" class="logo">
+                </div>
+>>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
             </div>
         </div>
         <div class="card1">
@@ -81,6 +179,7 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
         <div class="card1">
             <div class="card">
@@ -406,6 +505,18 @@
         </div>
     </div>
     
+=======
+            <nav class="phoenix-bikes_nav">
+                <h2 class="phoenix-bikes_nav-title">Navigation</h2>
+                <a href="#dashboard" class="phoenix-bikes_nav-item">Dashboard</a>
+                <a href="#insight" class="phoenix-bikes_nav-item">Insight</a>
+                <a href="#about-us" class="phoenix-bikes_nav-item">About Us</a>
+                <a href="#feedback" class="phoenix-bikes_nav-item">Feedback</a>
+            </nav>
+        </section> 
+        <p class="location-description">Jakarta 6</p>
+    </footer>
+>>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
 </body>
 <!-- Footer -->
 <footer>

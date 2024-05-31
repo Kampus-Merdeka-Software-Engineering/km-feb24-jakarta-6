@@ -1,57 +1,104 @@
-// header 
+// ==================== //
+// ====== Header ====== //
+// ==================== //
+// Typing Animation Effect //
+function typeEffect(words, typingTitle) {
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function type() {
+      const currentWord = words[wordIndex];
+      const currentChar = currentWord.substring(0, charIndex);
+      typingTitle.textContent = currentChar;
+      typingTitle.classList.add("stop-blinking");
+
+      if (!isDeleting && charIndex < currentWord.length) {
+          charIndex++;
+          setTimeout(type, 200);
+      } else if (isDeleting && charIndex > 0) {
+          charIndex--;
+          setTimeout(type, 100);
+      } else {
+          isDeleting = !isDeleting;
+          typingTitle.classList.remove("stop-blinking");
+          if (!isDeleting) {
+              wordIndex = (wordIndex + 1) % words.length;
+          }
+          setTimeout(type, 1000);
+      }
+  }
+  type();
+}
+
+const words = ["Phoenix Bikes", "Team 6"];
+const typingTitle = document.querySelector(".title");
+typeEffect(words, typingTitle);
+
+// Dropdown Menu //
+function toggleMenu(menuIcon, navMenu) {
+  menuIcon.classList.toggle("active");
+  navMenu.classList.toggle("active");
+}
+function addMenuToggleListener(menuIconSelector, navMenuSelector) {
+  const menuIcon = document.querySelector(menuIconSelector);
+  const navMenu = document.querySelector(navMenuSelector);
+
+  if (menuIcon && navMenu) {
+    menuIcon.addEventListener("click", () => toggleMenu(menuIcon, navMenu));
+    navMenu.addEventListener("click", () => toggleMenu(menuIcon, navMenu));
+  } else {
+    console.error("menuIcon or navMenu is not found");
+  }
+}
 const menuIcon = document.querySelector(".menu-icon");
 const navMenu = document.querySelector(".nav-menu");
 
-menuIcon.addEventListener("click", () => {
-  menuIcon.classList.toggle("active");
-  navMenu.classList.toggle("active");
-})
-
-document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
-  menuIcon.classList.remove("active");
-  navMenu.classList.remove("active");
-}));
-
-let section = document.querySelectorAll('.section')
-let lists = document.querySelectorAll('.nav-link');
-function activeLink(){
-  lists.forEach((item) =>
-    item.classList.remove('active'));
-  this.classList.add('active');
-}
-lists.forEach((item) =>
-  item.addEventListener('click',activeLink));
-
-window.onscroll = () =>{
-  section.forEach(sec =>{
-    let top = window.scrollY;
-    let offset = sec.offsetTop;
-    let height = sec.offsetHeight;
-    let id = sec.getAttribute('id');
-    
-    if(top >= offset && top < offset + height){
-      lists.forEach(sec =>{
-        activeLink;
-      })
-    }
-  })
-};
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    
-    const target = document.querySelector(this.getAttribute('href'));
-    const offsetTop = 100; // Ubah sesuai dengan jumlah pixel yang ingin Anda turunkan
-    const scrollPosition = target.offsetTop - offsetTop;
-    
-    window.scrollTo({
-      top: scrollPosition,
-      behavior: 'smooth'
-    });
+// Smooth Scroll //
+function smoothScroll(event) {
+  event.preventDefault();
+  const targetId = event.currentTarget.getAttribute("href");
+  const targetElement = document.querySelector(targetId);
+  const offsetTop = 100;
+  const scrollPosition = targetElement.offsetTop - offsetTop;
+  window.scrollTo({
+    behavior: "smooth",
+    top: scrollPosition
   });
-});
+}
 
+function addSmoothScrollListener(anchorSelector) {
+  document.querySelectorAll(anchorSelector).forEach((anchor) => {
+    anchor.addEventListener('click', smoothScroll);
+  });
+}
+
+// Inisialisasi Menu //
+function initEventListeners() {
+  addMenuToggleListener(".menu-icon", ".nav-menu");
+  addSmoothScrollListener('a[href^="#"]');
+}
+document.addEventListener("DOMContentLoaded", initEventListeners);
+
+// ================= //
+// === Dashboard === //
+// ================= //
+// Load Dataset // 
+document.addEventListener('DOMContentLoaded', function() {
+  const loadingIndicator = document.getElementById('loading-indicator');
+  loadingIndicator.style.display = 'block';
+
+  fetch('./assets/data/dataset.json')
+      .then(response => response.json())
+      .then(data => {
+          loadingIndicator.style.display = 'none'; 
+          console.log(data);
+        })
+      .catch(error => {
+          console.error('Error loading the dataset:', error);
+          loadingIndicator.style.display = 'none'; 
+      });
+});
 
 
 //Insight
@@ -178,7 +225,7 @@ const insightData = [
     },
     {
       name: "Rizal Maulana",
-      role: "Front End Engineer",
+      role: "Deployment Team",
       imgSrc: "belum ada",
       social: {
         linkedin: "belum ada",

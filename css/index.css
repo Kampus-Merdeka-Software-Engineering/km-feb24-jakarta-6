@@ -41,8 +41,25 @@ header ul li{
     list-style: none;
 }
 
-header>nav>h1{
-    font-size: 1.6rem;
+.title {
+    color: var(--title-color);
+    position: relative;
+}
+
+.title::before {
+    content: "";
+    height: 30px;
+    width: 2px;
+    position: absolute;
+    top: 50%;
+    right: -3px;
+    background: var(--text-color);
+    transform: translateY(-45%);
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0 }
 }
 
 a{
@@ -116,7 +133,6 @@ a{
     background-color: var(--text-color);
     color: white;
 }
-
 
 /* Insight */
 .insight-header {
