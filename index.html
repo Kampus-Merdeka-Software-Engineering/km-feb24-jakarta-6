@@ -7,6 +7,8 @@
     <link rel="icon" type="image/x-icon" href="./assets/img/logo-revou.ico">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/loading.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <header>
@@ -30,10 +32,61 @@
     <div class="dashboard" id="dashboard">
         <div class="dashboard-header">
             <h1>Dashboard</h1>
-            <div class="dashboard-button">
-                <button class="dashboard-feature">Sort</button>
-                <button class="dashboard-feature">Filter</button>
-            </div>
+            <div class="dropdown-filter">
+                <button onclick="toggleDropdownFilter()" class="dropbtn">Filter</button>
+                <div id="dropdown-content" class="dropdown-content">
+                    <div class="dropdown-item">
+                        <label for="year">Year:</label>
+                        <select id="year">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="dropdown-item">
+                        <label for="age-group">Age Group:</label>
+                        <select id="age-group">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="dropdown-item">
+                        <label for="gender">Gender:</label>
+                        <select id="gender">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="dropdown-item">
+                        <label for="country">Country:</label>
+                        <select id="country">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="dropdown-item">
+                        <label for="continent">Continent:</label>
+                        <select id="continent">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="dropdown-item">
+                        <label for="product-type">Product Type:</label>
+                        <select id="product-type">
+                            <option value="">All</option>
+                            <!-- Options will be populated dynamically via JavaScript -->
+                        </select>
+                    </div>
+                  <button onclick="resetFilters()" id="reset">Reset</button>
+                  <button onclick="applyFilters()" id="ok">OK</button>
+                </div>
+              </div>
+              
         </div>
         <div id="loading-indicator">
             <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
@@ -65,6 +118,10 @@
                 </g>
             </svg>
         </div>
+        <div class="dashboard-container">
+            <canvas id="line-average-revenue" width="400" height="200"></canvas>
+        </div>
+        
     </div>
     
     <!-- Insight -->
