@@ -214,7 +214,6 @@ a{
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
     margin: 8px;
-    border: 1px solid black;
     background-color: none;
     border-radius: 8px;
 }
@@ -247,6 +246,14 @@ canvas{
 .linechart{
     min-width: 500px;
 }
+.tabel{
+    width: calc(100% - 24px);
+    margin: 24px auto;
+    overflow: scroll;
+    overflow-y: hidden;
+}
+
+
 /* Insight */
 .section-header {
     display: flex;

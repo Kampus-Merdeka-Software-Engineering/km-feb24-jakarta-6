@@ -408,6 +408,31 @@ function formatNumber(num) {
   }
 });
 
+$(document).ready(function() {
+  $.getJSON("/assets/data/dataset.json", function(data) {
+      var keys = Object.keys(data[0]); 
+      
+      var thead = "<tr>";
+      keys.forEach(function(key) {
+          thead += "<th>" + key + "</th>";
+      });
+      thead += "</tr>";
+      $("#dataTable thead").html(thead);
+
+      var tbody = "";
+      data.forEach(function(item) {
+          tbody += "<tr>";
+          keys.forEach(function(key) {
+              tbody += "<td>" + item[key] + "</td>";
+          });
+          tbody += "</tr>";
+      });
+      $("#dataTable tbody").html(tbody);
+
+      $('#dataTable').DataTable();
+  });
+});
+
 
 //Insight
 document.addEventListener("DOMContentLoaded", function() {
