@@ -122,14 +122,15 @@ window.onclick = function(event) {
   }
 }
 
-
+let data;
 document.addEventListener('DOMContentLoaded', function() {
   const loadingIndicator = document.getElementById('loading-indicator');
   loadingIndicator.style.display = 'block';
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
-      .then(data => {
+      .then(fetchedData => {
+          data = fetchedData;
           loadingIndicator.style.display = 'none'; 
 
           const uniqueValues = getUniqueValues(data);
@@ -154,6 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
           loadingIndicator.style.display = 'none'; 
       });
 });
+
+function resetFilters() {
+  var selects = document.getElementsByTagName("select");
+  for (var i = 0; i < selects.length; i++) {
+      selects[i].selectedIndex = 0;
+  }
+  toggleDropdownFilter(); 
+  updateChart(chart, data); // Update the chart with default filters after reset
+}
+
+function applyFilters() {
+  updateChart(chart, data); // Update the chart with selected filters
+  toggleDropdownFilter(); 
+}
 
 function getUniqueValues(data) {
   const uniqueValues = {
@@ -181,6 +196,9 @@ function getUniqueValues(data) {
       }
       if (!uniqueValues.continent.includes(item.Continent)) {
           uniqueValues.continent.push(item.Continent);
+      }
+      if (!uniqueValues.productType.includes(item.Sub_Category)) {
+        uniqueValues.productType.push(item.Sub_Category);
       }
       if (!uniqueValues.month.includes(item.Month)) {
           uniqueValues.month.push(item.Month);
@@ -213,20 +231,6 @@ function toggleDropdownFilter() {
   }
 }
 
-function resetFilters() {
-  var selects = document.getElementsByTagName("select");
-  for (var i = 0; i < selects.length; i++) {
-      selects[i].selectedIndex = 0;
-  }
-  toggleDropdownFilter(); 
-  updateChart(chart, data); // Update the chart with default filters after reset
-}
-
-function applyFilters() {
-  updateChart(chart, data); // Update the chart with selected filters
-  toggleDropdownFilter(); 
-}
-
 function lineChartAverageRevenue(data) {
   const ctx = document.getElementById('line-average-revenue').getContext('2d');
   chart = new Chart(ctx, {
@@ -251,7 +255,7 @@ function lineChartAverageRevenue(data) {
           }
       }
   });
-
+  
   document.getElementById('year').addEventListener('change', function() {
       updateChart(chart, data);
   });
@@ -308,7 +312,7 @@ function getData(data, filters = {}) {
       filteredData = filteredData.filter(d => d.Continent == filters.continent);
   }
   if (filters.productType) {
-      filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+      filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
   }
 
   if (filters.year && filters.year !== 'all') {
@@ -651,7 +655,7 @@ const insightData = [
     // Validate name
     const name = document.getElementById('name').value;
     if (!name) {
-      document.getElementById('name-error').innerText = 'Name tidak boleh kosong!';
+      document.getElementById('name-error').innerText = 'Name cannot be empty!';
       isValid = false;
     }
     
@@ -659,17 +663,17 @@ const insightData = [
     const email = document.getElementById('email').value;
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,6}$/;
     if (!email) {
-      document.getElementById('email-error').innerText = 'E-mail tidak boleh kosong!';
+      document.getElementById('email-error').innerText = 'E-mail cannot be empty!';
       isValid = false;
     } else if (!email.match(emailPattern)) {
-      document.getElementById('email-error').innerText = 'Alamat E-Mail tidak Valid';
+      document.getElementById('email-error').innerText = 'Invalid E-Mail address!';
       isValid = false;
     }
     
     // Validate message
     const message = document.getElementById('message').value;
     if (!message) {
-      document.getElementById('message-error').innerText = 'Feedback tidak boleh kosong!.';
+      document.getElementById('message-error').innerText = 'Feedback cannot be empty!';
       isValid = false;
     }
     
@@ -678,8 +682,8 @@ const insightData = [
       // Show success message
       const successMessage = document.createElement('div');
       successMessage.classList.add('success-message');
-      successMessage.innerHTML = 'Masukan Anda telah terkirim.<span>Terima kasih atas masukannya.</span>';
-      successMessage.querySelector('span').textContent = ' Terima kasih atas masukannya.';
+      successMessage.innerHTML = 'Your feedback has been sent.<span>Thank you for your feedback.</span>';
+      successMessage.querySelector('span').textContent = ' Thank you for your feedback.';
       const feedbackDescription = document.querySelector('.feedback-description');
       feedbackDescription.parentNode.insertBefore(successMessage, feedbackDescription.nextSibling);
       
