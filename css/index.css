@@ -218,34 +218,24 @@ a{
     background-color: none;
     border-radius: 8px;
 }
-.dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 8px;
-    padding: 8px;
-    background-color: none;
-    border-radius: 8px;
+.canvas.item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
 }
-
-.dashboard-container div {
-    border-radius: 12px;
-    box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
+/* To make canvas responsive */
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* This gives a 4:3 aspect ratio */
 }
-
-canvas{
-    width: 100% !important;
-    height: auto !important;
-    display: absolute;
-
-}
-.scorecard{
-    min-width: 100px;
-    padding: 6px 24px;
-    text-align: center;
-}
-.linechart{
-    min-width: 500px;
+.canvas-wrapper canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 /* Insight */
 .section-header {
