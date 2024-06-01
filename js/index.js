@@ -122,262 +122,291 @@ window.onclick = function(event) {
   }
 }
 
-let data;
 document.addEventListener('DOMContentLoaded', function() {
   const loadingIndicator = document.getElementById('loading-indicator');
   loadingIndicator.style.display = 'block';
 
+  let data; // Declare data in a wider scope
+  let chart; // Declare chart in a wider scope
+
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
-      .then(fetchedData => {
-          data = fetchedData;
-          loadingIndicator.style.display = 'none'; 
 
-          const uniqueValues = getUniqueValues(data);
+      .then(dataset => {
+          data = dataset;
+          loadingIndicator.style.display = 'none';
+
+          const uniqueValues = extractUniqueValues(data);
 
           // Mengisi dropdown filter dengan nilai unik
-          populateDropdown('year', uniqueValues.year);
-          populateDropdown('age-group', uniqueValues.ageGroup);
-          populateDropdown('gender', uniqueValues.gender);
-          populateDropdown('country', uniqueValues.country);
-          populateDropdown('continent', uniqueValues.continent);
-          populateDropdown('product-type', uniqueValues.productType);
+          populateFilterDropdown('year', uniqueValues.year);
+          populateFilterDropdown('age-group', uniqueValues.ageGroup);
+          populateFilterDropdown('gender', uniqueValues.gender);
+          populateFilterDropdown('country', uniqueValues.country);
+          populateFilterDropdown('continent', uniqueValues.continent);
+          populateFilterDropdown('product-type', uniqueValues.productType);
 
-          // Memuat chart dengan data awal
-          lineChartAverageRevenue(data);
+          chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
 
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
           document.getElementById('reset').addEventListener('click', resetFilters);
+
+          // Update dashboard after chart initialization
+          updateDashboard(data);
+          updateScoreCard(data);
       })
       .catch(error => {
           console.error('Error loading the dataset:', error);
-          loadingIndicator.style.display = 'none'; 
+          loadingIndicator.style.display = 'none';
       });
-});
 
-function resetFilters() {
-  var selects = document.getElementsByTagName("select");
-  for (var i = 0; i < selects.length; i++) {
-      selects[i].selectedIndex = 0;
+  // Function definitions
+  function extractUniqueValues(data) {
+      const uniqueValues = {
+          year: [],
+          ageGroup: [],
+          gender: [],
+          country: [],
+          continent: [],
+          productType: [],
+          month: []
+      };
+
+      data.forEach(item => {
+          if (!uniqueValues.year.includes(item.Year)) {
+              uniqueValues.year.push(item.Year);
+          }
+          if (!uniqueValues.ageGroup.includes(item.Age_Group)) {
+              uniqueValues.ageGroup.push(item.Age_Group);
+          }
+          if (!uniqueValues.gender.includes(item.Customer_Gender)) {
+              uniqueValues.gender.push(item.Customer_Gender);
+          }
+          if (!uniqueValues.country.includes(item.Country)) {
+              uniqueValues.country.push(item.Country);
+          }
+          if (!uniqueValues.continent.includes(item.Continent)) {
+              uniqueValues.continent.push(item.Continent);
+          }
+          if (!uniqueValues.month.includes(item.Month)) {
+              uniqueValues.month.push(item.Month);
+          }
+      });
+
+      Object.keys(uniqueValues).forEach(key => {
+          uniqueValues[key].sort();
+      });
+
+      return uniqueValues;
   }
-  toggleDropdownFilter(); 
-  updateChart(chart, data); // Update the chart with default filters after reset
-}
 
-function applyFilters() {
-  updateChart(chart, data); // Update the chart with selected filters
-  toggleDropdownFilter(); 
-}
-
-function getUniqueValues(data) {
-  const uniqueValues = {
-      year: [],
-      ageGroup: [],
-      gender: [],
-      country: [],
-      continent: [],
-      productType: [],
-      month: []
-  };
-
-  data.forEach(item => {
-      if (!uniqueValues.year.includes(item.Year)) {
-          uniqueValues.year.push(item.Year);
-      }
-      if (!uniqueValues.ageGroup.includes(item.Age_Group)) {
-          uniqueValues.ageGroup.push(item.Age_Group);
-      }
-      if (!uniqueValues.gender.includes(item.Customer_Gender)) {
-          uniqueValues.gender.push(item.Customer_Gender);
-      }
-      if (!uniqueValues.country.includes(item.Country)) {
-          uniqueValues.country.push(item.Country);
-      }
-      if (!uniqueValues.continent.includes(item.Continent)) {
-          uniqueValues.continent.push(item.Continent);
-      }
-      if (!uniqueValues.productType.includes(item.Sub_Category)) {
-        uniqueValues.productType.push(item.Sub_Category);
-      }
-      if (!uniqueValues.month.includes(item.Month)) {
-          uniqueValues.month.push(item.Month);
-      }
-  });
-
-  Object.keys(uniqueValues).forEach(key => {
-      uniqueValues[key].sort();
-  });
-
-  return uniqueValues;
-}
-
-function populateDropdown(id, values) {
-  const select = document.getElementById(id);
-  values.forEach(value => {
-      const option = document.createElement('option');
-      option.text = value;
-      option.value = value;
-      select.appendChild(option);
-  });
-}
-
-function toggleDropdownFilter() {
-  var dropdownContent = document.getElementById("dropdown-content");
-  if (dropdownContent.style.display === "none" || dropdownContent.style.display === "") {
-      dropdownContent.style.display = "block";
-  } else {
-      dropdownContent.style.display = "none";
+  function populateFilterDropdown(id, values) {
+      const select = document.getElementById(id);
+      values.forEach(value => {
+          const option = document.createElement('option');
+          option.text = value;
+          option.value = value;
+          select.appendChild(option);
+      });
   }
+
+  function resetFilters() {
+      var selects = document.getElementsByTagName("select");
+      for (var i = 0; i < selects.length; i++) {
+          selects[i].selectedIndex = 0;
+      }
+      updateDashboard(data); // Update the dashboard with default filters after reset
+  }
+
+  function applyFilters() {
+      updateDashboard(data); // Update dashboard with selected filters
+  }
+
+  function updateDashboard(data) {
+      // Ambil nilai dari semua dropdown filter
+      const selectedYear = document.getElementById('year').value;
+      const selectedAgeGroup = document.getElementById('age-group').value;
+      const selectedGender = document.getElementById('gender').value;
+      const selectedCountry = document.getElementById('country').value;
+      const selectedContinent = document.getElementById('continent').value;
+      const selectedProductType = document.getElementById('product-type').value;
+
+      // Filter data sesuai dengan nilai dropdown yang dipilih
+      let filteredData = data.filter(item => {
+          if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
+              return false;
+          }
+          if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
+              return false;
+          }
+          if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
+              return false;
+          }
+          if (selectedCountry !== '' && item.Country !== selectedCountry) {
+              return false;
+          }
+          if (selectedContinent !== '' && item.Continent !== selectedContinent) {
+              return false;
+          }
+          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
+              return false;
+          }
+          return true;
+      });
+      updateChart(chart, filteredData);
+      updateScoreCard(filteredData);
+      return filteredData;
+  }
+
+  function updateScoreCard(data) {
+    const totalOrders = data.length;
+    const totalRevenue = data.reduce((acc, curr) => acc + curr.Revenue, 0);
+    const totalCost = data.reduce((acc, curr) => acc + curr.Cost, 0);
+    const totalProfit = data.reduce((acc, curr) => acc + curr.Profit, 0);
+
+    document.getElementById('total-orders').textContent = formatNumber(totalOrders);
+    document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
+    document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
+    document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
 }
 
-function lineChartAverageRevenue(data) {
-  const ctx = document.getElementById('line-average-revenue').getContext('2d');
-  chart = new Chart(ctx, {
-      type: 'line',
-      data: getData(data),
-      options: {
-          responsive: true,
-          scales: {
-              y: {
-                  beginAtZero: true,
-                  title: {
-                      display: true,
-                      text: 'Average Revenue'
-                  }
-              },
-              x: {
-                  title: {
-                      display: true,
-                      text: 'Year'
+function formatNumber(num) {
+    if (num >= 1e6) {
+        return (num / 1e6).toFixed(2) + 'M';
+    } else if (num >= 1e3) {
+        return (num / 1e3).toFixed(2) + 'K';
+    }
+    return num.toFixed(2);
+}
+
+
+
+  function lineChartAverageRevenue(data) {
+      const ctx = document.getElementById('line-average-revenue').getContext('2d');
+      return new Chart(ctx, {
+          type: 'line',
+          data: getData(data),
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Average Revenue'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Year'
+                      }
                   }
               }
           }
+      });
+
+  function updateChart(chart, data) {
+      const filters = {
+          year: document.getElementById('year').value,
+          ageGroup: document.getElementById('age-group').value,
+          gender: document.getElementById('gender').value,
+          country: document.getElementById('country').value,
+          continent: document.getElementById('continent').value,
+          productType: document.getElementById('product-type').value
+      };
+
+      const chartData = getData(data, filters);
+
+      chart.data = chartData.data;
+      chart.options.scales.x.title.text = chartData.xLabel;
+      chart.update();
+  }
+
+  function getData(data, filters = {}) {
+      let filteredData = data;
+
+      if (filters.ageGroup) {
+          filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
       }
-  });
-  
-  document.getElementById('year').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-  document.getElementById('age-group').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-  document.getElementById('gender').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-  document.getElementById('country').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-  document.getElementById('continent').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-  document.getElementById('product-type').addEventListener('change', function() {
-      updateChart(chart, data);
-  });
-
-  // Initial chart update
-  updateChart(chart, data);
-}
-
-function updateChart(chart, data) {
-  const filters = {
-      year: document.getElementById('year').value,
-      ageGroup: document.getElementById('age-group').value,
-      gender: document.getElementById('gender').value,
-      country: document.getElementById('country').value,
-      continent: document.getElementById('continent').value,
-      productType: document.getElementById('product-type').value
-  };
-
-  const chartData = getData(data, filters);
-
-  chart.data = chartData.data;
-  chart.options.scales.x.title.text = chartData.xLabel;
-  chart.update();
-}
-
-function getData(data, filters = {}) {
-  let filteredData = data;
-
-  if (filters.ageGroup) {
-      filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
-  }
-  if (filters.gender) {
-      filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
-  }
-  if (filters.country) {
-      filteredData = filteredData.filter(d => d.Country == filters.country);
-  }
-  if (filters.continent) {
-      filteredData = filteredData.filter(d => d.Continent == filters.continent);
-  }
-  if (filters.productType) {
-      filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
-  }
-
-  if (filters.year && filters.year !== 'all') {
-      filteredData = filteredData.filter(d => d.Year == filters.year);
-      return getMonthlyData(filteredData);
-  } else {
-      return getYearlyData(filteredData);
-  }
-}
-
-function getYearlyData(data) {
-  const groupedData = data.reduce((acc, curr) => {
-      if (!acc[curr.Year]) {
-          acc[curr.Year] = { totalRevenue: 0, count: 0 };
+      if (filters.gender) {
+          filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
       }
-      acc[curr.Year].totalRevenue += curr.Revenue;
-      acc[curr.Year].count += 1;
-      return acc;
-  }, {});
-
-  const years = Object.keys(groupedData);
-  const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
-
-  return {
-      data: {
-          labels: years,
-          datasets: [{
-              label: 'Average Revenue',
-              data: averageRevenues,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-          }]
-      },
-      xLabel: 'Year'
-  };
-}
-
-function getMonthlyData(data) {
-  const uniqueMonths = [...new Set(data.map(d => d.Month))];
-  const groupedData = data.reduce((acc, curr) => {
-      if (!acc[curr.Month]) {
-          acc[curr.Month] = { totalRevenue: 0, count: 0 };
+      if (filters.country) {
+          filteredData = filteredData.filter(d => d.Country == filters.country);
       }
-      acc[curr.Month].totalRevenue += curr.Revenue;
-      acc[curr.Month].count += 1;
-      return acc;
-  }, {});
+      if (filters.continent) {
+          filteredData = filteredData.filter(d => d.Continent == filters.continent);
+      }
+      if (filters.productType) {
+          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+      }
 
-  const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
+      if (filters.year && filters.year !== 'all') {
+          filteredData = filteredData.filter(d => d.Year == filters.year);
+          return getMonthlyData(filteredData);
+      } else {
+          return getYearlyData(filteredData);
+      }
+  }
 
-  return {
-      data: {
-          labels: uniqueMonths,
-          datasets: [{
-              label: 'Average Revenue',
-              data: averageRevenues,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-          }]
-      },
-      xLabel: 'Month'
-  };
-}
+  function getYearlyData(data) {
+      const groupedData = data.reduce((acc, curr) => {
+          if (!acc[curr.Year]) {
+              acc[curr.Year] = { totalRevenue: 0, count: 0 };
+          }
+          acc[curr.Year].totalRevenue += curr.Revenue;
+          acc[curr.Year].count += 1;
+          return acc;
+      }, {});
+
+      const years = Object.keys(groupedData);
+      const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
+
+      return {
+          data: {
+              labels: years,
+              datasets: [{
+                  label: 'Average Revenue',
+                  data: averageRevenues,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          xLabel: 'Year'
+      };
+  }
+
+  function getMonthlyData(data) {
+      const uniqueMonths = [...new Set(data.map(d => d.Month))];
+      const groupedData = data.reduce((acc, curr) => {
+          if (!acc[curr.Month]) {
+              acc[curr.Month] = { totalRevenue: 0, count: 0 };
+          }
+          acc[curr.Month].totalRevenue += curr.Revenue;
+          acc[curr.Month].count += 1;
+          return acc;
+      }, {});
+
+      const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
+
+      return {
+          data: {
+              labels: uniqueMonths,
+              datasets: [{
+                  label: 'Average Revenue',
+                  data: averageRevenues,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          xLabel: 'Month'
+      };
+  }
+});
 
 
 //Insight
