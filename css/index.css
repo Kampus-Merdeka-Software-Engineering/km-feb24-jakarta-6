@@ -218,7 +218,7 @@ a{
     background-color: none;
     border-radius: 8px;
 }
-.canvas-item {
+.canvas.item {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;

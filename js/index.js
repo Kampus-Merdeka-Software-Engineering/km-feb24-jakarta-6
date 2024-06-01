@@ -122,14 +122,15 @@ window.onclick = function(event) {
   }
 }
 
-
+let data;
 document.addEventListener('DOMContentLoaded', function() {
   const loadingIndicator = document.getElementById('loading-indicator');
   loadingIndicator.style.display = 'block';
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
-      .then(data => {
+      .then(fetchedData => {
+          data = fetchedData;
           loadingIndicator.style.display = 'none'; 
 
           const uniqueValues = getUniqueValues(data);
@@ -154,6 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
           loadingIndicator.style.display = 'none'; 
       });
 });
+
+function resetFilters() {
+  var selects = document.getElementsByTagName("select");
+  for (var i = 0; i < selects.length; i++) {
+      selects[i].selectedIndex = 0;
+  }
+  toggleDropdownFilter(); 
+  updateChart(chart, data); // Update the chart with default filters after reset
+}
+
+function applyFilters() {
+  updateChart(chart, data); // Update the chart with selected filters
+  toggleDropdownFilter(); 
+}
 
 function getUniqueValues(data) {
   const uniqueValues = {
@@ -216,20 +231,6 @@ function toggleDropdownFilter() {
   }
 }
 
-function resetFilters() {
-  var selects = document.getElementsByTagName("select");
-  for (var i = 0; i < selects.length; i++) {
-      selects[i].selectedIndex = 0;
-  }
-  toggleDropdownFilter(); 
-  updateChart(chart, data); // Update the chart with default filters after reset
-}
-
-function applyFilters() {
-  updateChart(chart, data); // Update the chart with selected filters
-  toggleDropdownFilter(); 
-}
-
 function lineChartAverageRevenue(data) {
   const ctx = document.getElementById('line-average-revenue').getContext('2d');
   chart = new Chart(ctx, {
@@ -254,7 +255,7 @@ function lineChartAverageRevenue(data) {
           }
       }
   });
-
+  
   document.getElementById('year').addEventListener('change', function() {
       updateChart(chart, data);
   });
