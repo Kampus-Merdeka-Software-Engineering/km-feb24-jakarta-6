@@ -536,6 +536,9 @@ textarea{
     background-color: #124076;
     justify-content: center;
 }
+.location-description {
+    color: var(--title-color);
+}
 
 
 @media screen and (max-width: 768px){
