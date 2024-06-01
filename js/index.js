@@ -131,8 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
+
       .then(dataset => {
-          data = dataset; // Assign the fetched data to the outer variable
+          data = dataset;
           loadingIndicator.style.display = 'none';
 
           const uniqueValues = extractUniqueValues(data);
@@ -161,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
   // Function definitions
-
   function extractUniqueValues(data) {
       const uniqueValues = {
           year: [],
@@ -281,6 +281,7 @@ function formatNumber(num) {
 }
 
 
+
   function lineChartAverageRevenue(data) {
       const ctx = document.getElementById('line-average-revenue').getContext('2d');
       return new Chart(ctx, {
@@ -305,7 +306,6 @@ function formatNumber(num) {
               }
           }
       });
-  }
 
   function updateChart(chart, data) {
       const filters = {
