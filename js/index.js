@@ -182,6 +182,9 @@ function getUniqueValues(data) {
       if (!uniqueValues.continent.includes(item.Continent)) {
           uniqueValues.continent.push(item.Continent);
       }
+      if (!uniqueValues.productType.includes(item.Sub_Category)) {
+        uniqueValues.productType.push(item.Sub_Category);
+      }
       if (!uniqueValues.month.includes(item.Month)) {
           uniqueValues.month.push(item.Month);
       }
@@ -308,7 +311,7 @@ function getData(data, filters = {}) {
       filteredData = filteredData.filter(d => d.Continent == filters.continent);
   }
   if (filters.productType) {
-      filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+      filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
   }
 
   if (filters.year && filters.year !== 'all') {
@@ -651,7 +654,7 @@ const insightData = [
     // Validate name
     const name = document.getElementById('name').value;
     if (!name) {
-      document.getElementById('name-error').innerText = 'Name tidak boleh kosong!';
+      document.getElementById('name-error').innerText = 'Name cannot be empty!';
       isValid = false;
     }
     
@@ -659,17 +662,17 @@ const insightData = [
     const email = document.getElementById('email').value;
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,6}$/;
     if (!email) {
-      document.getElementById('email-error').innerText = 'E-mail tidak boleh kosong!';
+      document.getElementById('email-error').innerText = 'E-mail cannot be empty!';
       isValid = false;
     } else if (!email.match(emailPattern)) {
-      document.getElementById('email-error').innerText = 'Alamat E-Mail tidak Valid';
+      document.getElementById('email-error').innerText = 'Invalid E-Mail address!';
       isValid = false;
     }
     
     // Validate message
     const message = document.getElementById('message').value;
     if (!message) {
-      document.getElementById('message-error').innerText = 'Feedback tidak boleh kosong!.';
+      document.getElementById('message-error').innerText = 'Feedback cannot be empty!';
       isValid = false;
     }
     
@@ -678,8 +681,8 @@ const insightData = [
       // Show success message
       const successMessage = document.createElement('div');
       successMessage.classList.add('success-message');
-      successMessage.innerHTML = 'Masukan Anda telah terkirim.<span>Terima kasih atas masukannya.</span>';
-      successMessage.querySelector('span').textContent = ' Terima kasih atas masukannya.';
+      successMessage.innerHTML = 'Your feedback has been sent.<span>Thank you for your feedback.</span>';
+      successMessage.querySelector('span').textContent = ' Thank you for your feedback.';
       const feedbackDescription = document.querySelector('.feedback-description');
       feedbackDescription.parentNode.insertBefore(successMessage, feedbackDescription.nextSibling);
       
