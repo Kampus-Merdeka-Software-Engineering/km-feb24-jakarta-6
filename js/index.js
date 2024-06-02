@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
           document.getElementById('reset').addEventListener('click', resetFilters);
-
+          
           // Update dashboard after chart initialization
           updateDashboard(data);
           updateScoreCard(data);
@@ -161,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
           console.error('Error loading the dataset:', error);
           loadingIndicator.style.display = 'none';
       });
-
-  // Function definitions
-
-  function extractUniqueValues(data) {
+  
+      // Function definitions
+  
+      function extractUniqueValues(data) {
       const uniqueValues = {
           year: [],
           ageGroup: [],
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
           productType: [],
           month: []
       };
-
+      
       data.forEach(item => {
           if (!uniqueValues.year.includes(item.Year)) {
               uniqueValues.year.push(item.Year);
@@ -198,14 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
               uniqueValues.month.push(item.Month);
           }
       });
-
+      
       Object.keys(uniqueValues).forEach(key => {
           uniqueValues[key].sort();
       });
-
+      
       return uniqueValues;
   }
-
+  
   function populateFilterDropdown(id, values) {
       const select = document.getElementById(id);
       values.forEach(value => {
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
           select.appendChild(option);
       });
   }
-
+  
   function resetFilters() {
       var selects = document.getElementsByTagName("select");
       for (var i = 0; i < selects.length; i++) {
@@ -223,11 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       updateDashboard(data); // Update the dashboard with default filters after reset
   }
-
+  
   function applyFilters() {
       updateDashboard(data); // Update dashboard with selected filters
   }
-
+  
   function updateDashboard(data) {
       // Ambil nilai dari semua dropdown filter
       const selectedYear = document.getElementById('year').value;
@@ -236,62 +236,62 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedCountry = document.getElementById('country').value;
       const selectedContinent = document.getElementById('continent').value;
       const selectedProductType = document.getElementById('product-type').value;
-
+      
       // Filter data sesuai dengan nilai dropdown yang dipilih
       let filteredData = data.filter(item => {
-          if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
-              return false;
-          }
-          if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
-              return false;
-          }
-          if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
-              return false;
-          }
-          if (selectedCountry !== '' && item.Country !== selectedCountry) {
-              return false;
-          }
-          if (selectedContinent !== '' && item.Continent !== selectedContinent) {
-              return false;
-          }
-          if (selectedProductType !== '' && item.Sub_Category !== selectedProductType) {
-              return false;
-          }
-          return true;
-      });
-      updateChart(lineChart, filteredData);
-      updateChart(barChart, filteredData);
+        if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
+          return false;
+      }
+      if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
+          return false;
+      }
+      if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
+          return false;
+      }
+      if (selectedCountry !== '' && item.Country !== selectedCountry) {
+          return false;
+      }
+      if (selectedContinent !== '' && item.Continent !== selectedContinent) {
+          return false;
+      }
+      if (selectedProductType !== '' && item.Sub_Category !== selectedProductType) {
+          return false;
+      }
+      return true;
+  });
+      updateLineChart(lineChart, filteredData);
+      updateBarChart(barChart, filteredData);
       updateScoreCard(filteredData);
       return filteredData;
   }
-
+  
   function updateScoreCard(data) {
     const totalOrders = data.length;
     const totalRevenue = data.reduce((acc, curr) => acc + curr.Revenue, 0);
     const totalCost = data.reduce((acc, curr) => acc + curr.Cost, 0);
     const totalProfit = data.reduce((acc, curr) => acc + curr.Profit, 0);
-
+    
     document.getElementById('total-orders').textContent = formatNumber(totalOrders);
     document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
     document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
     document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
-  }
+    }
 
-function formatNumber(num) {
+  function formatNumber(num) {
     if (num >= 1e6) {
         return (num / 1e6).toFixed(2) + 'M';
     } else if (num >= 1e3) {
         return (num / 1e3).toFixed(2) + 'K';
     }
     return num.toFixed(2);
-}
-
+  }
+  
 
   function lineChartAverageRevenue(data) {
       const ctx = document.getElementById('line-average-revenue').getContext('2d');
       return new Chart(ctx, {
           type: 'line',
-          data: getData(data),
+          data: getLineData(data),
           options: {
               responsive: true,
               scales: {
@@ -313,52 +313,20 @@ function formatNumber(num) {
       });
   }
 
-  function barChartCountryProfit(data) {
-      const ctx = document.getElementById('bar-country-profit').getContext('2d');
-      return new Chart(ctx, {
-          type: 'bar',
-          data: getData(data),
-          options: {
-              responsive: true,
-              scales: {
-                  y: {
-                      beginAtZero: true,
-                      title: {
-                          display: true,
-                          text: 'Profit'
-                      }
-                  },
-                  x: {
-                      title: {
-                          display: true,
-                          text: 'Country'
-                      }
-                  }
-              }
-          }
-      });
-  }
 
-  function updateChart(chart, data) {
-      const filters = {
-          year: document.getElementById('year').value,
-          ageGroup: document.getElementById('age-group').value,
-          gender: document.getElementById('gender').value,
-          country: document.getElementById('country').value,
-          continent: document.getElementById('continent').value,
-          productType: document.getElementById('product-type').value
-      };
-
-      const chartData = getData(data, filters);
-
-      chart.data = chartData.data;
-      chart.options.scales.x.title.text = chartData.xLabel;
+  function updateLineChart(chart, data) {
+      const filters = {};
+  
+      const chartLineData = getLineData(data, filters);
+  
+      chart.data = chartLineData.data;
+      chart.options.scales.x.title.text = chartLineData.xLabel;
       chart.update();
   }
-
-  function getData(data, filters = {}) {
+  
+  function getLineData(data, filters = {}) {
       let filteredData = data;
-
+  
       if (filters.ageGroup) {
           filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
       }
@@ -382,7 +350,7 @@ function formatNumber(num) {
           return getYearlyData(filteredData);
       }
   }
-
+  
   function getYearlyData(data) {
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Year]) {
@@ -392,10 +360,10 @@ function formatNumber(num) {
           acc[curr.Year].count += 1;
           return acc;
       }, {});
-
+  
       const years = Object.keys(groupedData);
       const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
-
+  
       return {
           data: {
               labels: years,
@@ -410,7 +378,7 @@ function formatNumber(num) {
           xLabel: 'Year'
       };
   }
-
+  
   function getMonthlyData(data) {
       const uniqueMonths = [...new Set(data.map(d => d.Month))];
       const groupedData = data.reduce((acc, curr) => {
@@ -421,9 +389,9 @@ function formatNumber(num) {
           acc[curr.Month].count += 1;
           return acc;
       }, {});
-
+  
       const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
-
+  
       return {
           data: {
               labels: uniqueMonths,
@@ -438,10 +406,105 @@ function formatNumber(num) {
           xLabel: 'Month'
       };
   }
+
+
+  function barChartCountryProfit(data) {
+    const ctx = document.getElementById('bar-country-profit').getContext('2d');
+    const filters = {};
+    const chartBarData = getBarData(data, filters);
+
+    return new Chart(ctx, {
+        type: 'bar',
+        data: getBarData(data),
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Profit'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Country'
+                    }
+                }
+            }
+        }
+    });
+  }
+
+  function updateBarChart(chart, data) {  
+    const filters = {};
+
+    const chartBarData = getBarData(data, filters);
+
+    chart.data = chartBarData.data;
+    chart.options.scales.x.title.text = chartBarData.xLabel;
+    chart.update();
+  }
+
+  function getBarData(data, filters = {}) {
+    let filteredData = data;
+
+    if (filters.ageGroup) {
+        filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
+    }
+    if (filters.gender) {
+        filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
+    }
+    if (filters.country) {
+        filteredData = filteredData.filter(d => d.Country == filters.country);
+    }
+    if (filters.continent) {
+        filteredData = filteredData.filter(d => d.Continent == filters.continent);
+    }
+    if (filters.productType) {
+        filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
+    }
+    
+    if (filters.Country && filters.Country !== 'all') {
+        filteredData = filteredData.filter(d => d.Country == filters.Country);
+        return getProfitByCountry(filteredData);
+    } else {
+        return getProfitByCountry(data);
+    }
+  }
+
+
+  function getProfitByCountry(data) {
+    const countries = [...new Set(data.map(d => d.Country))];
+    const groupedData = data.reduce((acc, curr) => {
+      if (!acc[curr.Country]) {
+        acc[curr.Country] = 0;
+      }
+      acc[curr.Country] += curr.Profit;
+      return acc;
+    }, {});
+  
+    const totalProfit = countries.map(country => groupedData[country]);
+  
+    return {
+      data: {
+        labels: countries,
+        datasets: [{
+          label: 'Total Profit',
+          data: totalProfit,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      xLabel: 'Country'
+    };
+  }
 });
 
 $(document).ready(function() {
-  $.getJSON("/assets/data/dataset.json", function(data) {
+  $.getJSON("./assets/data/dataset.json", function(data) {
       var keys = Object.keys(data[0]); 
       
       var thead = "<tr>";
