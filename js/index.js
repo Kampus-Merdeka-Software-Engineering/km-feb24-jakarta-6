@@ -127,7 +127,8 @@ document.addEventListener('DOMContentLoaded', function() {
   loadingIndicator.style.display = 'block';
 
   let data; // Declare data in a wider scope
-  let chart; // Declare chart in a wider scope
+  let lineChart; // Declare line chart in a wider scope
+  let barChart; // Declare bar chart in a wider scope
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
@@ -145,7 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
           populateFilterDropdown('continent', uniqueValues.continent);
           populateFilterDropdown('product-type', uniqueValues.productType);
 
-          chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
+          lineChart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
+          barChart = barChartCountryProfit(data); // Assign the returned value to chart variable
 
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
@@ -188,6 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           if (!uniqueValues.continent.includes(item.Continent)) {
               uniqueValues.continent.push(item.Continent);
+          }
+          if (!uniqueValues.productType.includes(item.Sub_Category)) {
+              uniqueValues.productType.push(item.Sub_Category);
           }
           if (!uniqueValues.month.includes(item.Month)) {
               uniqueValues.month.push(item.Month);
@@ -249,12 +254,13 @@ document.addEventListener('DOMContentLoaded', function() {
           if (selectedContinent !== '' && item.Continent !== selectedContinent) {
               return false;
           }
-          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
+          if (selectedProductType !== '' && item.Sub_Category !== selectedProductType) {
               return false;
           }
           return true;
       });
-      updateChart(chart, filteredData);
+      updateChart(lineChart, filteredData);
+      updateChart(barChart, filteredData);
       updateScoreCard(filteredData);
       return filteredData;
   }
@@ -269,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
     document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
     document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
-}
+  }
 
 function formatNumber(num) {
     if (num >= 1e6) {
@@ -300,6 +306,32 @@ function formatNumber(num) {
                       title: {
                           display: true,
                           text: 'Year'
+                      }
+                  }
+              }
+          }
+      });
+  }
+
+  function barChartCountryProfit(data) {
+      const ctx = document.getElementById('bar-country-profit').getContext('2d');
+      return new Chart(ctx, {
+          type: 'bar',
+          data: getData(data),
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Profit'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Country'
                       }
                   }
               }
@@ -340,7 +372,7 @@ function formatNumber(num) {
           filteredData = filteredData.filter(d => d.Continent == filters.continent);
       }
       if (filters.productType) {
-          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+          filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
       }
 
       if (filters.year && filters.year !== 'all') {

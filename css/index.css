@@ -236,7 +236,6 @@ canvas{
     width: 100% !important;
     height: auto !important;
     display: absolute;
-
 }
 .scorecard{
     min-width: 100px;
@@ -244,6 +243,9 @@ canvas{
     text-align: center;
 }
 .linechart{
+    min-width: 500px;
+}
+.piechart{
     min-width: 500px;
 }
 .tabel{
