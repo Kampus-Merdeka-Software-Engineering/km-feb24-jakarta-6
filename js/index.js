@@ -105,8 +105,6 @@ window.onclick = function(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  const loadingIndicator = document.getElementById('loading-indicator');
-  loadingIndicator.style.display = 'block';
 
   let data; // Declare data in a wider scope
   let chart; // Declare chart in a wider scope
@@ -115,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(dataset => {
           data = dataset; // Assign the fetched data to the outer variable
-          loadingIndicator.style.display = 'none';
 
           const uniqueValues = extractUniqueValues(data);
 
@@ -486,9 +483,13 @@ function formatNumber(num) {
   }
 });
 
-
+const loadingIndicator = document.getElementById('loading-indicator');
+loadingIndicator.style.display = 'block';
 
 $(document).ready(function() {
+  // Tampilkan animasi loading
+  $("#loadingIndicator").show();
+
   $.getJSON("./assets/data/dataset.json", function(data) {
       var keys = Object.keys(data[0]); 
       
@@ -510,8 +511,12 @@ $(document).ready(function() {
       $("#dataTable tbody").html(tbody);
 
       $('#dataTable').DataTable();
+
+      // Sembunyikan animasi loading setelah selesai memuat data
+      $("#loadingIndicator").hide();
   });
 });
+
 
 // Insight Section
 document.addEventListener("DOMContentLoaded", function() {
