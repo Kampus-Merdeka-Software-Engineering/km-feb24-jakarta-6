@@ -572,20 +572,69 @@ function generateInsight(question, answers) {
 
 const insightData = [
   {
-    question: 'Daftar Pawang Hujan',
+    question: 'Scorecards',
     answer: [
-      'Mbak Rara',
-      'Kobokan Aeru'
+      'The situation involved 2,700 orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
+      'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
+    
     ]
   },
   {
-    question: 'Waga na wa Megumin! Ākuwizādo wo nariwai toshi, saikyou no kougeki no mahou "bakuretsu mahou" wo ayatsuru mono!',
+    question: "Company's Annual Profit Graphic",
     answer: [
-      'ORA!.!.!. ORA!.!.! ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ',
-      'MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!.',
-      'MCLaren Lu Warna Apa Bos?'
-    ]}
-  ];
+      "The graph shows that the company's annual profit decreased dramatically in 2014, because there were no bicycle sales and the highest profit in 2015 amounted to 530,758."
+    ]
+  },
+  {
+    question: 'Comparison of Customer Gender',
+    answer: [
+      'The difference in purchases based on gender was 51.7% by men and 48.3% by women.'
+    ]
+  },
+  {
+    question: 'Country with Highest Profit',
+    answer: [
+      'The country with the highest profits is Australia, with profits of around 500 thousand dollars.',
+      'Hal ini perlu diperhatikan karena Australia merupakan bagian dari kelompok negara Non Eropa. Justru kelompok negara Eropa tidak terlalu banyak menyumnbang profit bagi perusahaan ini.'
+    ]
+  },
+  {
+    question: 'Comparison of Customer Age',
+    answer: [
+    'The age difference in bicycle purchases is also striking. This shows that bicycle buyers come from different age groups.'
+    ]
+  },
+  {
+    question: 'Composition of Sub Category Product Sold',
+    answer: [
+      "In 2015, the most popular product was road bikes, while touring bikes were the least popular in terms of sales. This reflects consumers' preference for road bikes over touring bikes in that year."
+    ]
+  },
+  {
+    question: 'Average Discount per Country',
+    answer: [
+      "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France."
+    ]
+  },
+  {
+    question: 'Best Seller Product',
+    answer: [
+      "The road bikes subcategory stood out with a high number of orders, generating the highest profit of 581,195 thousand dollars. This shows that despite their high prices, demand for these types of bikes remains strong, perhaps due to their premium quality or advanced features."
+    ]
+  },
+  {
+    question: 'Product Variation Available',
+    answer: [
+      "This graph shows the number of variations each bike category has per continent, and based on the data road bikes are the most varied bike category. Road bikes also have the highest sales per year in both European and non-European countries."
+    ]
+  },
+  {
+    question: 'Precentage Profit by Youth Customer',
+    answer: [
+      "The graph shows that the 24-year-old age group is the most active in purchasing bicycles. This shows that at this age, the interest and need to own a bicycle is quite high compared to other age groups."
+    ]
+  }
+];
   
   const insightListContainer = document.querySelector('.insight-list');
   
