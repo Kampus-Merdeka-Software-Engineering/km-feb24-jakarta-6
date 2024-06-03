@@ -674,7 +674,7 @@ const insightData = [
     {
       name: "Nabila Balqis",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/belum ada",
+      imgSrc: "./assets/img/nabila",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/nabila.balqis.167",
@@ -704,7 +704,7 @@ const insightData = [
     {
       name: "Rizky Maulana",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/maulana.jpg",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/muhammad_rizky_maulana01/",
@@ -714,7 +714,7 @@ const insightData = [
     {
       name: "Afifah Khoirun Nisa",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/afifah.jpg",
       social: {
         linkedin: "https://www.linkedin.com/in/afifah-khoirun-nisa-35aa471a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         instagram: "http://instagram.com/ifahhhkn",
