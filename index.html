@@ -13,13 +13,43 @@
 
 </head>
 <body>
+    <div id="loading-indicator">
+        <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                <g transform="translate(9.5,19)">
+                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                        <circle class="bike__spokes" r="5" />
+                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <g transform="translate(24,19)">
+                    <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
+                        <circle class="bike__pedals" r="4" />
+                        <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <g transform="translate(38.5,19)">
+                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                        <circle class="bike__spokes" r="5" />
+                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+                <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+                <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+                <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+            </g>
+        </svg>
+    </div>
     <header>
         <!-- Navigation Bar -->
         <nav class="navbar">
             <h1 class="title"></h1>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="#insight" class="nav-link">Insight & Recomendation</a></li>
+                <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
                 <li class="nav-item"><a href="#about-us" class="nav-link">About Us</a></li>
                 <li class="nav-item"><a href="#feedback" class="nav-link">Feedback</a></li>
             </ul>
@@ -90,37 +120,7 @@
               </div>
               
         </div>
-        <div id="loading-indicator">
-            <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                    <g transform="translate(9.5,19)">
-                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                            <circle class="bike__spokes" r="5" />
-                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <g transform="translate(24,19)">
-                        <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
-                            <circle class="bike__pedals" r="4" />
-                            <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <g transform="translate(38.5,19)">
-                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                            <circle class="bike__spokes" r="5" />
-                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
-                    <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
-                    <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
-                    <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
-                </g>
-            </svg>
-        </div>
-        <div class="dashboard-container">
+        <div class="scorecard-container">
             <div class="scorecard">
                 <h3>Total Orders</h3>
                 <p id="total-orders">0</p>
@@ -137,13 +137,16 @@
                 <h3>Total Profit</h3>
                 <p id="total-profit">$0.00</p>
             </div>
+            </div>
+            
+        <div class="dashboard-container">
             <div class="linechart">
                 <canvas id="line-average-revenue"></canvas>
             </div>
             <div class="barchart">
                 <canvas id="bar-country-profit"></canvas>
             </div>
-        </div>       
+        </div>     
         <div class="tabel">
             <table id="dataTable" class="display" style="width:100%">
                 <thead>
@@ -156,21 +159,22 @@
         </div>
     </div>
     
-    <!-- Insight -->
-    <div class="insight" id="insight">
-        <div class="section-header">
-            <svg width="100%" height="3" class="background-line">
-                <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
-            </svg>
-            <div class="section-title" id="insight"><h1>Insight & Recomendation</h1></div>  
-        </div>
-        <div class="insight-container">
-            <div class="insight-list"></div>
-        </div>
-    </div>    
+<!-- Insight Section -->
+<div class="insight-section" id="insight">
+    <div class="section-header">
+        <svg width="100%" height="3" class="background-line">
+            <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
+        </svg>
+        <div class="section-title" id="insight-title"><h1>Insight</h1></div>  
+    </div>
+    <div class="insight-container">
+        <div class="insight-list"></div>
+    </div>
+</div>
+ 
     
     <!-- About Us -->
-    <div class="insight" id="about-us">
+    <div class="about-us-section" id="about-us">
         <div class="section-header">
             <svg width="100%" height="3" class="background-line">
                 <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
@@ -242,5 +246,3 @@
     </footer>
 </body>
 <script src="js/index.js"></script>
-</body>
-</html>
