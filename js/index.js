@@ -127,7 +127,8 @@ document.addEventListener('DOMContentLoaded', function() {
   loadingIndicator.style.display = 'block';
 
   let data; // Declare data in a wider scope
-  let chart; // Declare chart in a wider scope
+  let lineChart; // Declare line chart in a wider scope
+  let barChart; // Declare bar chart in a wider scope
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
@@ -145,12 +146,13 @@ document.addEventListener('DOMContentLoaded', function() {
           populateFilterDropdown('continent', uniqueValues.continent);
           populateFilterDropdown('product-type', uniqueValues.productType);
 
-          chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
+          lineChart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
+          barChart = barChartCountryProfit(data); // Assign the returned value to chart variable
 
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
           document.getElementById('reset').addEventListener('click', resetFilters);
-
+          
           // Update dashboard after chart initialization
           updateDashboard(data);
           updateScoreCard(data);
@@ -159,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
           console.error('Error loading the dataset:', error);
           loadingIndicator.style.display = 'none';
       });
-
-  // Function definitions
-
-  function extractUniqueValues(data) {
+  
+      // Function definitions
+  
+      function extractUniqueValues(data) {
       const uniqueValues = {
           year: [],
           ageGroup: [],
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
           productType: [],
           month: []
       };
-
+      
       data.forEach(item => {
           if (!uniqueValues.year.includes(item.Year)) {
               uniqueValues.year.push(item.Year);
@@ -189,18 +191,21 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!uniqueValues.continent.includes(item.Continent)) {
               uniqueValues.continent.push(item.Continent);
           }
+          if (!uniqueValues.productType.includes(item.Sub_Category)) {
+              uniqueValues.productType.push(item.Sub_Category);
+          }
           if (!uniqueValues.month.includes(item.Month)) {
               uniqueValues.month.push(item.Month);
           }
       });
-
+      
       Object.keys(uniqueValues).forEach(key => {
           uniqueValues[key].sort();
       });
-
+      
       return uniqueValues;
   }
-
+  
   function populateFilterDropdown(id, values) {
       const select = document.getElementById(id);
       values.forEach(value => {
@@ -210,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
           select.appendChild(option);
       });
   }
-
+  
   function resetFilters() {
       var selects = document.getElementsByTagName("select");
       for (var i = 0; i < selects.length; i++) {
@@ -218,11 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       updateDashboard(data); // Update the dashboard with default filters after reset
   }
-
+  
   function applyFilters() {
       updateDashboard(data); // Update dashboard with selected filters
   }
-
+  
   function updateDashboard(data) {
       // Ambil nilai dari semua dropdown filter
       const selectedYear = document.getElementById('year').value;
@@ -231,61 +236,62 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedCountry = document.getElementById('country').value;
       const selectedContinent = document.getElementById('continent').value;
       const selectedProductType = document.getElementById('product-type').value;
-
+      
       // Filter data sesuai dengan nilai dropdown yang dipilih
       let filteredData = data.filter(item => {
-          if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
-              return false;
-          }
-          if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
-              return false;
-          }
-          if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
-              return false;
-          }
-          if (selectedCountry !== '' && item.Country !== selectedCountry) {
-              return false;
-          }
-          if (selectedContinent !== '' && item.Continent !== selectedContinent) {
-              return false;
-          }
-          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
-              return false;
-          }
-          return true;
-      });
-      updateChart(chart, filteredData);
+        if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
+          return false;
+      }
+      if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
+          return false;
+      }
+      if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
+          return false;
+      }
+      if (selectedCountry !== '' && item.Country !== selectedCountry) {
+          return false;
+      }
+      if (selectedContinent !== '' && item.Continent !== selectedContinent) {
+          return false;
+      }
+      if (selectedProductType !== '' && item.Sub_Category !== selectedProductType) {
+          return false;
+      }
+      return true;
+  });
+      updateLineChart(lineChart, filteredData);
+      updateBarChart(barChart, filteredData);
       updateScoreCard(filteredData);
       return filteredData;
   }
-
+  
   function updateScoreCard(data) {
     const totalOrders = data.length;
     const totalRevenue = data.reduce((acc, curr) => acc + curr.Revenue, 0);
     const totalCost = data.reduce((acc, curr) => acc + curr.Cost, 0);
     const totalProfit = data.reduce((acc, curr) => acc + curr.Profit, 0);
-
+    
     document.getElementById('total-orders').textContent = formatNumber(totalOrders);
     document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
     document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
     document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
-}
+    }
 
-function formatNumber(num) {
+  function formatNumber(num) {
     if (num >= 1e6) {
         return (num / 1e6).toFixed(2) + 'M';
     } else if (num >= 1e3) {
         return (num / 1e3).toFixed(2) + 'K';
     }
     return num.toFixed(2);
-}
-
+  }
+  
 
   function lineChartAverageRevenue(data) {
       const ctx = document.getElementById('line-average-revenue').getContext('2d');
       return new Chart(ctx, {
           type: 'line',
-          data: getData(data),
+          data: getLineData(data),
           options: {
               responsive: true,
               scales: {
@@ -307,26 +313,20 @@ function formatNumber(num) {
       });
   }
 
-  function updateChart(chart, data) {
-      const filters = {
-          year: document.getElementById('year').value,
-          ageGroup: document.getElementById('age-group').value,
-          gender: document.getElementById('gender').value,
-          country: document.getElementById('country').value,
-          continent: document.getElementById('continent').value,
-          productType: document.getElementById('product-type').value
-      };
 
-      const chartData = getData(data, filters);
-
-      chart.data = chartData.data;
-      chart.options.scales.x.title.text = chartData.xLabel;
+  function updateLineChart(chart, data) {
+      const filters = {};
+  
+      const chartLineData = getLineData(data, filters);
+  
+      chart.data = chartLineData.data;
+      chart.options.scales.x.title.text = chartLineData.xLabel;
       chart.update();
   }
-
-  function getData(data, filters = {}) {
+  
+  function getLineData(data, filters = {}) {
       let filteredData = data;
-
+  
       if (filters.ageGroup) {
           filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
       }
@@ -340,7 +340,7 @@ function formatNumber(num) {
           filteredData = filteredData.filter(d => d.Continent == filters.continent);
       }
       if (filters.productType) {
-          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+          filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
       }
 
       if (filters.year && filters.year !== 'all') {
@@ -350,7 +350,7 @@ function formatNumber(num) {
           return getYearlyData(filteredData);
       }
   }
-
+  
   function getYearlyData(data) {
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Year]) {
@@ -360,10 +360,10 @@ function formatNumber(num) {
           acc[curr.Year].count += 1;
           return acc;
       }, {});
-
+  
       const years = Object.keys(groupedData);
       const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
-
+  
       return {
           data: {
               labels: years,
@@ -378,7 +378,7 @@ function formatNumber(num) {
           xLabel: 'Year'
       };
   }
-
+  
   function getMonthlyData(data) {
       const uniqueMonths = [...new Set(data.map(d => d.Month))];
       const groupedData = data.reduce((acc, curr) => {
@@ -389,9 +389,9 @@ function formatNumber(num) {
           acc[curr.Month].count += 1;
           return acc;
       }, {});
-
+  
       const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
-
+  
       return {
           data: {
               labels: uniqueMonths,
@@ -406,10 +406,105 @@ function formatNumber(num) {
           xLabel: 'Month'
       };
   }
+
+
+  function barChartCountryProfit(data) {
+    const ctx = document.getElementById('bar-country-profit').getContext('2d');
+    const filters = {};
+    const chartBarData = getBarData(data, filters);
+
+    return new Chart(ctx, {
+        type: 'bar',
+        data: getBarData(data),
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Profit'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Country'
+                    }
+                }
+            }
+        }
+    });
+  }
+
+  function updateBarChart(chart, data) {  
+    const filters = {};
+
+    const chartBarData = getBarData(data, filters);
+
+    chart.data = chartBarData.data;
+    chart.options.scales.x.title.text = chartBarData.xLabel;
+    chart.update();
+  }
+
+  function getBarData(data, filters = {}) {
+    let filteredData = data;
+
+    if (filters.ageGroup) {
+        filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
+    }
+    if (filters.gender) {
+        filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
+    }
+    if (filters.country) {
+        filteredData = filteredData.filter(d => d.Country == filters.country);
+    }
+    if (filters.continent) {
+        filteredData = filteredData.filter(d => d.Continent == filters.continent);
+    }
+    if (filters.productType) {
+        filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
+    }
+    
+    if (filters.Country && filters.Country !== 'all') {
+        filteredData = filteredData.filter(d => d.Country == filters.Country);
+        return getProfitByCountry(filteredData);
+    } else {
+        return getProfitByCountry(data);
+    }
+  }
+
+
+  function getProfitByCountry(data) {
+    const countries = [...new Set(data.map(d => d.Country))];
+    const groupedData = data.reduce((acc, curr) => {
+      if (!acc[curr.Country]) {
+        acc[curr.Country] = 0;
+      }
+      acc[curr.Country] += curr.Profit;
+      return acc;
+    }, {});
+  
+    const totalProfit = countries.map(country => groupedData[country]);
+  
+    return {
+      data: {
+        labels: countries,
+        datasets: [{
+          label: 'Total Profit',
+          data: totalProfit,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      xLabel: 'Country'
+    };
+  }
 });
 
 $(document).ready(function() {
-  $.getJSON("/assets/data/dataset.json", function(data) {
+  $.getJSON("./assets/data/dataset.json", function(data) {
       var keys = Object.keys(data[0]); 
       
       var thead = "<tr>";
@@ -477,20 +572,69 @@ function generateInsight(question, answers) {
 
 const insightData = [
   {
-    question: 'Daftar Pawang Hujan',
+    question: 'Scorecards',
     answer: [
-      'Mbak Rara',
-      'Kobokan Aeru'
+      'The situation involved 1.8 thousand orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
+      'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
+    
     ]
   },
   {
-    question: 'Waga na wa Megumin! Ākuwizādo wo nariwai toshi, saikyou no kougeki no mahou "bakuretsu mahou" wo ayatsuru mono!',
+    question: "Company's Annual Profit Graphic",
     answer: [
-      'ORA!.!.!. ORA!.!.! ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ',
-      'MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!.',
-      'MCLaren Lu Warna Apa Bos?'
-    ]}
-  ];
+      "The graph shows that the company's annual profit decreased dramatically in 2014, because there were no bicycle sales and the highest profit in 2015 amounted to 530,758."
+    ]
+  },
+  {
+    question: 'Comparison of Customer Gender',
+    answer: [
+      'The difference in purchases based on gender was 51.7% by men and 48.3% by women.'
+    ]
+  },
+  {
+    question: 'Country with Highest Profit',
+    answer: [
+      'The country with the highest profits is Australia, with profits of around 500 thousand dollars.',
+      'Hal ini perlu diperhatikan karena Australia merupakan bagian dari kelompok negara Non Eropa. Justru kelompok negara Eropa tidak terlalu banyak menyumnbang profit bagi perusahaan ini.'
+    ]
+  },
+  {
+    question: 'Comparison of Customer Age',
+    answer: [
+    'The age difference in bicycle purchases is also striking. This shows that bicycle buyers come from different age groups.'
+    ]
+  },
+  {
+    question: 'Composition of Sub Category Product Sold',
+    answer: [
+      "In 2015, the most popular product was road bikes, while touring bikes were the least popular in terms of sales. This reflects consumers' preference for road bikes over touring bikes in that year."
+    ]
+  },
+  {
+    question: 'Average Discount per Country',
+    answer: [
+      "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France."
+    ]
+  },
+  {
+    question: 'Best Seller Product',
+    answer: [
+      "The road bikes subcategory stood out with a high number of orders, generating the highest profit of 581,195 thousand dollars. This shows that despite their high prices, demand for these types of bikes remains strong, perhaps due to their premium quality or advanced features."
+    ]
+  },
+  {
+    question: 'Product Variation Available',
+    answer: [
+      "This graph shows the number of variations each bike category has per continent, and based on the data road bikes are the most varied bike category. Road bikes also have the highest sales per year in both European and non-European countries."
+    ]
+  },
+  {
+    question: 'Precentage Profit by Youth Customer',
+    answer: [
+      "The graph shows that the 24-year-old age group is the most active in purchasing bicycles. This shows that at this age, the interest and need to own a bicycle is quite high compared to other age groups."
+    ]
+  }
+];
   
   const insightListContainer = document.querySelector('.insight-list');
   
@@ -579,7 +723,7 @@ const insightData = [
     {
       name: "Nabila Balqis",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/belum ada",
+      imgSrc: "./assets/img/nabila",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/nabila.balqis.167",
@@ -609,7 +753,7 @@ const insightData = [
     {
       name: "Rizky Maulana",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/maulana.jpg",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/muhammad_rizky_maulana01/",
@@ -619,7 +763,7 @@ const insightData = [
     {
       name: "Afifah Khoirun Nisa",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/afifah.jpg",
       social: {
         linkedin: "https://www.linkedin.com/in/afifah-khoirun-nisa-35aa471a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         instagram: "http://instagram.com/ifahhhkn",

@@ -7,7 +7,10 @@
     <link rel="icon" type="image/x-icon" href="./assets/img/logo-revou.ico">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/loading.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
 </head>
 <body>
     <header>
@@ -16,7 +19,7 @@
             <h1 class="title"></h1>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
+                <li class="nav-item"><a href="#insight" class="nav-link">Insight & Recomendation</a></li>
                 <li class="nav-item"><a href="#about-us" class="nav-link">About Us</a></li>
                 <li class="nav-item"><a href="#feedback" class="nav-link">Feedback</a></li>
             </ul>
@@ -137,6 +140,9 @@
             <div class="linechart">
                 <canvas id="line-average-revenue"></canvas>
             </div>
+            <div class="barchart">
+                <canvas id="bar-country-profit"></canvas>
+            </div>
         </div>       
         <div class="tabel">
             <table id="dataTable" class="display" style="width:100%">
@@ -156,7 +162,7 @@
             <svg width="100%" height="3" class="background-line">
                 <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
             </svg>
-            <div class="section-title" id="insight"><h1>Insight</h1></div>  
+            <div class="section-title" id="insight"><h1>Insight & Recomendation</h1></div>  
         </div>
         <div class="insight-container">
             <div class="insight-list"></div>
@@ -236,8 +242,5 @@
     </footer>
 </body>
 <script src="js/index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 </body>
 </html>
