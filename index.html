@@ -19,7 +19,7 @@
             <h1 class="title"></h1>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="#insight" class="nav-link">Insight & Recomendation</a></li>
+                <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
                 <li class="nav-item"><a href="#about-us" class="nav-link">About Us</a></li>
                 <li class="nav-item"><a href="#feedback" class="nav-link">Feedback</a></li>
             </ul>
@@ -120,7 +120,7 @@
                 </g>
             </svg>
         </div>
-        <div class="dashboard-container">
+        <div class="scorecard-container">
             <div class="scorecard">
                 <h3>Total Orders</h3>
                 <p id="total-orders">0</p>
@@ -137,13 +137,16 @@
                 <h3>Total Profit</h3>
                 <p id="total-profit">$0.00</p>
             </div>
+            </div>
+            
+        <div class="dashboard-container">
             <div class="linechart">
                 <canvas id="line-average-revenue"></canvas>
             </div>
             <div class="barchart">
                 <canvas id="bar-country-profit"></canvas>
             </div>
-        </div>       
+        </div>     
         <div class="tabel">
             <table id="dataTable" class="display" style="width:100%">
                 <thead>
@@ -156,21 +159,22 @@
         </div>
     </div>
     
-    <!-- Insight -->
-    <div class="insight" id="insight">
-        <div class="section-header">
-            <svg width="100%" height="3" class="background-line">
-                <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
-            </svg>
-            <div class="section-title" id="insight"><h1>Insight & Recomendation</h1></div>  
-        </div>
-        <div class="insight-container">
-            <div class="insight-list"></div>
-        </div>
-    </div>    
+<!-- Insight Section -->
+<div class="insight-section" id="insight">
+    <div class="section-header">
+        <svg width="100%" height="3" class="background-line">
+            <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
+        </svg>
+        <div class="section-title" id="insight-title"><h1>Insight</h1></div>  
+    </div>
+    <div class="insight-container">
+        <div class="insight-list"></div>
+    </div>
+</div>
+ 
     
     <!-- About Us -->
-    <div class="insight" id="about-us">
+    <div class="about-us-section" id="about-us">
         <div class="section-header">
             <svg width="100%" height="3" class="background-line">
                 <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
@@ -242,5 +246,3 @@
     </footer>
 </body>
 <script src="js/index.js"></script>
-</body>
-</html>

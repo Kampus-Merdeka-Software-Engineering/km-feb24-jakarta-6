@@ -90,26 +90,8 @@ function toggleDropdownFilter() {
   } else {
       dropdownContent.style.display = "none";
   }
-}
+}    
 
-function resetFilters() {
-  var selects = document.getElementsByTagName("select");
-  for (var i = 0; i < selects.length; i++) {
-      selects[i].selectedIndex = 0;
-  }
-  toggleDropdownFilter(); // Tutup dropdown setelah reset
-}
-
-function applyFilters() {
-  var selects = document.getElementsByTagName("select");
-  var selectedValues = {};
-  for (var i = 0; i < selects.length; i++) {
-      selectedValues[selects[i].id] = selects[i].value;
-  }
-  // Lakukan sesuatu dengan nilai yang telah dipilih (misalnya, kirim ke server)
-  console.log(selectedValues);
-  toggleDropdownFilter(); // Tutup dropdown setelah menerapkan filter
-}
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn') && !event.target.matches('select')) {
       var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -127,8 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadingIndicator.style.display = 'block';
 
   let data; // Declare data in a wider scope
-  let lineChart; // Declare line chart in a wider scope
-  let barChart; // Declare bar chart in a wider scope
+  let chart; // Declare chart in a wider scope
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
@@ -146,25 +127,25 @@ document.addEventListener('DOMContentLoaded', function() {
           populateFilterDropdown('continent', uniqueValues.continent);
           populateFilterDropdown('product-type', uniqueValues.productType);
 
-          lineChart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
-          barChart = barChartCountryProfit(data); // Assign the returned value to chart variable
+          chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
 
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
           document.getElementById('reset').addEventListener('click', resetFilters);
-          
+
           // Update dashboard after chart initialization
           updateDashboard(data);
           updateScoreCard(data);
+          updateBarChart(data)
       })
       .catch(error => {
           console.error('Error loading the dataset:', error);
           loadingIndicator.style.display = 'none';
       });
-  
-      // Function definitions
-  
-      function extractUniqueValues(data) {
+
+  // Function definitions
+
+  function extractUniqueValues(data) {
       const uniqueValues = {
           year: [],
           ageGroup: [],
@@ -174,38 +155,35 @@ document.addEventListener('DOMContentLoaded', function() {
           productType: [],
           month: []
       };
-      
+
       data.forEach(item => {
           if (!uniqueValues.year.includes(item.Year)) {
               uniqueValues.year.push(item.Year);
           }
-          if (!uniqueValues.ageGroup.includes(item.Age_Group)) {
+          if (!uniqueValues.ageGroup.includes(item.Age_Group) && item.Age_Group !== "-") {
               uniqueValues.ageGroup.push(item.Age_Group);
           }
-          if (!uniqueValues.gender.includes(item.Customer_Gender)) {
+          if (!uniqueValues.gender.includes(item.Customer_Gender) && item.Customer !== "-") {
               uniqueValues.gender.push(item.Customer_Gender);
           }
-          if (!uniqueValues.country.includes(item.Country)) {
+          if (!uniqueValues.country.includes(item.Country) && item.Country !== "-") {
               uniqueValues.country.push(item.Country);
           }
-          if (!uniqueValues.continent.includes(item.Continent)) {
+          if (!uniqueValues.continent.includes(item.Continent) && item.Continent !== "-") {
               uniqueValues.continent.push(item.Continent);
           }
-          if (!uniqueValues.productType.includes(item.Sub_Category)) {
-              uniqueValues.productType.push(item.Sub_Category);
-          }
-          if (!uniqueValues.month.includes(item.Month)) {
+          if (!uniqueValues.month.includes(item.Month) && item.Month !== "-") {
               uniqueValues.month.push(item.Month);
           }
       });
-      
+
       Object.keys(uniqueValues).forEach(key => {
           uniqueValues[key].sort();
       });
-      
+
       return uniqueValues;
   }
-  
+
   function populateFilterDropdown(id, values) {
       const select = document.getElementById(id);
       values.forEach(value => {
@@ -215,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
           select.appendChild(option);
       });
   }
-  
+
   function resetFilters() {
       var selects = document.getElementsByTagName("select");
       for (var i = 0; i < selects.length; i++) {
@@ -223,11 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       updateDashboard(data); // Update the dashboard with default filters after reset
   }
-  
+
   function applyFilters() {
       updateDashboard(data); // Update dashboard with selected filters
   }
-  
+
   function updateDashboard(data) {
       // Ambil nilai dari semua dropdown filter
       const selectedYear = document.getElementById('year').value;
@@ -236,56 +214,56 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedCountry = document.getElementById('country').value;
       const selectedContinent = document.getElementById('continent').value;
       const selectedProductType = document.getElementById('product-type').value;
-      
+
       // Filter data sesuai dengan nilai dropdown yang dipilih
       let filteredData = data.filter(item => {
-        if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
-          return false;
-      }
-      if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
-          return false;
-      }
-      if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
-          return false;
-      }
-      if (selectedCountry !== '' && item.Country !== selectedCountry) {
-          return false;
-      }
-      if (selectedContinent !== '' && item.Continent !== selectedContinent) {
-          return false;
-      }
-      if (selectedProductType !== '' && item.Sub_Category !== selectedProductType) {
-          return false;
-      }
-      return true;
-  });
-      updateLineChart(lineChart, filteredData);
-      updateBarChart(barChart, filteredData);
+          if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
+              return false;
+          }
+          if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
+              return false;
+          }
+          if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
+              return false;
+          }
+          if (selectedCountry !== '' && item.Country !== selectedCountry) {
+              return false;
+          }
+          if (selectedContinent !== '' && item.Continent !== selectedContinent) {
+              return false;
+          }
+          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
+              return false;
+          }
+          return true;
+      });
+      updateLineChart(chart, filteredData);
       updateScoreCard(filteredData);
+      updateBarChart(barChartCountryProfit(data), filteredData);
       return filteredData;
   }
-  
+
   function updateScoreCard(data) {
     const totalOrders = data.length;
     const totalRevenue = data.reduce((acc, curr) => acc + curr.Revenue, 0);
     const totalCost = data.reduce((acc, curr) => acc + curr.Cost, 0);
     const totalProfit = data.reduce((acc, curr) => acc + curr.Profit, 0);
-    
+
     document.getElementById('total-orders').textContent = formatNumber(totalOrders);
     document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
     document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
     document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
-    }
+}
 
-  function formatNumber(num) {
+function formatNumber(num) {
     if (num >= 1e6) {
         return (num / 1e6).toFixed(2) + 'M';
     } else if (num >= 1e3) {
         return (num / 1e3).toFixed(2) + 'K';
     }
     return num.toFixed(2);
-  }
-  
+}
+
 
   function lineChartAverageRevenue(data) {
       const ctx = document.getElementById('line-average-revenue').getContext('2d');
@@ -313,20 +291,26 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
-
   function updateLineChart(chart, data) {
-      const filters = {};
-  
-      const chartLineData = getLineData(data, filters);
-  
-      chart.data = chartLineData.data;
-      chart.options.scales.x.title.text = chartLineData.xLabel;
+      const filters = {
+          year: document.getElementById('year').value,
+          ageGroup: document.getElementById('age-group').value,
+          gender: document.getElementById('gender').value,
+          country: document.getElementById('country').value,
+          continent: document.getElementById('continent').value,
+          productType: document.getElementById('product-type').value
+      };
+
+      const chartData = getLineData(data, filters);
+
+      chart.data = chartData.data;
+      chart.options.scales.x.title.text = chartData.xLabel;
       chart.update();
   }
-  
+
   function getLineData(data, filters = {}) {
       let filteredData = data;
-  
+
       if (filters.ageGroup) {
           filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
       }
@@ -340,18 +324,18 @@ document.addEventListener('DOMContentLoaded', function() {
           filteredData = filteredData.filter(d => d.Continent == filters.continent);
       }
       if (filters.productType) {
-          filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
+          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
       }
 
       if (filters.year && filters.year !== 'all') {
           filteredData = filteredData.filter(d => d.Year == filters.year);
-          return getMonthlyData(filteredData);
+          return getMonthyAverageRevenue(filteredData);
       } else {
-          return getYearlyData(filteredData);
+          return getYearlyAverageRevenue(filteredData);
       }
   }
-  
-  function getYearlyData(data) {
+
+  function getYearlyAverageRevenue(data) {
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Year]) {
               acc[curr.Year] = { totalRevenue: 0, count: 0 };
@@ -360,10 +344,10 @@ document.addEventListener('DOMContentLoaded', function() {
           acc[curr.Year].count += 1;
           return acc;
       }, {});
-  
+
       const years = Object.keys(groupedData);
       const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
-  
+
       return {
           data: {
               labels: years,
@@ -378,8 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
           xLabel: 'Year'
       };
   }
-  
-  function getMonthlyData(data) {
+
+  function getMonthyAverageRevenue(data) {
       const uniqueMonths = [...new Set(data.map(d => d.Month))];
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Month]) {
@@ -389,9 +373,9 @@ document.addEventListener('DOMContentLoaded', function() {
           acc[curr.Month].count += 1;
           return acc;
       }, {});
-  
+
       const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
-  
+
       return {
           data: {
               labels: uniqueMonths,
@@ -406,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
           xLabel: 'Month'
       };
   }
-
 
   function barChartCountryProfit(data) {
     const ctx = document.getElementById('bar-country-profit').getContext('2d');
@@ -503,6 +486,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+
 $(document).ready(function() {
   $.getJSON("./assets/data/dataset.json", function(data) {
       var keys = Object.keys(data[0]); 
@@ -528,124 +513,164 @@ $(document).ready(function() {
   });
 });
 
-
-//Insight
+// Insight Section
 document.addEventListener("DOMContentLoaded", function() {
-  const insights = document.querySelectorAll('.insight-div');
+  const insightItems = document.querySelectorAll('.insight-item');
   
-  insights.forEach(function(insight) {
-    const question = insight.querySelector('.question');
+  insightItems.forEach(function(item) {
+    const insight = item.querySelector('.insight-content');
     
-    question.addEventListener('click', function() {
-      insight.classList.toggle('active');
+    insight.addEventListener('click', function() {
+      item.classList.toggle('active');
     });
   });
 });
 
-
-function generateInsight(question, answers) {
-  
+function createInsightItem(insight, recomendations, imageUrl) {
+  // Membuat elemen utama untuk item insight
   const insightItem = document.createElement('div');
-  insightItem.classList.add('insight-div');
+  insightItem.classList.add('insight-item');
   
-  const questionElement = document.createElement('h1');
-  questionElement.classList.add('question');
-  questionElement.textContent = question;
+  // Membuat elemen div baru untuk gambar, insight, dan panah
+  const insightContent = document.createElement('div');
+  insightContent.classList.add('insight-content');
+
+  // Membuat elemen gambar
+  const imageElement = document.createElement('img');
+  imageElement.src = imageUrl;
+  imageElement.classList.add('insight-image');
   
-  insightItem.appendChild(questionElement);
+  // Membuat elemen untuk insight
+  const insightElement = document.createElement('h1');
+  insightElement.classList.add('insight');
+  insightElement.textContent = insight;
+
+  // Membuat elemen untuk panah
+  const arrowElement = document.createElement('svg');
+  arrowElement.classList.add('arrow');
+  arrowElement.innerHTML = `<polygon points="12,0 24,24 0,24" fill="black"/>`; // Panah ke bawah
   
-  const answerContainer = document.createElement('div');
-  answerContainer.classList.add('answer');
+  // Menambahkan elemen insight dan panah ke dalam insightTextContainer
+  insightContent.appendChild(imageElement);
+  insightContent.appendChild(insightElement);
+  insightContent.appendChild(arrowElement);
   
-  answers.forEach((answer) => {
-    const answerItem = document.createElement('div');
-    answerItem.classList.add('answer-item');
-    answerItem.textContent = answer;
+  // Menambahkan insightContent ke dalam insightItem
+  insightItem.appendChild(insightContent);
+  
+  // Membuat elemen untuk kontainer rekomendasi
+  const recomendationContainer = document.createElement('div');
+  recomendationContainer.classList.add('recomendation');
+
+  const recomendationTitle = document.createElement('h1');
+  recomendationTitle.classList.add('recomendation-title');
+  recomendationTitle.textContent = 'Recomendations';
+  recomendationContainer.appendChild(recomendationTitle);
+  
+  // Menambahkan rekomendasi ke dalam recomendationContainer
+  recomendations.forEach((recomendation) => {
+    const recomendationItem = document.createElement('div');
+    recomendationItem.classList.add('recomendation-item');
+    recomendationItem.textContent = recomendation;
     
-    answerContainer.appendChild(answerItem);
+    recomendationContainer.appendChild(recomendationItem);
   });
   
-  insightItem.appendChild(answerContainer);
+  // Menambahkan recomendationContainer ke dalam insightItem
+  insightItem.appendChild(recomendationContainer);
   
   return insightItem;
 }
 
-const insightData = [
+
+// Insight Data
+const insightsData = [
   {
-    question: 'Scorecards',
-    answer: [
+    insight: 'Scorecards',
+    recomendations: [
       'The situation involved 1.8 thousand orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
       'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
-    
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: "Company's Annual Profit Graphic",
-    answer: [
+    insight: "Company's Annual Profit Graphic",
+    recomendations: [
       "The graph shows that the company's annual profit decreased dramatically in 2014, because there were no bicycle sales and the highest profit in 2015 amounted to 530,758."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Comparison of Customer Gender',
-    answer: [
+    insight: 'Comparison of Customer Gender',
+    recomendations: [
       'The difference in purchases based on gender was 51.7% by men and 48.3% by women.'
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Country with Highest Profit',
-    answer: [
+    insight: 'Country with Highest Profit',
+    recomendations: [
       'The country with the highest profits is Australia, with profits of around 500 thousand dollars.',
       'Hal ini perlu diperhatikan karena Australia merupakan bagian dari kelompok negara Non Eropa. Justru kelompok negara Eropa tidak terlalu banyak menyumnbang profit bagi perusahaan ini.'
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Comparison of Customer Age',
-    answer: [
+    insight: 'Comparison of Customer Age',
+    recomendations: [
     'The age difference in bicycle purchases is also striking. This shows that bicycle buyers come from different age groups.'
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Composition of Sub Category Product Sold',
-    answer: [
+    insight: 'Composition of Sub Category Product Sold',
+    recomendations: [
       "In 2015, the most popular product was road bikes, while touring bikes were the least popular in terms of sales. This reflects consumers' preference for road bikes over touring bikes in that year."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Average Discount per Country',
-    answer: [
+    insight: 'Average Discount per Country',
+    recomendations: [
       "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Best Seller Product',
-    answer: [
+    insight: 'Best Seller Product',
+    recomendations: [
       "The road bikes subcategory stood out with a high number of orders, generating the highest profit of 581,195 thousand dollars. This shows that despite their high prices, demand for these types of bikes remains strong, perhaps due to their premium quality or advanced features."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Product Variation Available',
-    answer: [
+    insight: 'Product Variation Available',
+    recomendations: [
       "This graph shows the number of variations each bike category has per continent, and based on the data road bikes are the most varied bike category. Road bikes also have the highest sales per year in both European and non-European countries."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Precentage Profit by Youth Customer',
-    answer: [
+    insight: 'Precentage Profit by Youth Customer',
+    recomendations: [
       "The graph shows that the 24-year-old age group is the most active in purchasing bicycles. This shows that at this age, the interest and need to own a bicycle is quite high compared to other age groups."
-    ]
+    ],
+    imageUrl: './assets/img/logo-email.png'
   }
 ];
-  
-  const insightListContainer = document.querySelector('.insight-list');
-  
-  insightData.forEach((insightItem) => {
-    const insightElement = generateInsight(insightItem.question, insightItem.answer);
-    if (insightListContainer) {
-      insightListContainer.appendChild(insightElement);
-    } else {
-      document.body.appendChild(insightElement);
-    }
-  });
+
+// Display Insight Items
+const insightListContainer = document.querySelector('.insight-list');
+
+insightsData.forEach((insight) => {
+  const insightElement = createInsightItem(insight.insight, insight.recomendations, insight.imageUrl);
+  if (insightListContainer) {
+    insightListContainer.appendChild(insightElement);
+  } else {
+    document.body.appendChild(insightElement);
+  }
+});
+
   
   
   // About - Us
