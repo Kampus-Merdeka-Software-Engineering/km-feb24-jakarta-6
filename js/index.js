@@ -574,7 +574,7 @@ const insightData = [
   {
     question: 'Scorecards',
     answer: [
-      'The situation involved 2,700 orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
+      'The situation involved 1.8 thousand orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
       'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
     
     ]
