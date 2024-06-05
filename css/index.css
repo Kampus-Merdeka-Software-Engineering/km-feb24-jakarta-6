@@ -211,19 +211,9 @@ a{
 
 .dashboard-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 20px;
-    margin: 8px;
-    border: 1px solid black;
-    background-color: none;
-    border-radius: 8px;
-}
-.dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 8px;
-    padding: 8px;
+    margin: 24px;
     background-color: none;
     border-radius: 8px;
 }
@@ -236,11 +226,16 @@ a{
 canvas{
     width: 100% !important;
     height: auto !important;
-    display: absolute;
+}
 
+.scorecard-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    padding: 24px;
 }
 .scorecard{
-    min-width: 100px;
     padding: 6px 24px;
     text-align: center;
 }

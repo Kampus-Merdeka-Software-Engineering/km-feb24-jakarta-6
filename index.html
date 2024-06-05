@@ -44,14 +44,6 @@
                     </div>
                     
                     <div class="dropdown-item">
-                        <label for="age-group">Age Group:</label>
-                        <select id="age-group">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                    
-                    <div class="dropdown-item">
                         <label for="gender">Gender:</label>
                         <select id="gender">
                             <option value="">All</option>
@@ -138,7 +130,23 @@
             <div class="linechart">
                 <canvas id="line-average-revenue"></canvas>
             </div>
-        </div>       
+            <div class="barchart">
+                <canvas id="bar-country-profit"></canvas>
+            </div>
+            <div>
+                <canvas id="composition-product"></canvas>
+            </div>
+        </div>     
+        <div class="tabel">
+            <table id="dataTable" class="display" style="width:100%">
+                <thead>
+                    <!-- Thead will be dynamically populated from unique keys of JSON -->
+                </thead>
+                <tbody>
+                    <!-- Table body will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <!-- Insight -->
