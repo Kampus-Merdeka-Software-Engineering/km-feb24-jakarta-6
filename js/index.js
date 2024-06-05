@@ -109,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let data; // Declare data in a wider scope
   let chart; // Declare chart in a wider scope
 
+  let data; // Declare data in a wider scope
+  let chart; // Declare chart in a wider scope
+
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
       .then(dataset => {
@@ -118,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Mengisi dropdown filter dengan nilai unik
           populateFilterDropdown('year', uniqueValues.year);
-          populateFilterDropdown('age-group', uniqueValues.ageGroup);
           populateFilterDropdown('gender', uniqueValues.gender);
           populateFilterDropdown('country', uniqueValues.country);
           populateFilterDropdown('continent', uniqueValues.continent);
@@ -133,11 +135,415 @@ document.addEventListener('DOMContentLoaded', function() {
           // Update dashboard after chart initialization
           updateDashboard(data);
           updateScoreCard(data);
-          updateBarChart(data)
+          drawHorizontalBarChart(data);
+          productComposition(data);
+          loadingIndicator.style.display = 'none';
       })
       .catch(error => {
           console.error('Error loading the dataset:', error);
           loadingIndicator.style.display = 'none';
+      });
+
+  // Function definitions
+
+  function extractUniqueValues(data) {
+      const uniqueValues = {
+          year: [],
+          gender: [],
+          country: [],
+          continent: [],
+          productType: [],
+          month: []
+      };
+
+      data.forEach(item => {
+          if (!uniqueValues.year.includes(item.Year)) {
+              uniqueValues.year.push(item.Year);
+          }
+          if (!uniqueValues.gender.includes(item.Customer_Gender) && item.Customer !== "-") {
+              uniqueValues.gender.push(item.Customer_Gender);
+          }
+          if (!uniqueValues.country.includes(item.Country)) {
+              uniqueValues.country.push(item.Country);
+          }
+          if (!uniqueValues.continent.includes(item.Continent)) {
+              uniqueValues.continent.push(item.Continent);
+          }
+          if (!uniqueValues.productType.includes(item.Product_Type) && item.Product_Type !== "-") {
+              uniqueValues.productType.push(item.Product_Type);
+          }
+          if (!uniqueValues.month.includes(item.Month) && item.Month !== "-") {
+              uniqueValues.month.push(item.Month);
+          }
+      });
+
+      Object.keys(uniqueValues).forEach(key => {
+          uniqueValues[key].sort();
+      });
+
+      return uniqueValues;
+  }
+
+  function populateFilterDropdown(id, values) {
+      const select = document.getElementById(id);
+      values.forEach(value => {
+          const option = document.createElement('option');
+          option.text = value;
+          option.value = value;
+          select.appendChild(option);
+      });
+  }
+
+  function resetFilters() {
+      var selects = document.getElementsByTagName("select");
+      for (var i = 0; i < selects.length; i++) {
+          selects[i].selectedIndex = 0;
+      }
+      updateDashboard(data); // Update the dashboard with default filters after reset
+  }
+
+  function applyFilters() {
+      updateDashboard(data); // Update dashboard with selected filters
+  }
+
+  function updateDashboard(data) {
+      // Ambil nilai dari semua dropdown filter
+      const selectedYear = document.getElementById('year').value;
+      const selectedGender = document.getElementById('gender').value;
+      const selectedCountry = document.getElementById('country').value;
+      const selectedContinent = document.getElementById('continent').value;
+      const selectedProductType = document.getElementById('product-type').value;
+
+      // Filter data sesuai dengan nilai dropdown yang dipilih
+      let filteredData = data.filter(item => {
+          if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
+              return false;
+          }
+          if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
+              return false;
+          }
+          if (selectedCountry !== '' && item.Country !== selectedCountry) {
+              return false;
+          }
+          if (selectedContinent !== '' && item.Continent !== selectedContinent) {
+              return false;
+          }
+          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
+              return false;
+          }
+          return true;
+      });
+      updateChart(chart, filteredData);
+      updateScoreCard(filteredData);
+      drawHorizontalBarChart(filteredData)
+      return filteredData;
+  }
+
+  function updateScoreCard(data) {
+    const totalOrders = data.length;
+    const totalRevenue = data.reduce((acc, curr) => acc + curr.Revenue, 0);
+    const totalCost = data.reduce((acc, curr) => acc + curr.Cost, 0);
+    const totalProfit = data.reduce((acc, curr) => acc + curr.Profit, 0);
+
+    document.getElementById('total-orders').textContent = formatNumber(totalOrders);
+    document.getElementById('total-revenue').textContent = '$' + formatNumber(totalRevenue);
+    document.getElementById('total-cost').textContent = '$' + formatNumber(totalCost);
+    document.getElementById('total-profit').textContent = '$' + formatNumber(totalProfit);
+}
+
+function formatNumber(num) {
+    if (num >= 1e6) {
+        return (num / 1e6).toFixed(2) + 'M';
+    } else if (num >= 1e3) {
+        return (num / 1e3).toFixed(2) + 'K';
+    }
+    return num.toFixed(2);
+}
+
+
+  function lineChartAverageRevenue(data) {
+      const ctx = document.getElementById('line-average-revenue').getContext('2d');
+      return new Chart(ctx, {
+          type: 'line',
+          data: getData(data),
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Average Revenue'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Year'
+                      }
+                  }
+              }
+          }
+      });
+  }
+
+  function updateChart(chart, data) {
+      const filters = {
+          year: document.getElementById('year').value,
+          gender: document.getElementById('gender').value,
+          country: document.getElementById('country').value,
+          continent: document.getElementById('continent').value,
+          productType: document.getElementById('product-type').value
+      };
+
+      const chartData = getData(data, filters);
+
+      chart.data = chartData.data;
+      chart.options.scales.x.title.text = chartData.xLabel;
+      chart.update();
+  }
+
+  function getData(data, filters = {}) {
+      let filteredData = data;
+
+      if (filters.gender) {
+          filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
+      }
+      if (filters.country) {
+          filteredData = filteredData.filter(d => d.Country == filters.country);
+      }
+      if (filters.continent) {
+          filteredData = filteredData.filter(d => d.Continent == filters.continent);
+      }
+      if (filters.productType) {
+          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+      }
+
+      if (filters.year && filters.year !== 'all') {
+          filteredData = filteredData.filter(d => d.Year == filters.year);
+          return getMonthlyData(filteredData);
+      } else {
+          return getYearlyData(filteredData);
+      }
+  }
+
+  function getYearlyData(data) {
+      const groupedData = data.reduce((acc, curr) => {
+          if (!acc[curr.Year]) {
+              acc[curr.Year] = { totalRevenue: 0, count: 0 };
+          }
+          acc[curr.Year].totalRevenue += curr.Revenue;
+          acc[curr.Year].count += 1;
+          return acc;
+      }, {});
+
+      const years = Object.keys(groupedData);
+      const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
+
+      return {
+          data: {
+              labels: years,
+              datasets: [{
+                  label: 'Average Revenue',
+                  data: averageRevenues,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          xLabel: 'Year'
+      };
+  }
+
+  function getMonthlyData(data) {
+      const uniqueMonths = [...new Set(data.map(d => d.Month))];
+      const groupedData = data.reduce((acc, curr) => {
+          if (!acc[curr.Month]) {
+              acc[curr.Month] = { totalRevenue: 0, count: 0 };
+          }
+          acc[curr.Month].totalRevenue += curr.Revenue;
+          acc[curr.Month].count += 1;
+          return acc;
+      }, {});
+
+      const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
+
+      return {
+          data: {
+              labels: uniqueMonths,
+              datasets: [{
+                  label: 'Average Revenue',
+                  data: averageRevenues,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          xLabel: 'Month'
+      };
+  }
+
+  function drawHorizontalBarChart(data) {
+    // Group data by Country and calculate total profit
+    const groupedData = data.reduce((acc, curr) => {
+        if (!acc[curr.Country]) {
+            acc[curr.Country] = 0;
+        }
+        acc[curr.Country] += curr.Profit;
+        return acc;
+    }, {});
+
+    const countries = Object.keys(groupedData);
+    const totalProfits = countries.map(country => groupedData[country]);
+
+    // Get the canvas element
+    const canvas = document.getElementById('bar-country-profit');
+
+    // Destroy the previous chart if it exists
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    // Create the chart
+    const ctx = canvas.getContext('2d');
+    const config = {
+        type: 'bar',
+        data: {
+            labels: countries,
+            datasets: [{
+                label: 'Total Profit',
+                data: totalProfits,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Total Profit by Country'
+                }
+            }
+        }
+    };
+    new Chart(ctx, config);
+}
+
+function productComposition(data) {
+  // Group data by Sub_Category and Product_Type
+  const groupedData = data.reduce((acc, curr) => {
+      if (!acc[curr.Sub_Category]) {
+          acc[curr.Sub_Category] = {};
+      }
+      if (!acc[curr.Sub_Category][curr.Product_Type]) {
+          acc[curr.Sub_Category][curr.Product_Type] = 0;
+      }
+      acc[curr.Sub_Category][curr.Product_Type] += curr.Order_Quantity;
+      return acc;
+  }, {});
+
+  const subCategories = Object.keys(groupedData);
+  const productTypes = [...new Set(data.map(d => d.Product_Type))];
+
+  const datasets = productTypes.map(productType => {
+      return {
+          label: productType,
+          data: subCategories.map(subCategory => groupedData[subCategory][productType] || 0),
+          backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
+          borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+          borderWidth: 1
+      };
+  });
+
+  // Get the canvas element
+  const canvas = document.getElementById('composition-product');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+      existingChart.destroy();
+  }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+      type: 'bar',
+      data: {
+          labels: subCategories,
+          datasets: datasets
+      },
+      options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Product Type Composition by Sub Category'
+              },
+              legend: {
+                  display: false
+              }
+          },
+          responsive: true,
+          scales: {
+              x: {
+                  stacked: true,
+                  title: {
+                      display: true,
+                      text: 'Sub Category'
+                  }
+              },
+              y: {
+                  stacked: true,
+                  title: {
+                      display: true,
+                      text: 'Order Quantity'
+                  }
+              }
+          },
+      }
+  };
+  new Chart(ctx, config);
+}
+
+
+
+
+
+
+});
+
+$(document).ready(function() {
+  // Tampilkan animasi loading
+  $("#loadingIndicator").show();
+
+  $.getJSON("./assets/data/dataset.json", function(data) {
+      var keys = Object.keys(data[0]); 
+      
+      var thead = "<tr>";
+      keys.forEach(function(key) {
+          thead += "<th>" + key + "</th>";
+      });
+      thead += "</tr>";
+      $("#dataTable thead").html(thead);
+
+      var tbody = "";
+      data.forEach(function(item) {
+          tbody += "<tr>";
+          keys.forEach(function(key) {
+              tbody += "<td>" + item[key] + "</td>";
+          });
+          tbody += "</tr>";
+      });
+      $("#dataTable tbody").html(tbody);
+
+      $('#dataTable').DataTable();
+
       });
 
   // Function definitions
@@ -511,7 +917,7 @@ $(document).ready(function() {
       $("#dataTable tbody").html(tbody);
 
       $('#dataTable').DataTable();
-
+    
       // Sembunyikan animasi loading setelah selesai memuat data
       $("#loadingIndicator").hide();
   });

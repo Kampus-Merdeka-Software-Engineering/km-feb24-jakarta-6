@@ -211,13 +211,12 @@ a{
 
 .dashboard-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 20px;
     margin: 24px;
     background-color: none;
     border-radius: 8px;
 }
-
 
 .dashboard-container div {
     border-radius: 12px;
@@ -227,7 +226,6 @@ a{
 canvas{
     width: 100% !important;
     height: auto !important;
-    display: absolute;
 }
 
 .scorecard-container{
@@ -236,6 +234,13 @@ canvas{
     gap: 20px;
     width: 100%;
     padding: 24px;
+}
+.scorecard{
+    padding: 6px 24px;
+    text-align: center;
+}
+.linechart{
+    min-width: 500px;
 }
 
 .scorecard{
