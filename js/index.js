@@ -565,73 +565,162 @@ $(document).ready(function() {
 
 // Insight Section
 document.addEventListener("DOMContentLoaded", function() {
-  const insights = document.querySelectorAll('.insight-div');
+  const insightItems = document.querySelectorAll('.insight-item');
   
-  insights.forEach(function(insight) {
-    const question = insight.querySelector('.question');
+  insightItems.forEach(function(item) {
+    const insight = item.querySelector('.insight-content');
     
-    question.addEventListener('click', function() {
-      insight.classList.toggle('active');
+    insight.addEventListener('click', function() {
+      item.classList.toggle('active');
     });
   });
 });
 
-
-function generateInsight(question, answers) {
-  
+function createInsightItem(insight, recomendations, imageUrl) {
+  // Membuat elemen utama untuk item insight
   const insightItem = document.createElement('div');
-  insightItem.classList.add('insight-div');
+  insightItem.classList.add('insight-item');
   
-  const questionElement = document.createElement('h1');
-  questionElement.classList.add('question');
-  questionElement.textContent = question;
+  // Membuat elemen div baru untuk gambar, insight, dan panah
+  const insightContent = document.createElement('div');
+  insightContent.classList.add('insight-content');
+
+  // Membuat elemen gambar
+  const imageElement = document.createElement('img');
+  imageElement.src = imageUrl;
+  imageElement.classList.add('insight-image');
   
-  insightItem.appendChild(questionElement);
+  // Membuat elemen untuk insight
+  const insightElement = document.createElement('h1');
+  insightElement.classList.add('insight');
+  insightElement.textContent = insight;
+
+  // Membuat elemen untuk panah
+  const arrowElement = document.createElement('svg');
+  arrowElement.classList.add('arrow');
+  arrowElement.innerHTML = `<polygon points="12,0 24,24 0,24" fill="black"/>`; // Panah ke bawah
   
-  const answerContainer = document.createElement('div');
-  answerContainer.classList.add('answer');
+  // Menambahkan elemen insight dan panah ke dalam insightTextContainer
+  insightContent.appendChild(imageElement);
+  insightContent.appendChild(insightElement);
+  insightContent.appendChild(arrowElement);
   
-  answers.forEach((answer) => {
-    const answerItem = document.createElement('div');
-    answerItem.classList.add('answer-item');
-    answerItem.textContent = answer;
+  // Menambahkan insightContent ke dalam insightItem
+  insightItem.appendChild(insightContent);
+  
+  // Membuat elemen untuk kontainer rekomendasi
+  const recomendationContainer = document.createElement('div');
+  recomendationContainer.classList.add('recomendation');
+
+  const recomendationTitle = document.createElement('h1');
+  recomendationTitle.classList.add('recomendation-title');
+  recomendationTitle.textContent = 'Recomendations';
+  recomendationContainer.appendChild(recomendationTitle);
+  
+  // Menambahkan rekomendasi ke dalam recomendationContainer
+  recomendations.forEach((recomendation) => {
+    const recomendationItem = document.createElement('div');
+    recomendationItem.classList.add('recomendation-item');
+    recomendationItem.textContent = recomendation;
     
-    answerContainer.appendChild(answerItem);
+    recomendationContainer.appendChild(recomendationItem);
   });
   
-  insightItem.appendChild(answerContainer);
+  // Menambahkan recomendationContainer ke dalam insightItem
+  insightItem.appendChild(recomendationContainer);
   
   return insightItem;
 }
 
-const insightData = [
+
+// Insight Data
+const insightsData = [
   {
-    question: 'Daftar Pawang Hujan',
-    answer: [
-      'Mbak Rara',
-      'Kobokan Aeru'
-    ]
+    insight: 'Scorecards',
+    recomendations: [
+      'The situation involved 1.8 thousand orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
+      'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
+    ],
+    imageUrl: './assets/img/logo-email.png'
   },
   {
-    question: 'Waga na wa Megumin! Ākuwizādo wo nariwai toshi, saikyou no kougeki no mahou "bakuretsu mahou" wo ayatsuru mono!',
-    answer: [
-      'ORA!.!.!. ORA!.!.! ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ',
-      'MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!.',
-      'MCLaren Lu Warna Apa Bos?'
-    ]}
-  ];
-  
-  const insightListContainer = document.querySelector('.insight-list');
-  
-  insightData.forEach((insightItem) => {
-    const insightElement = generateInsight(insightItem.question, insightItem.answer);
-    if (insightListContainer) {
-      insightListContainer.appendChild(insightElement);
-    } else {
-      document.body.appendChild(insightElement);
-    }
-  });
-  
+    insight: "Company's Annual Profit Graphic",
+    recomendations: [
+      "The graph shows that the company's annual profit decreased dramatically in 2014, because there were no bicycle sales and the highest profit in 2015 amounted to 530,758."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Comparison of Customer Gender',
+    recomendations: [
+      'The difference in purchases based on gender was 51.7% by men and 48.3% by women.'
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Country with Highest Profit',
+    recomendations: [
+      'The country with the highest profits is Australia, with profits of around 500 thousand dollars.',
+      'Hal ini perlu diperhatikan karena Australia merupakan bagian dari kelompok negara Non Eropa. Justru kelompok negara Eropa tidak terlalu banyak menyumnbang profit bagi perusahaan ini.'
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Comparison of Customer Age',
+    recomendations: [
+    'The age difference in bicycle purchases is also striking. This shows that bicycle buyers come from different age groups.'
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Composition of Sub Category Product Sold',
+    recomendations: [
+      "In 2015, the most popular product was road bikes, while touring bikes were the least popular in terms of sales. This reflects consumers' preference for road bikes over touring bikes in that year."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Average Discount per Country',
+    recomendations: [
+      "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Best Seller Product',
+    recomendations: [
+      "The road bikes subcategory stood out with a high number of orders, generating the highest profit of 581,195 thousand dollars. This shows that despite their high prices, demand for these types of bikes remains strong, perhaps due to their premium quality or advanced features."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Product Variation Available',
+    recomendations: [
+      "This graph shows the number of variations each bike category has per continent, and based on the data road bikes are the most varied bike category. Road bikes also have the highest sales per year in both European and non-European countries."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  },
+  {
+    insight: 'Precentage Profit by Youth Customer',
+    recomendations: [
+      "The graph shows that the 24-year-old age group is the most active in purchasing bicycles. This shows that at this age, the interest and need to own a bicycle is quite high compared to other age groups."
+    ],
+    imageUrl: './assets/img/logo-email.png'
+  }
+];
+
+// Display Insight Items
+const insightListContainer = document.querySelector('.insight-list');
+
+insightsData.forEach((insight) => {
+  const insightElement = createInsightItem(insight.insight, insight.recomendations, insight.imageUrl);
+  if (insightListContainer) {
+    insightListContainer.appendChild(insightElement);
+  } else {
+    document.body.appendChild(insightElement);
+  }
+});
+
   
   // About - Us
   var teamMembers = [
