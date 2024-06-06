@@ -90,8 +90,26 @@ function toggleDropdownFilter() {
   } else {
       dropdownContent.style.display = "none";
   }
-}    
+}
 
+function resetFilters() {
+  var selects = document.getElementsByTagName("select");
+  for (var i = 0; i < selects.length; i++) {
+      selects[i].selectedIndex = 0;
+  }
+  toggleDropdownFilter(); // Tutup dropdown setelah reset
+}
+
+function applyFilters() {
+  var selects = document.getElementsByTagName("select");
+  var selectedValues = {};
+  for (var i = 0; i < selects.length; i++) {
+      selectedValues[selects[i].id] = selects[i].value;
+  }
+  // Lakukan sesuatu dengan nilai yang telah dipilih (misalnya, kirim ke server)
+  console.log(selectedValues);
+  toggleDropdownFilter(); // Tutup dropdown setelah menerapkan filter
+}
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn') && !event.target.matches('select')) {
       var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -105,9 +123,11 @@ window.onclick = function(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  const loadingIndicator = document.getElementById('loading-indicator');
+  loadingIndicator.style.display = 'block';
 
-  let data; // Declare data in a wider scope
-  let chart; // Declare chart in a wider scope
+  let data;
+  let chart;
 
   fetch('./assets/data/dataset.json')
       .then(response => response.json())
@@ -118,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Mengisi dropdown filter dengan nilai unik
           populateFilterDropdown('year', uniqueValues.year);
-          populateFilterDropdown('age-group', uniqueValues.ageGroup);
           populateFilterDropdown('gender', uniqueValues.gender);
           populateFilterDropdown('country', uniqueValues.country);
           populateFilterDropdown('continent', uniqueValues.continent);
@@ -133,7 +152,10 @@ document.addEventListener('DOMContentLoaded', function() {
           // Update dashboard after chart initialization
           updateDashboard(data);
           updateScoreCard(data);
-          updateBarChart(data)
+          drawHorizontalBarChart(data);
+          productComposition(data);
+
+          loadingIndicator.style.display = 'none';
       })
       .catch(error => {
           console.error('Error loading the dataset:', error);
@@ -145,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function extractUniqueValues(data) {
       const uniqueValues = {
           year: [],
-          ageGroup: [],
           gender: [],
           country: [],
           continent: [],
@@ -157,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!uniqueValues.year.includes(item.Year)) {
               uniqueValues.year.push(item.Year);
           }
-          if (!uniqueValues.ageGroup.includes(item.Age_Group) && item.Age_Group !== "-") {
-              uniqueValues.ageGroup.push(item.Age_Group);
-          }
           if (!uniqueValues.gender.includes(item.Customer_Gender) && item.Customer !== "-") {
               uniqueValues.gender.push(item.Customer_Gender);
           }
-          if (!uniqueValues.country.includes(item.Country) && item.Country !== "-") {
+          if (!uniqueValues.country.includes(item.Country)) {
               uniqueValues.country.push(item.Country);
           }
-          if (!uniqueValues.continent.includes(item.Continent) && item.Continent !== "-") {
+          if (!uniqueValues.continent.includes(item.Continent)) {
               uniqueValues.continent.push(item.Continent);
+          }
+          if (!uniqueValues.productType.includes(item.Product_Type) && item.Product_Type !== "-") {
+              uniqueValues.productType.push(item.Product_Type);
           }
           if (!uniqueValues.month.includes(item.Month) && item.Month !== "-") {
               uniqueValues.month.push(item.Month);
@@ -206,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateDashboard(data) {
       // Ambil nilai dari semua dropdown filter
       const selectedYear = document.getElementById('year').value;
-      const selectedAgeGroup = document.getElementById('age-group').value;
       const selectedGender = document.getElementById('gender').value;
       const selectedCountry = document.getElementById('country').value;
       const selectedContinent = document.getElementById('continent').value;
@@ -215,9 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Filter data sesuai dengan nilai dropdown yang dipilih
       let filteredData = data.filter(item => {
           if (selectedYear !== '' && item.Year !== parseInt(selectedYear)) {
-              return false;
-          }
-          if (selectedAgeGroup !== '' && item.Age_Group !== selectedAgeGroup) {
               return false;
           }
           if (selectedGender !== '' && item.Customer_Gender !== selectedGender) {
@@ -234,9 +251,10 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           return true;
       });
-      updateLineChart(chart, filteredData);
+      updateChart(chart, filteredData);
       updateScoreCard(filteredData);
-      updateBarChart(barChartCountryProfit(data), filteredData);
+      drawHorizontalBarChart(filteredData)
+      productComposition(filteredData);
       return filteredData;
   }
 
@@ -266,7 +284,7 @@ function formatNumber(num) {
       const ctx = document.getElementById('line-average-revenue').getContext('2d');
       return new Chart(ctx, {
           type: 'line',
-          data: getLineData(data),
+          data: getData(data),
           options: {
               responsive: true,
               scales: {
@@ -288,29 +306,25 @@ function formatNumber(num) {
       });
   }
 
-  function updateLineChart(chart, data) {
+  function updateChart(chart, data) {
       const filters = {
           year: document.getElementById('year').value,
-          ageGroup: document.getElementById('age-group').value,
           gender: document.getElementById('gender').value,
           country: document.getElementById('country').value,
           continent: document.getElementById('continent').value,
           productType: document.getElementById('product-type').value
       };
 
-      const chartData = getLineData(data, filters);
+      const chartData = getData(data, filters);
 
       chart.data = chartData.data;
       chart.options.scales.x.title.text = chartData.xLabel;
       chart.update();
   }
 
-  function getLineData(data, filters = {}) {
+  function getData(data, filters = {}) {
       let filteredData = data;
 
-      if (filters.ageGroup) {
-          filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
-      }
       if (filters.gender) {
           filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
       }
@@ -326,13 +340,13 @@ function formatNumber(num) {
 
       if (filters.year && filters.year !== 'all') {
           filteredData = filteredData.filter(d => d.Year == filters.year);
-          return getMonthyAverageRevenue(filteredData);
+          return getMonthlyData(filteredData);
       } else {
-          return getYearlyAverageRevenue(filteredData);
+          return getYearlyData(filteredData);
       }
   }
 
-  function getYearlyAverageRevenue(data) {
+  function getYearlyData(data) {
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Year]) {
               acc[curr.Year] = { totalRevenue: 0, count: 0 };
@@ -360,7 +374,7 @@ function formatNumber(num) {
       };
   }
 
-  function getMonthyAverageRevenue(data) {
+  function getMonthlyData(data) {
       const uniqueMonths = [...new Set(data.map(d => d.Month))];
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Month]) {
@@ -388,108 +402,142 @@ function formatNumber(num) {
       };
   }
 
-  function barChartCountryProfit(data) {
-    const ctx = document.getElementById('bar-country-profit').getContext('2d');
-    const filters = {};
-    const chartBarData = getBarData(data, filters);
+  function drawHorizontalBarChart(data) {
+    // Group data by Country and calculate total profit
+    const groupedData = data.reduce((acc, curr) => {
+        if (!acc[curr.Country]) {
+            acc[curr.Country] = 0;
+        }
+        acc[curr.Country] += curr.Profit;
+        return acc;
+    }, {});
 
-    return new Chart(ctx, {
+    const countries = Object.keys(groupedData);
+    const totalProfits = countries.map(country => groupedData[country]);
+
+    // Get the canvas element
+    const canvas = document.getElementById('bar-country-profit');
+
+    // Destroy the previous chart if it exists
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    // Create the chart
+    const ctx = canvas.getContext('2d');
+    const config = {
         type: 'bar',
-        data: getBarData(data),
+        data: {
+            labels: countries,
+            datasets: [{
+                label: 'Total Profit',
+                data: totalProfits,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            }]
+        },
         options: {
+            indexAxis: 'y',
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Profit'
-                    }
+            plugins: {
+                legend: {
+                    display: false
                 },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Country'
-                    }
+                title: {
+                    display: true,
+                    text: 'Total Profit by Country'
                 }
             }
         }
-    });
-  }
-
-  function updateBarChart(chart, data) {  
-    const filters = {};
-
-    const chartBarData = getBarData(data, filters);
-
-    chart.data = chartBarData.data;
-    chart.options.scales.x.title.text = chartBarData.xLabel;
-    chart.update();
-  }
-
-  function getBarData(data, filters = {}) {
-    let filteredData = data;
-
-    if (filters.ageGroup) {
-        filteredData = filteredData.filter(d => d.Age_Group == filters.ageGroup);
-    }
-    if (filters.gender) {
-        filteredData = filteredData.filter(d => d.Customer_Gender == filters.gender);
-    }
-    if (filters.country) {
-        filteredData = filteredData.filter(d => d.Country == filters.country);
-    }
-    if (filters.continent) {
-        filteredData = filteredData.filter(d => d.Continent == filters.continent);
-    }
-    if (filters.productType) {
-        filteredData = filteredData.filter(d => d.Sub_Category == filters.productType);
-    }
-    
-    if (filters.Country && filters.Country !== 'all') {
-        filteredData = filteredData.filter(d => d.Country == filters.Country);
-        return getProfitByCountry(filteredData);
-    } else {
-        return getProfitByCountry(data);
-    }
-  }
-
-
-  function getProfitByCountry(data) {
-    const countries = [...new Set(data.map(d => d.Country))];
-    const groupedData = data.reduce((acc, curr) => {
-      if (!acc[curr.Country]) {
-        acc[curr.Country] = 0;
-      }
-      acc[curr.Country] += curr.Profit;
-      return acc;
-    }, {});
-  
-    const totalProfit = countries.map(country => groupedData[country]);
-  
-    return {
-      data: {
-        labels: countries,
-        datasets: [{
-          label: 'Total Profit',
-          data: totalProfit,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }]
-      },
-      xLabel: 'Country'
     };
+    new Chart(ctx, config);
+}
+
+function productComposition(data) {
+  // Group data by Sub_Category and Product_Type
+  const groupedData = data.reduce((acc, curr) => {
+      if (!acc[curr.Sub_Category]) {
+          acc[curr.Sub_Category] = {};
+      }
+      if (!acc[curr.Sub_Category][curr.Product_Type]) {
+          acc[curr.Sub_Category][curr.Product_Type] = 0;
+      }
+      acc[curr.Sub_Category][curr.Product_Type] += curr.Order_Quantity;
+      return acc;
+  }, {});
+
+  const subCategories = Object.keys(groupedData);
+  const productTypes = [...new Set(data.map(d => d.Product_Type))];
+
+  const datasets = productTypes.map(productType => {
+      return {
+          label: productType,
+          data: subCategories.map(subCategory => groupedData[subCategory][productType] || 0),
+          backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
+          borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+          borderWidth: 1
+      };
+  });
+
+  // Get the canvas element
+  const canvas = document.getElementById('composition-product');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+      existingChart.destroy();
   }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+      type: 'bar',
+      data: {
+          labels: subCategories,
+          datasets: datasets
+      },
+      options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Product Type Composition by Sub Category'
+              },
+              legend: {
+                  display: false
+              }
+          },
+          responsive: true,
+          scales: {
+              x: {
+                  stacked: true,
+                  title: {
+                      display: true,
+                      text: 'Sub Category'
+                  }
+              },
+              y: {
+                  stacked: true,
+                  title: {
+                      display: true,
+                      text: 'Order Quantity'
+                  }
+              }
+          },
+      }
+  };
+  new Chart(ctx, config);
+}
+
+
+
+
+
+
 });
 
-const loadingIndicator = document.getElementById('loading-indicator');
-loadingIndicator.style.display = 'block';
-
 $(document).ready(function() {
-  // Tampilkan animasi loading
-  $("#loadingIndicator").show();
-
   $.getJSON("./assets/data/dataset.json", function(data) {
       var keys = Object.keys(data[0]); 
       
@@ -511,171 +559,78 @@ $(document).ready(function() {
       $("#dataTable tbody").html(tbody);
 
       $('#dataTable').DataTable();
-
-      // Sembunyikan animasi loading setelah selesai memuat data
-      $("#loadingIndicator").hide();
   });
 });
 
 
 // Insight Section
 document.addEventListener("DOMContentLoaded", function() {
-  const insightItems = document.querySelectorAll('.insight-item');
+  const insights = document.querySelectorAll('.insight-div');
   
-  insightItems.forEach(function(item) {
-    const insight = item.querySelector('.insight-content');
+  insights.forEach(function(insight) {
+    const question = insight.querySelector('.question');
     
-    insight.addEventListener('click', function() {
-      item.classList.toggle('active');
+    question.addEventListener('click', function() {
+      insight.classList.toggle('active');
     });
   });
 });
 
-function createInsightItem(insight, recomendations, imageUrl) {
-  // Membuat elemen utama untuk item insight
+
+function generateInsight(question, answers) {
+  
   const insightItem = document.createElement('div');
-  insightItem.classList.add('insight-item');
+  insightItem.classList.add('insight-div');
   
-  // Membuat elemen div baru untuk gambar, insight, dan panah
-  const insightContent = document.createElement('div');
-  insightContent.classList.add('insight-content');
-
-  // Membuat elemen gambar
-  const imageElement = document.createElement('img');
-  imageElement.src = imageUrl;
-  imageElement.classList.add('insight-image');
+  const questionElement = document.createElement('h1');
+  questionElement.classList.add('question');
+  questionElement.textContent = question;
   
-  // Membuat elemen untuk insight
-  const insightElement = document.createElement('h1');
-  insightElement.classList.add('insight');
-  insightElement.textContent = insight;
-
-  // Membuat elemen untuk panah
-  const arrowElement = document.createElement('svg');
-  arrowElement.classList.add('arrow');
-  arrowElement.innerHTML = `<polygon points="12,0 24,24 0,24" fill="black"/>`; // Panah ke bawah
+  insightItem.appendChild(questionElement);
   
-  // Menambahkan elemen insight dan panah ke dalam insightTextContainer
-  insightContent.appendChild(imageElement);
-  insightContent.appendChild(insightElement);
-  insightContent.appendChild(arrowElement);
+  const answerContainer = document.createElement('div');
+  answerContainer.classList.add('answer');
   
-  // Menambahkan insightContent ke dalam insightItem
-  insightItem.appendChild(insightContent);
-  
-  // Membuat elemen untuk kontainer rekomendasi
-  const recomendationContainer = document.createElement('div');
-  recomendationContainer.classList.add('recomendation');
-
-  const recomendationTitle = document.createElement('h1');
-  recomendationTitle.classList.add('recomendation-title');
-  recomendationTitle.textContent = 'Recomendations';
-  recomendationContainer.appendChild(recomendationTitle);
-  
-  // Menambahkan rekomendasi ke dalam recomendationContainer
-  recomendations.forEach((recomendation) => {
-    const recomendationItem = document.createElement('div');
-    recomendationItem.classList.add('recomendation-item');
-    recomendationItem.textContent = recomendation;
+  answers.forEach((answer) => {
+    const answerItem = document.createElement('div');
+    answerItem.classList.add('answer-item');
+    answerItem.textContent = answer;
     
-    recomendationContainer.appendChild(recomendationItem);
+    answerContainer.appendChild(answerItem);
   });
   
-  // Menambahkan recomendationContainer ke dalam insightItem
-  insightItem.appendChild(recomendationContainer);
+  insightItem.appendChild(answerContainer);
   
   return insightItem;
 }
 
-
-// Insight Data
-const insightsData = [
+const insightData = [
   {
-    insight: 'Scorecards',
-    recomendations: [
-      'The situation involved 1.8 thousand orders with total sales revenue of 4.5 million dollars. However, the net profit earned was only 1.48 million dollars, with a difference of 3 million dollars between revenue and net profit.',
-      'This shows the need for careful cost analysis to reduce the difference and improve the company is operational efficiency.',
-    ],
-    imageUrl: './assets/img/logo-email.png'
+    question: 'Daftar Pawang Hujan',
+    answer: [
+      'Mbak Rara',
+      'Kobokan Aeru'
+    ]
   },
   {
-    insight: "Company's Annual Profit Graphic",
-    recomendations: [
-      "The graph shows that the company's annual profit decreased dramatically in 2014, because there were no bicycle sales and the highest profit in 2015 amounted to 530,758."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Comparison of Customer Gender',
-    recomendations: [
-      'The difference in purchases based on gender was 51.7% by men and 48.3% by women.'
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Country with Highest Profit',
-    recomendations: [
-      'The country with the highest profits is Australia, with profits of around 500 thousand dollars.',
-      'Hal ini perlu diperhatikan karena Australia merupakan bagian dari kelompok negara Non Eropa. Justru kelompok negara Eropa tidak terlalu banyak menyumnbang profit bagi perusahaan ini.'
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Comparison of Customer Age',
-    recomendations: [
-    'The age difference in bicycle purchases is also striking. This shows that bicycle buyers come from different age groups.'
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Composition of Sub Category Product Sold',
-    recomendations: [
-      "In 2015, the most popular product was road bikes, while touring bikes were the least popular in terms of sales. This reflects consumers' preference for road bikes over touring bikes in that year."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Average Discount per Country',
-    recomendations: [
-      "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Best Seller Product',
-    recomendations: [
-      "The road bikes subcategory stood out with a high number of orders, generating the highest profit of 581,195 thousand dollars. This shows that despite their high prices, demand for these types of bikes remains strong, perhaps due to their premium quality or advanced features."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Product Variation Available',
-    recomendations: [
-      "This graph shows the number of variations each bike category has per continent, and based on the data road bikes are the most varied bike category. Road bikes also have the highest sales per year in both European and non-European countries."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  },
-  {
-    insight: 'Precentage Profit by Youth Customer',
-    recomendations: [
-      "The graph shows that the 24-year-old age group is the most active in purchasing bicycles. This shows that at this age, the interest and need to own a bicycle is quite high compared to other age groups."
-    ],
-    imageUrl: './assets/img/logo-email.png'
-  }
-];
-
-// Display Insight Items
-const insightListContainer = document.querySelector('.insight-list');
-
-insightsData.forEach((insight) => {
-  const insightElement = createInsightItem(insight.insight, insight.recomendations, insight.imageUrl);
-  if (insightListContainer) {
-    insightListContainer.appendChild(insightElement);
-  } else {
-    document.body.appendChild(insightElement);
-  }
-});
-
+    question: 'Waga na wa Megumin! Ākuwizādo wo nariwai toshi, saikyou no kougeki no mahou "bakuretsu mahou" wo ayatsuru mono!',
+    answer: [
+      'ORA!.!.!. ORA!.!.! ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ORA!.!.!. ',
+      'MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!. MUDA.!.!.',
+      'MCLaren Lu Warna Apa Bos?'
+    ]}
+  ];
+  
+  const insightListContainer = document.querySelector('.insight-list');
+  
+  insightData.forEach((insightItem) => {
+    const insightElement = generateInsight(insightItem.question, insightItem.answer);
+    if (insightListContainer) {
+      insightListContainer.appendChild(insightElement);
+    } else {
+      document.body.appendChild(insightElement);
+    }
+  });
   
   
   // About - Us
@@ -733,10 +688,10 @@ insightsData.forEach((insight) => {
     {
       name: "Rizal Maulana",
       role: "Deployment Team",
-      imgSrc: "belum ada",
+      imgSrc: "./assets/img/rizalmaulana.jpg",
       social: {
         linkedin: "belum ada",
-        instagram: "https://www.instagram.com/muhammad_rizky_maulana01/",
+        instagram: "https://instagram.com/rrizlms",
         gmail: "mailto:rizal.maulanasx@gmail.com"
       }
     },
@@ -753,7 +708,7 @@ insightsData.forEach((insight) => {
     {
       name: "Nabila Balqis",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/nabila",
+      imgSrc: "./assets/img/nabila.jpg",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/nabila.balqis.167",
@@ -761,7 +716,7 @@ insightsData.forEach((insight) => {
       }
     },
     {
-      name: "Dzikha Pahrezi Kameswara",
+      name: "Dzikra Pahrezi Kameswara",
       role: "Quality Assurance",
       imgSrc: "./assets/img/pahrezi.jpg",
       social: {
@@ -803,7 +758,7 @@ insightsData.forEach((insight) => {
     {
       name: "Ferdinand Ramadhani Firmansyah",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/ferdi.jpg",
       social: {
         linkedin: "https://www.linkedin.com/in/ferdinand-ramadhani-firmansyah-a703b02a5/",
         instagram: "https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png",

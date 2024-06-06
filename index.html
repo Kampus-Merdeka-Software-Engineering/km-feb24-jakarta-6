@@ -7,64 +7,12 @@
     <link rel="icon" type="image/x-icon" href="./assets/img/logo-revou.ico">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/loading.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-
 </head>
-<header>
-     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <h1 class="title">Team 6</h1>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="#dashboard" class="nav-link">Dashboard</a></li>
-            <li class="nav-item"><a href="#insight" class="nav-link">Insight</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Feedback</a></li>
-        </ul>
-        <div class="menu-icon">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-    </nav>
-</header>
 <body>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-    <div id="loading-indicator">
-        <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
-            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                <g transform="translate(9.5,19)">
-                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                        <circle class="bike__spokes" r="5" />
-                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                    </g>
-                </g>
-                <g transform="translate(24,19)">
-                    <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
-                        <circle class="bike__pedals" r="4" />
-                        <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
-                    </g>
-                </g>
-                <g transform="translate(38.5,19)">
-                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                        <circle class="bike__spokes" r="5" />
-                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                    </g>
-                </g>
-                <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
-                <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
-                <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
-                <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
-            </g>
-        </svg>
-    </div>
->>>>>>> 61ee02df39440ad8c5e71837ad92e7c7519c6704
     <header>
         <!-- Navigation Bar -->
         <nav class="navbar">
@@ -82,7 +30,6 @@
             </div>
         </nav>
     </header>
->>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <div class="dashboard-header">
@@ -93,14 +40,6 @@
                     <div class="dropdown-item">
                         <label for="year">Year:</label>
                         <select id="year">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                    
-                    <div class="dropdown-item">
-                        <label for="age-group">Age Group:</label>
-                        <select id="age-group">
                             <option value="">All</option>
                             <!-- Options will be populated dynamically via JavaScript -->
                         </select>
@@ -143,7 +82,37 @@
               </div>
               
         </div>
-        <div class="scorecard-container">
+        <div id="loading-indicator">
+            <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                    <g transform="translate(9.5,19)">
+                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                            <circle class="bike__spokes" r="5" />
+                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <g transform="translate(24,19)">
+                        <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
+                            <circle class="bike__pedals" r="4" />
+                            <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <g transform="translate(38.5,19)">
+                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                            <circle class="bike__spokes" r="5" />
+                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                        </g>
+                    </g>
+                    <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+                    <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+                    <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+                    <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+                </g>
+            </svg>
+        </div>
+        <div class="dashboard-container">
             <div class="scorecard">
                 <h3>Total Orders</h3>
                 <p id="total-orders">0</p>
@@ -160,14 +129,14 @@
                 <h3>Total Profit</h3>
                 <p id="total-profit">$0.00</p>
             </div>
-            </div>
-            
-        <div class="dashboard-container">
             <div class="linechart">
                 <canvas id="line-average-revenue"></canvas>
             </div>
             <div class="barchart">
                 <canvas id="bar-country-profit"></canvas>
+            </div>
+            <div>
+                <canvas id="composition-product"></canvas>
             </div>
         </div>     
         <div class="tabel">
@@ -181,18 +150,6 @@
             </table>
         </div>
     </div>
-<<<<<<< HEAD
-
-    <!-- Insight -->
-    <div class="insight">
-        <div class="insight-header">
-            <svg width="100%" height="3" class="background-line">
-                <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
-            </svg>
-            <div class="insight-title" id="insight"><h1>Insight</h1></div>  
-        </div>
-<<<<<<< HEAD
-=======
     
 <!-- Insight Section -->
 <div class="insight-section" id="insight">
@@ -201,25 +158,12 @@
             <line x1="0" y1="0" x2="100%" y2="100%" stroke="black" stroke-width="2" />
         </svg>
         <div class="section-title" id="insight-title"><h1>Insight</h1></div>  
->>>>>>> 61ee02df39440ad8c5e71837ad92e7c7519c6704
     </div>
     <div class="insight-container">
         <div class="insight-list"></div>
     </div>
-<<<<<<< HEAD
-
-
-    <!-- About Us -->
-    <div class=global>
-        <div class="judul">
-            <div class="aboutus">
-                <b>ABOUT US</b>
-=======
-    </div>    
-=======
 </div>
  
->>>>>>> 61ee02df39440ad8c5e71837ad92e7c7519c6704
     
     <!-- About Us -->
     <div class="about-us-section" id="about-us">
@@ -262,361 +206,26 @@
                     <img src="./assets/img/logo-kampusmerdeka.png" alt="logo-kampusmerdeka" class="logo">
                     <img src="./assets/img/logo-revou.ico" alt="logo-revou" class="logo">
                 </div>
->>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
-            </div>
-        </div>
-        <div class="card1">
-            <div class="card">
-                <div class="image"><img src="./assets/img/maurita.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Maurita Eka Suraningtyas</b></div>
-                    <div class="role" style="font-size: 14;"><i>Project leader</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/maurita-eka-suraningtyas/">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="https://www.instagram.com/mauritaeka.s_">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:mauritaeka.suraningtyas@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-<<<<<<< HEAD
-        </div>
-        <div class="card1">
-            <div class="card">
-                <div class="image"><img src="./assets/img/elsa.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Elsa Hanifah Ananda</b></div>
-                    <div class="role" style="font-size: 14;"><i>Front End Engineer</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/elsa-ananda-1a5230265/">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://http://instagram.com/saaaeeell_">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:elsaananda325@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="./assets/img/ica.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Ica Nur Halimah</b></div>
-                    <div class="role" style="font-size: 14;"><i>Front End Engineer</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/ica-nur-halimah/">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://http://instagram.com/icaacoo">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:icanur468@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="./assets/img/syifa.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Nurul Syifa Khairani</b></div>
-                    <div class="role" style="font-size: 14;"><i>Front End Engineer</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/nurul-syifa-khairani-395484219">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/syifa.bluu">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:nsk.syifa@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card1">
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Arya Samudra</b></div>
-                    <div class="role" style="font-size: 14;"><i>Front End Engineer</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/arya-syamudra/">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/arya_syamudra">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:aryasyamudra24@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Rizal Maulana</b></div>
-                    <div class="role" style="font-size: 14;"><i>Deployment Team</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="belumada">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="https://www.instagram.com/muhammad_rizky_maulana01/">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:rizal.maulanasx@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="./assets/img/rizky f.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Rizky Fadilah</b></div>
-                    <div class="role" style="font-size: 14;"><i>Deployment Team</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="belumada">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/fadilahvk">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:fadilahvk@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card1">
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Nabila Balqis</b></div>
-                    <div class="role" style="font-size: 14;"><i>Quality Assurance</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="belumada">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="https://www.instagram.com/nabila.balqis.167">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:nabilabalqis97@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="./assets/img/pahrezi.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Dzikha Pahrezi Kameswara</b></div>
-                    <div class="role" style="font-size: 14;"><i>Quality Assurance</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/dzikra-pahrezi-kameswara">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/dzikrapahrezi">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:pahrezikameswara@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="./assets/img/indira.jpg" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Indira Febrica</b></div>
-                    <div class="role" style="font-size: 14;"><i>Quality Assurance</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/indira-febrica-66999a29a">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/heydirra">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:indirafebrica230202@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card1">
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Rizky Maulana</b></div>
-                    <div class="role" style="font-size: 14;"><i>Pitch Deck Team</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="belumada">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="https://www.instagram.com/muhammad_rizky_maulana01/">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:maulanarizky2401@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Afifah Khoirun Nisa</b></div>
-                    <div class="role" style="font-size: 14;"><i>Pitch Deck Team</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/afifah-khoirun-nisa-35aa471a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="http://instagram.com/ifahhhkn">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:afifahknsaaa@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image"><img src="belumada" id="foto"/></div>
-                <div class="nameandrole">
-                    <div class="name"><b>Ferdinand Ramadhani Firmansyah</b></div>
-                    <div class="role" style="font-size: 14;"><i>Pitch Deck Team</i></div>
-                </div>
-                <div class="logoaboutus">
-                    <div class="linkedin">
-                        <a href="https://www.linkedin.com/in/ferdinand-ramadhani-firmansyah-a703b02a5/">
-                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-linkedin-circle-1868976-1583140.png?f=webp" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="instagram">
-                        <a href="belumada">
-                            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                    <div class="email">
-                        <a href="mailto:ferdyhisoka22@gmail.com">
-                            <img src="https://cdn1.iconfinder.com/data/icons/google-new-logos-1/32/gmail_new_logo-1024.png" id="logoin" width="20" height="20">
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-
-    <!-- Feedback  -->
-    <div class="feedback">
-        <div class="feedback-content">
-            <div class="feedback-text">
-                <h1 class="feedback-title">FEEDBACK</h1>
-                <p class="feedback-description">Is there anything we could have<br>done to make your experience<br>better?</p>
+    <!-- Footer-->
+    <footer> 
+        <section class="phoenix-bikes">
+            <div class="phoenix-bikes_info">
+                <h1 class="phoenix-bikes_title">Phoenix Bikes</h1>
+                <p class="phoenix-bikes_subtitle">Two wheels that move the soul.</p>
+                <div class="phoenix-bikes_images">
+                    <div>
+                        <a href="https://github.com/Kampus-Merdeka-Software-Engineering/km-feb24-jakarta-6.git">
+                            <img src="./assets/img/logo-github.png" alt="logo-github" class="phoenix-bikes_logo" />
+                        </a>
+                        <a href="team6.jakarta.tarevou@gmail.com">
+                            <img src="./assets/img/logo-email.png" alt="logo-email" class="phoenix-bikes_logo" />
+                        </a>
+                    </div>
+                </div>
             </div>
-            <form class="feedback-form">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="email">E-mail:</label><br>
-                <input type="email" id="email" name="email"><br>
-                <label for="message">Feedback / Suggestion:</label><br>
-                <input id="message" name="message"></input><br>
-                <button class="feedback-button">Send Feedback</button>
-            </form>
-        </div>
-        <div class="feedback-footer">
-            <p>Support by</p>
-            <div class="logo-support">
-                <img src="./assets/img/logo-kampusmerdeka.png" alt="logo-kampusmerdeka" class="logo">
-                <img src="./assets/img/logo-revou.png" alt="logo-revou" class="logo">
-            </div>
-        </div>
-    </div>
-    
-=======
             <nav class="phoenix-bikes_nav">
                 <h2 class="phoenix-bikes_nav-title">Navigation</h2>
                 <a href="#dashboard" class="phoenix-bikes_nav-item">Dashboard</a>
@@ -627,33 +236,7 @@
         </section> 
         <p class="location-description">© 2024 Phoenix Bikes. Team 6 Jakarta.</p>
     </footer>
->>>>>>> 621219b27439325924abac3e4a0b4f7c94c7b708
 </body>
-<!-- Footer -->
-<footer>
-    <section class="phoenix-bikes">
-            <div class="phoenix-bikes__info">
-                <h1 class="phoenix-bikes__title">Phoenix Bikes</h1>
-                <p class="phoenix-bikes__subtitle">Two wheels that move the soul.</p>
-                <div class="phoenix-bikes__images">
-                    <div>
-                      <a href="https://github.com/Kampus-Merdeka-Software-Engineering/km-feb24-jakarta-6.git">
-                        <img src="./assets/img/logo-github.png" alt="logo-github" class="phoenix-bikes__logo" />
-                      </a>
-                      <a href="mailto:team6.jakarta.tarevou@gmail.com">
-                        <img src="./assets/img/logo-email.png" alt="logo-email" class="phoenix-bikes__logo" />
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <nav class="phoenix-bikes__nav">
-                 <h2 class="phoenix-bikes__nav-title">Navigation</h2>
-                 <a href="#dashboard" class="phoenix-bikes__nav-item">Dashboard</a>
-                 <a href="#insight" class="phoenix-bikes__nav-item">Insight</a>
-                 <a href="#about us" class="phoenix-bikes__nav-item">About Us</a>
-                 <a href="#feedback" class="phoenix-bikes__nav-item">Feedback</a>
-            </nav>
-    </section> 
-    <p class="location-description">Jakarta 6</p>
-</footer>
 <script src="js/index.js"></script>
+</body>
+</html>
