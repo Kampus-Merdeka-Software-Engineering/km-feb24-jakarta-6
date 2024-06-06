@@ -688,10 +688,10 @@ const insightData = [
     {
       name: "Rizal Maulana",
       role: "Deployment Team",
-      imgSrc: "belum ada",
+      imgSrc: "rizalmaulana",
       social: {
         linkedin: "belum ada",
-        instagram: "https://www.instagram.com/muhammad_rizky_maulana01/",
+        instagram: "https://instagram.com/rrizlms",
         gmail: "mailto:rizal.maulanasx@gmail.com"
       }
     },
@@ -758,7 +758,7 @@ const insightData = [
     {
       name: "Ferdinand Ramadhani Firmansyah",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/belum ada.jpg",
+      imgSrc: "./assets/img/ferdi.jpg",
       social: {
         linkedin: "https://www.linkedin.com/in/ferdinand-ramadhani-firmansyah-a703b02a5/",
         instagram: "https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png",
