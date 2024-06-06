@@ -716,7 +716,7 @@ const insightData = [
       }
     },
     {
-      name: "Dzikha Pahrezi Kameswara",
+      name: "Dzikra Pahrezi Kameswara",
       role: "Quality Assurance",
       imgSrc: "./assets/img/pahrezi.jpg",
       social: {
