@@ -154,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
           updateScoreCard(data);
           drawHorizontalBarChart(data);
           productComposition(data);
+          profitByGender(data);
+          profitByAge(data);
 
           loadingIndicator.style.display = 'none';
       })
@@ -255,6 +257,8 @@ document.addEventListener('DOMContentLoaded', function() {
       updateScoreCard(filteredData);
       drawHorizontalBarChart(filteredData)
       productComposition(filteredData);
+      profitByGender(filteredData);
+      profitByAge(filteredData);
       return filteredData;
   }
 
@@ -286,6 +290,19 @@ function formatNumber(num) {
           type: 'line',
           data: getData(data),
           options: {
+            plugins: {
+              title: {
+                  display: true,
+                  text: 'Average Revenue',
+                  font: {
+                      size: 20
+                  }
+              },
+              legend: {
+                  display: false
+              }
+          },
+
               responsive: true,
               scales: {
                   y: {
@@ -447,7 +464,10 @@ function formatNumber(num) {
                 },
                 title: {
                     display: true,
-                    text: 'Total Profit by Country'
+                    text: 'Total Profit by Country',
+                    font: {
+                        size: 20
+                    }
                 }
             }
         }
@@ -502,13 +522,17 @@ function productComposition(data) {
           plugins: {
               title: {
                   display: true,
-                  text: 'Product Type Composition by Sub Category'
+                  text: 'Product Type Composition by Sub Category',
+                  font: {
+                      size: 20
+                  }
               },
               legend: {
                   display: false
               }
           },
           responsive: true,
+          maintainAspectRatio: false, 
           scales: {
               x: {
                   stacked: true,
@@ -527,6 +551,128 @@ function productComposition(data) {
           },
       }
   };
+  new Chart(ctx, config);
+}
+
+function profitByGender(data) {
+  // Group data by gender
+  const groupedData = data.reduce((acc, curr) => {
+    if (!acc[curr.Customer_Gender]) {
+      acc[curr.Customer_Gender] = 0;
+    }
+    acc[curr.Customer_Gender] += curr.Profit;
+    return acc;
+  }, {});
+
+  const genders = Object.keys(groupedData);
+
+  // Get the canvas element
+  const canvas = document.getElementById('profit-by-gender');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+    type: 'doughnut',
+    data: {
+      labels: genders,
+      datasets: [{
+        label: 'Profit by Gender',
+        data: Object.values(groupedData),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)', // Red for Female
+          'rgba(54, 162, 235, 0.5)'   // Blue for Male
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Profit by Gender',
+          font: {
+            size: 20 // Set the font size for the title
+          }
+        }
+      }
+    }
+  };
+  new Chart(ctx, config);
+}
+
+function profitByAge(data) {
+  // Group data by age and calculate total profit for each age
+  const groupedData = data.reduce((acc, curr) => {
+    if (!acc[curr.Customer_Age]) {
+      acc[curr.Customer_Age] = 0;
+    }
+    acc[curr.Customer_Age] += curr.Profit;
+    return acc;
+  }, {});
+
+  // Calculate total profit overall
+  const totalProfitOverall = Object.values(groupedData).reduce((total, profit) => total + profit, 0);
+
+  // Calculate profit percentage for each age
+  const profitPercentageData = {};
+  for (const age in groupedData) {
+    const profit = groupedData[age];
+    const percentage = (profit / totalProfitOverall) * 100;
+    profitPercentageData[age] = percentage;
+  }
+
+  // Create data for pie chart
+  const labels = Object.keys(profitPercentageData);
+  const dataValues = Object.values(profitPercentageData);
+
+  // Generate random colors dynamically
+  const colors = labels.map(() => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.5)`);
+
+  // Get the canvas element
+  const canvas = document.getElementById('profit-by-age');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Profit by Age',
+        data: dataValues,
+        backgroundColor: colors,
+        borderColor: colors.map(color => color.replace('0.5', '1')), // Adjust alpha for border color
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Profit Percentage by Age',
+          font: {
+            size: 20 // Set the font size for the title
+        }
+
+        }
+      }
+    }  };
   new Chart(ctx, config);
 }
 

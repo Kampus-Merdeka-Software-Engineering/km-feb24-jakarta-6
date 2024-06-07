@@ -234,14 +234,23 @@ canvas{
     text-align: center;
 }
 .tabel{
-    width: calc(100% - 24px);
-    margin: 24px auto;
+    width: 100%;
+    margin-top: 48px;
+    margin-bottom: 3px;
 }
+
 #dataTable1_wrapper{
     width: calc(100%);
     overflow: scroll;
     overflow-y: hidden;
+  
 }
+
+#dataTable1_wrapper div{
+    padding: 12px 24px;
+}
+
+
 #dataTable2_wrapper div{
     display: none;
 }
@@ -333,8 +342,8 @@ canvas{
 }
 
 .recomendation-item {
-    border-bottom: 1px solid var(--text-color);
     padding: 12px 24px;
+    border-bottom: 1px solid var(--text-color);
     width: calc(100% - 48px);
     margin: auto;
     display: flex;
@@ -647,6 +656,16 @@ textarea{
         overflow-y: hidden;
     }
     
+    /* Insight Section */
+    .recomendation-item {
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--text-color);
+        width: calc(100% - 48px);
+        margin: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
     
     /* Feedback */
     .feedback-content{
