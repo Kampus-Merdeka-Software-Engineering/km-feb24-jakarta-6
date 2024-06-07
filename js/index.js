@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
           populateFilterDropdown('gender', uniqueValues.gender);
           populateFilterDropdown('country', uniqueValues.country);
           populateFilterDropdown('continent', uniqueValues.continent);
-          populateFilterDropdown('product-type', uniqueValues.productType);
+          populateFilterDropdown('sub-category', uniqueValues.subCategory);
 
           chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
 
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
           gender: [],
           country: [],
           continent: [],
-          productType: [],
+          subCategory: [],
           month: []
       };
 
@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!uniqueValues.continent.includes(item.Continent)) {
               uniqueValues.continent.push(item.Continent);
           }
-          if (!uniqueValues.productType.includes(item.Product_Type) && item.Product_Type !== "-") {
-              uniqueValues.productType.push(item.Product_Type);
+          if (!uniqueValues.subCategory.includes(item.Sub_Category) && item.Sub_Category !== "-") {
+              uniqueValues.subCategory.push(item.Sub_Category);
           }
           if (!uniqueValues.month.includes(item.Month) && item.Month !== "-") {
               uniqueValues.month.push(item.Month);
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedGender = document.getElementById('gender').value;
       const selectedCountry = document.getElementById('country').value;
       const selectedContinent = document.getElementById('continent').value;
-      const selectedProductType = document.getElementById('product-type').value;
+      const selectedSubCategory = document.getElementById('sub-category').value;
 
       // Filter data sesuai dengan nilai dropdown yang dipilih
       let filteredData = data.filter(item => {
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (selectedContinent !== '' && item.Continent !== selectedContinent) {
               return false;
           }
-          if (selectedProductType !== '' && item.Product_Type !== selectedProductType) {
+          if (selectedSubCategory !== '' && item.Sub_Category !== selectedSubCategory) {
               return false;
           }
           return true;
@@ -329,7 +329,7 @@ function formatNumber(num) {
           gender: document.getElementById('gender').value,
           country: document.getElementById('country').value,
           continent: document.getElementById('continent').value,
-          productType: document.getElementById('product-type').value
+          category: document.getElementById('sub-category').value
       };
 
       const chartData = getData(data, filters);
@@ -351,8 +351,8 @@ function formatNumber(num) {
       if (filters.continent) {
           filteredData = filteredData.filter(d => d.Continent == filters.continent);
       }
-      if (filters.productType) {
-          filteredData = filteredData.filter(d => d.Product_Type == filters.productType);
+      if (filters.category) {
+          filteredData = filteredData.filter(d => d.Sub_Category == filters.category);
       }
 
       if (filters.year && filters.year !== 'all') {

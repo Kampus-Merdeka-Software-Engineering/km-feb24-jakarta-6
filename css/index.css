@@ -2,11 +2,11 @@
 
 :root {
     /* Warna */
-    --background-color: #FFFFFF;
-    --primary-color: #124076;
-    --secondary-color: #7F9F80;
-    --title-color: #F7C686;
-    --text-color: #333333;
+    --background-color: #F5EFE6;
+    --primary-color: #214730;
+    --secondary-color: #4F6F52;
+    --title-color: #E8DFCA;
+    --text-color: #212521;
     
     /* Font */
     --font-family: "Poppins", sans-serif;
@@ -205,7 +205,7 @@ a{
 
   .dashboard-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-rows: 100px, 300px, 300px;
     gap: 20px;
     margin: 24px;
     background-color: none;
@@ -232,6 +232,13 @@ canvas{
 .scorecard{
     padding: 6px 24px;
     text-align: center;
+}
+.chart-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 40px;
+    width: 100%;
+    padding: 24px;
 }
 .tabel{
     width: 100%;
@@ -361,6 +368,7 @@ canvas{
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-evenly;
+    padding: 20px;
 }
 
 .card {
@@ -412,6 +420,7 @@ canvas{
 .name, .role, .icons {
     display: none;
     text-align: center;
+    color: #f4eadd;
     width: 100%;
 }
 
@@ -436,7 +445,8 @@ canvas{
 
 /* Feedback*/
 .feedback{
-    background-color: #ADBCCD;
+    background-color: #f1e2ce;
+    padding: 24px;
 }
 .feedback-content{
     display: flex;
@@ -448,8 +458,9 @@ canvas{
 }
 .feedback-title{
     text-align: right;
+    color: #354f3f;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 2rem;
     padding-top: 28px;
 }
@@ -485,8 +496,8 @@ textarea{
     resize: vertical;
 }
 .feedback-button{
-    background-color: #697c92;
-    color: #f7e0c3;
+    background-color:#3A5444;
+    color: #F7E0C3;
     font-size: 1rem;
     font-weight: 500;
     border: none;
@@ -496,8 +507,8 @@ textarea{
     cursor: pointer;
 }
 .feedback-button:hover{
-    background-color: #F7E0C3;
-    color: #697C92;
+    background-color:#68976c;
+    color:#F7E0C3
 }
 .feedback-footer{
     display: flex;
@@ -520,12 +531,12 @@ textarea{
     width: 100%;
     border-radius: 24px;
     border: 3px solid var(--secondary-color);
-    background-color: rgba(0, 200, 0, 0.25);
+    background-color: rgba(57, 175, 57, 0.25);
     padding: 10px;
     margin-top: 48px;
 }
 .error {
-    color: red;
+    color: rgb(190, 15, 15);
     font-size: 12px;
 }
 
@@ -533,7 +544,7 @@ textarea{
 
 .phoenix-bikes {
     display: flex;
-    background-color: #124076;
+    background-color: #4F6F52;
     justify-content: space-between;
     align-items: start;
     padding: 70px 77px;
@@ -594,6 +605,7 @@ textarea{
     justify-content: center;
 }
 .location-description {
+    padding: 24px;
     color: var(--title-color);
 }
 
