@@ -370,6 +370,11 @@ canvas{
     border: 1px solid var(--text-color) ;
 }
 
+.card:first-child{
+    order: -1;
+    margin: 24px calc(50% - 200px);
+}
+
 .card .image {
     flex: 1;
     position: relative;
@@ -618,6 +623,28 @@ textarea{
     
     .section-title{
         font-size: 0.8rem;
+    }
+
+    /* Dashboard */
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
+        gap: 20px;
+        margin: 24px;
+        background-color: none;
+        border-radius: 8px;
+    }
+    .scorecard-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
+        gap: 20px;
+        width: 100%;
+        padding: 24px;
+    }
+    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
+        width: calc(100%);
+        overflow: scroll;
+        overflow-y: hidden;
     }
     
     
