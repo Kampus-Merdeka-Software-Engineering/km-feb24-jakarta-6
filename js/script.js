@@ -382,9 +382,9 @@ function formatNumber(num) {
               datasets: [{
                   label: 'Average Revenue',
                   data: averageRevenues,
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  borderWidth: 1
+                  backgroundColor: '#4F6F52',
+                  borderColor: '#4F6F52',
+                  borderWidth: 2
               }]
           },
           xLabel: 'Year'
@@ -410,8 +410,8 @@ function formatNumber(num) {
               datasets: [{
                   label: 'Average Revenue',
                   data: averageRevenues,
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                  borderColor: 'rgba(75, 192, 192, 1)',
+                  backgroundColor: '#4F6F52',
+                  borderColor: '#4F6F52',
                   borderWidth: 1
               }]
           },
@@ -450,8 +450,8 @@ function formatNumber(num) {
             datasets: [{
                 label: 'Total Profit',
                 data: totalProfits,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: '#E8D6AB',
+                borderColor: '#E8CE8F',
                 borderWidth: 2
             }]
         },
@@ -496,8 +496,8 @@ function productComposition(data) {
           label: productType,
           data: subCategories.map(subCategory => groupedData[subCategory][productType] || 0),
           backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
-          borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
-          borderWidth: 1
+          // borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+          // borderWidth: 1
       };
   });
 
@@ -585,12 +585,12 @@ function profitByGender(data) {
         label: 'Profit by Gender',
         data: Object.values(groupedData),
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)', // Red for Female
-          'rgba(54, 162, 235, 0.5)'   // Blue for Male
+          '#658D68', // Red for Female
+          '#DFCEB7'   // Blue for Male
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)'
+          '#658D68',
+          '#DFCEB7'
         ],
         borderWidth: 1
       }]
@@ -657,8 +657,8 @@ function profitByAge(data) {
         label: 'Profit by Age',
         data: dataValues,
         backgroundColor: colors,
-        borderColor: colors.map(color => color.replace('0.5', '1')), // Adjust alpha for border color
-        borderWidth: 1
+        // borderColor: colors.map(color => color.replace('0.5', '1')), // Adjust alpha for border color
+        // borderWidth: 1
       }]
     },
     options: {
