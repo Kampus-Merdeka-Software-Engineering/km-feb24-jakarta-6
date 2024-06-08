@@ -112,8 +112,8 @@ a{
 .dashboard{
     border: 1px solid ;
     border-radius: 24px;
-    width: calc(100% - 80px);
-    margin: 48px auto;
+    width: calc(100% - 48px);
+    margin: 24px auto;
 }
 .dashboard-header{
     display: flex;
@@ -205,6 +205,7 @@ a{
 
   .dashboard-container {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 20px;
     margin: 24px;
     background-color: none;
@@ -229,25 +230,27 @@ canvas{
     padding: 24px;
 }
 .scorecard{
-    padding: 6px 60px;
+    padding: 6px 24px;
     text-align: center;
 }
-.chart-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 20px;
-    width: 100%;
-    padding: 24px;
-}
 .tabel{
-    width: calc(100% - 24px);
-    margin: 24px auto;
+    width: 100%;
+    margin-top: 48px;
+    margin-bottom: 3px;
 }
+
 #dataTable1_wrapper{
     width: calc(100%);
     overflow: scroll;
     overflow-y: hidden;
+  
 }
+
+#dataTable1_wrapper div{
+    padding: 12px 24px;
+}
+
+
 #dataTable2_wrapper div{
     display: none;
 }
@@ -339,8 +342,8 @@ canvas{
 }
 
 .recomendation-item {
-    border-bottom: 1px solid var(--text-color);
     padding: 12px 24px;
+    border-bottom: 1px solid var(--text-color);
     width: calc(100% - 48px);
     margin: auto;
     display: flex;
@@ -374,6 +377,11 @@ canvas{
     transition: all 0.5s ease;
     border-radius: 24px;
     border: 1px solid var(--text-color) ;
+}
+
+.card:first-child{
+    order: -1;
+    margin: 24px calc(50% - 200px);
 }
 
 .card .image {
@@ -626,13 +634,38 @@ textarea{
         font-size: 0.8rem;
     }
 
-
     /* Dashboard */
-    .dashboard{
-        flex-direction: column;
-        align-items: center;
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
+        gap: 20px;
+        margin: 24px;
+        background-color: none;
+        border-radius: 8px;
+    }
+    .scorecard-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
+        gap: 20px;
+        width: 100%;
+        padding: 24px;
+    }
+    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
+        width: calc(100%);
+        overflow: scroll;
+        overflow-y: hidden;
     }
     
+    /* Insight Section */
+    .recomendation-item {
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--text-color);
+        width: calc(100% - 48px);
+        margin: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
     
     /* Feedback */
     .feedback-content{

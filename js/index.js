@@ -154,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
           updateScoreCard(data);
           drawHorizontalBarChart(data);
           productComposition(data);
+          profitByGender(data);
+          profitByAge(data);
 
           loadingIndicator.style.display = 'none';
       })
@@ -255,6 +257,8 @@ document.addEventListener('DOMContentLoaded', function() {
       updateScoreCard(filteredData);
       drawHorizontalBarChart(filteredData)
       productComposition(filteredData);
+      profitByGender(filteredData);
+      profitByAge(filteredData);
       return filteredData;
   }
 
@@ -286,6 +290,19 @@ function formatNumber(num) {
           type: 'line',
           data: getData(data),
           options: {
+            plugins: {
+              title: {
+                  display: true,
+                  text: 'Average Revenue',
+                  font: {
+                      size: 20
+                  }
+              },
+              legend: {
+                  display: false
+              }
+          },
+
               responsive: true,
               scales: {
                   y: {
@@ -447,7 +464,10 @@ function formatNumber(num) {
                 },
                 title: {
                     display: true,
-                    text: 'Total Profit by Country'
+                    text: 'Total Profit by Country',
+                    font: {
+                        size: 20
+                    }
                 }
             }
         }
@@ -502,13 +522,17 @@ function productComposition(data) {
           plugins: {
               title: {
                   display: true,
-                  text: 'Product Type Composition by Sub Category'
+                  text: 'Product Type Composition by Sub Category',
+                  font: {
+                      size: 20
+                  }
               },
               legend: {
                   display: false
               }
           },
           responsive: true,
+          maintainAspectRatio: false, 
           scales: {
               x: {
                   stacked: true,
@@ -527,6 +551,128 @@ function productComposition(data) {
           },
       }
   };
+  new Chart(ctx, config);
+}
+
+function profitByGender(data) {
+  // Group data by gender
+  const groupedData = data.reduce((acc, curr) => {
+    if (!acc[curr.Customer_Gender]) {
+      acc[curr.Customer_Gender] = 0;
+    }
+    acc[curr.Customer_Gender] += curr.Profit;
+    return acc;
+  }, {});
+
+  const genders = Object.keys(groupedData);
+
+  // Get the canvas element
+  const canvas = document.getElementById('profit-by-gender');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+    type: 'doughnut',
+    data: {
+      labels: genders,
+      datasets: [{
+        label: 'Profit by Gender',
+        data: Object.values(groupedData),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)', // Red for Female
+          'rgba(54, 162, 235, 0.5)'   // Blue for Male
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Profit by Gender',
+          font: {
+            size: 20 // Set the font size for the title
+          }
+        }
+      }
+    }
+  };
+  new Chart(ctx, config);
+}
+
+function profitByAge(data) {
+  // Group data by age and calculate total profit for each age
+  const groupedData = data.reduce((acc, curr) => {
+    if (!acc[curr.Customer_Age]) {
+      acc[curr.Customer_Age] = 0;
+    }
+    acc[curr.Customer_Age] += curr.Profit;
+    return acc;
+  }, {});
+
+  // Calculate total profit overall
+  const totalProfitOverall = Object.values(groupedData).reduce((total, profit) => total + profit, 0);
+
+  // Calculate profit percentage for each age
+  const profitPercentageData = {};
+  for (const age in groupedData) {
+    const profit = groupedData[age];
+    const percentage = (profit / totalProfitOverall) * 100;
+    profitPercentageData[age] = percentage;
+  }
+
+  // Create data for pie chart
+  const labels = Object.keys(profitPercentageData);
+  const dataValues = Object.values(profitPercentageData);
+
+  // Generate random colors dynamically
+  const colors = labels.map(() => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.5)`);
+
+  // Get the canvas element
+  const canvas = document.getElementById('profit-by-age');
+
+  // Destroy the previous chart if it exists
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+
+  // Create the chart
+  const ctx = canvas.getContext('2d');
+  const config = {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Profit by Age',
+        data: dataValues,
+        backgroundColor: colors,
+        borderColor: colors.map(color => color.replace('0.5', '1')), // Adjust alpha for border color
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Profit Percentage by Age',
+          font: {
+            size: 20 // Set the font size for the title
+        }
+
+        }
+      }
+    }  };
   new Chart(ctx, config);
 }
 
@@ -770,7 +916,7 @@ insightsData.forEach((insight) => {
     {
       name: "Maurita Eka Suraningtyas",
       role: "Project leader",
-      imgSrc: "./assets/img/maurita.jpg",
+      imgSrc: "./assets/img/maurita.png",
       social: {
         linkedin: "https://www.linkedin.com/in/maurita-eka-suraningtyas/",
         instagram: "https://www.instagram.com/mauritaeka.s_",
@@ -780,27 +926,27 @@ insightsData.forEach((insight) => {
     {
       name: "Elsa Hanifah Ananda",
       role: "Front End Engineer",
-      imgSrc: "./assets/img/elsa.jpg",
+      imgSrc: "./assets/img/elsa.png",
       social: {
         linkedin: "https://www.linkedin.com/in/elsa-ananda-1a5230265/",
-        instagram: "http://http://instagram.com/saaaeeell_",
+        instagram: "https://www.instagram.com/saaaeeell_",
         gmail: "mailto:elsaananda325@gmail.com"
       }
     },
     {
       name: "Ica Nur Halimah",
       role: "Front End Engineer",
-      imgSrc: "./assets/img/ica.jpg",
+      imgSrc: "./assets/img/ica.png",
       social: {
         linkedin: "https://www.linkedin.com/in/ica-nur-halimah/",
-        instagram: "http://http://instagram.com/icaacoo",
+        instagram: "https://www.instagram.com/icaacoo",
         gmail: "mailto:icanur468@gmail.com"
       }
     },
     {
       name: "Nurul Syifa Khairani",
       role: "Front End Engineer",
-      imgSrc: "./assets/img/syifa.jpg",
+      imgSrc: "./assets/img/syifa.png",
       social: {
         linkedin: "https://www.linkedin.com/in/nurul-syifa-khairani-395484219",
         instagram: "http://instagram.com/syifa.bluu",
@@ -810,7 +956,7 @@ insightsData.forEach((insight) => {
     {
       name: "Arya Syamudra",
       role: "Front End Engineer",
-      imgSrc: "./assets/img/Arya.jpg",
+      imgSrc: "./assets/img/Arya.png",
       social: {
         linkedin: "https://www.linkedin.com/in/arya-syamudra/",
         instagram: "http://instagram.com/arya_syamudra",
@@ -820,9 +966,9 @@ insightsData.forEach((insight) => {
     {
       name: "Rizal Maulana",
       role: "Deployment Team",
-      imgSrc: "./assets/img/rizalmaulana.jpg",
+      imgSrc: "./assets/img/rizalmaulana.png",
       social: {
-        linkedin: "belum ada",
+        linkedin: "linkedin.com/in/rizal-maulana-sanjaya-470612277",
         instagram: "https://instagram.com/rrizlms",
         gmail: "mailto:rizal.maulanasx@gmail.com"
       }
@@ -830,9 +976,9 @@ insightsData.forEach((insight) => {
     {
       name: "Rizky Fadilah",
       role: "Deployment Team",
-      imgSrc: "./assets/img/rizky f.jpg",
+      imgSrc: "./assets/img/rizky f.png",
       social: {
-        linkedin: "belum ada",
+        linkedin: "https://www.linkedin.com/in/rizky-fadilah-b26b7521b/",
         instagram: "http://instagram.com/fadilahvk",
         gmail: "mailto:fadilahvk@gmail.com"
       }
@@ -840,9 +986,9 @@ insightsData.forEach((insight) => {
     {
       name: "Nabila Balqis",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/nabila.jpg",
+      imgSrc: "./assets/img/nabila.png",
       social: {
-        linkedin: "belum ada",
+        linkedin: "https://www.linkedin.com/in/nabila-balqis-7121712b2",
         instagram: "https://www.instagram.com/nabila.balqis.167",
         gmail: "mailto:nabilabalqis97@gmail.com"
       }
@@ -850,7 +996,7 @@ insightsData.forEach((insight) => {
     {
       name: "Dzikra Pahrezi Kameswara",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/pahrezi.jpg",
+      imgSrc: "./assets/img/pahrezi.png",
       social: {
         linkedin: "https://www.linkedin.com/in/dzikra-pahrezi-kameswara",
         instagram: "http://instagram.com/dzikrapahrezi",
@@ -860,7 +1006,7 @@ insightsData.forEach((insight) => {
     {
       name: "Indira Febrica",
       role: "Quality Assurance",
-      imgSrc: "./assets/img/indira.jpg",
+      imgSrc: "./assets/img/indira.png",
       social: {
         linkedin: "https://www.linkedin.com/in/indira-febrica-66999a29a",
         instagram: "http://instagram.com/heydirra",
@@ -870,7 +1016,7 @@ insightsData.forEach((insight) => {
     {
       name: "Rizky Maulana",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/maulana.jpg",
+      imgSrc: "./assets/img/maulana.png",
       social: {
         linkedin: "belum ada",
         instagram: "https://www.instagram.com/muhammad_rizky_maulana01/",
@@ -880,7 +1026,7 @@ insightsData.forEach((insight) => {
     {
       name: "Afifah Khoirun Nisa",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/afifah.jpg",
+      imgSrc: "./assets/img/afifah.png",
       social: {
         linkedin: "https://www.linkedin.com/in/afifah-khoirun-nisa-35aa471a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         instagram: "http://instagram.com/ifahhhkn",
@@ -890,10 +1036,10 @@ insightsData.forEach((insight) => {
     {
       name: "Ferdinand Ramadhani Firmansyah",
       role: "Pitch Deck Team",
-      imgSrc: "./assets/img/ferdi.jpg",
+      imgSrc: "./assets/img/ferdi.png",
       social: {
         linkedin: "https://www.linkedin.com/in/ferdinand-ramadhani-firmansyah-a703b02a5/",
-        instagram: "https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-1024.png",
+        instagram: "https://www.instagram.com/",
         gmail: "mailto:ferdyhisoka22@gmail.com"
       }
     },
