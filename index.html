@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phoenix Bikes - Team 6</title>
     <link rel="icon" type="image/x-icon" href="./assets/img/logo-revou.ico">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -31,141 +31,143 @@
         </nav>
     </header>
     <!-- Dashboard -->
-    <div class="dashboard" id="dashboard">
-        <div class="dashboard-header">
-            <h1>Dashboard</h1>
-            <div class="dropdown-filter">
-                <button onclick="toggleDropdownFilter()" class="dropbtn">Filter</button>
-                <div id="dropdown-content" class="dropdown-content">
-                    <div class="dropdown-item">
-                        <label for="year">Year:</label>
-                        <select id="year">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
+    <div class="dashboard-padding">
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+                <div class="dropdown-filter">
+                    <button onclick="toggleDropdownFilter()" class="dropbtn">Filter</button>
+                    <div id="dropdown-content" class="dropdown-content">
+                        <div class="dropdown-item">
+                            <label for="year">Year:</label>
+                            <select id="year">
+                                <option value="">All</option>
+                                <!-- Options will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="dropdown-item">
+                            <label for="gender">Gender:</label>
+                            <select id="gender">
+                                <option value="">All</option>
+                                <!-- Options will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="dropdown-item">
+                            <label for="country">Country:</label>
+                            <select id="country">
+                                <option value="">All</option>
+                                <!-- Options will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="dropdown-item">
+                            <label for="continent">Continent:</label>
+                            <select id="continent">
+                                <option value="">All</option>
+                                <!-- Options will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="dropdown-item">
+                            <label for="sub-category">Product Category:</label>
+                            <select id="sub-category">
+                                <option value="">All</option>
+                                <!-- Options will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                      <button onclick="resetFilters()" id="reset">Reset</button>
+                      <button onclick="applyFilters()" id="ok">OK</button>
                     </div>
-                    
-                    <div class="dropdown-item">
-                        <label for="gender">Gender:</label>
-                        <select id="gender">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                    
-                    <div class="dropdown-item">
-                        <label for="country">Country:</label>
-                        <select id="country">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                    
-                    <div class="dropdown-item">
-                        <label for="continent">Continent:</label>
-                        <select id="continent">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                    
-                    <div class="dropdown-item">
-                        <label for="sub-category">Product Category:</label>
-                        <select id="sub-category">
-                            <option value="">All</option>
-                            <!-- Options will be populated dynamically via JavaScript -->
-                        </select>
-                    </div>
-                  <button onclick="resetFilters()" id="reset">Reset</button>
-                  <button onclick="applyFilters()" id="ok">OK</button>
-                </div>
-              </div>
-              
-        </div>
-        <div id="loading-indicator">
-            <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                    <g transform="translate(9.5,19)">
-                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                            <circle class="bike__spokes" r="5" />
-                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <g transform="translate(24,19)">
-                        <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
-                            <circle class="bike__pedals" r="4" />
-                            <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <g transform="translate(38.5,19)">
-                        <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
-                        <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
-                            <circle class="bike__spokes" r="5" />
-                            <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
-                        </g>
-                    </g>
-                    <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
-                    <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
-                    <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
-                    <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
-                </g>
-            </svg>
-        </div>
-        <div class="dashboard-container">
-            <div class="scorecard-container">
-                <div class="scorecard">
-                    <h3>Total Orders</h3>
-                    <p id="total-orders">0</p>
-                </div>
-                <div class="scorecard">
-                    <h3>Total Revenue</h3>
-                    <p id="total-revenue">$0.00</p>
-                </div>
-                <div class="scorecard">
-                    <h3>Total Cost</h3>
-                    <p id="total-cost">$0.00</p>
-                </div>
-                <div class="scorecard">
-                    <h3>Total Profit</h3>
-                    <p id="total-profit">$0.00</p>
-                </div>
+                  </div>
+                  
             </div>
-            <div class="chart-container">
-                <div class="linechart">
-                    <canvas id="line-average-revenue"></canvas>
-                </div>
-                <div class="barchart">
-                    <canvas id="bar-country-profit"></canvas>
-                </div>
-                <div>
-                    <canvas id="composition-product"></canvas>
-                </div>
-                <div>
-                    <canvas id="profit-by-gender"></canvas>
-                </div>
-                <div>
-                    <canvas id="profit-by-age"></canvas>
-                </div>
+            <div id="loading-indicator">
+                <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                        <g transform="translate(9.5,19)">
+                            <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                            <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                                <circle class="bike__spokes" r="5" />
+                                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                            </g>
+                        </g>
+                        <g transform="translate(24,19)">
+                            <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
+                                <circle class="bike__pedals" r="4" />
+                                <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+                            </g>
+                        </g>
+                        <g transform="translate(38.5,19)">
+                            <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                            <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                                <circle class="bike__spokes" r="5" />
+                                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                            </g>
+                        </g>
+                        <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+                        <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+                        <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+                        <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+                    </g>
+                </svg>
             </div>
-        </div>
-        <table id="dataTable2" class="display" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>Total Order Quantity</th>
-                    <th>Total Cost</th>
-                    <th>Total Profit</th>
-                    <th>Total Revenue</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div class="tabel">
-            <table id="dataTable1" class="display" style="width:100%">
-                <thead></thead>
-                <tbody></tbody>
-            </table>
+            <div class="dashboard-container">
+                <div class="scorecard-container">
+                    <div class="scorecard">
+                        <h3>Total Orders</h3>
+                        <p id="total-orders">0</p>
+                    </div>
+                    <div class="scorecard">
+                        <h3>Total Revenue</h3>
+                        <p id="total-revenue">$0.00</p>
+                    </div>
+                    <div class="scorecard">
+                        <h3>Total Cost</h3>
+                        <p id="total-cost">$0.00</p>
+                    </div>
+                    <div class="scorecard">
+                        <h3>Total Profit</h3>
+                        <p id="total-profit">$0.00</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart">
+                        <canvas id="line-average-revenue"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="bar-country-profit"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="composition-product"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="profit-by-gender"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="profit-by-age"></canvas>
+                    </div>
+                </div>
+                <table id="dataTable2" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Total Order Quantity</th>
+                            <th>Total Cost</th>
+                            <th>Total Profit</th>
+                            <th>Total Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="tabel">
+                <table id="dataTable1" class="display" style="width:100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
     
@@ -254,7 +256,6 @@
         </section> 
         <p class="location-description">© 2024 Phoenix Bikes. Team 6 Jakarta.</p>
     </footer>
-</body>
-<script src="js/index.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
