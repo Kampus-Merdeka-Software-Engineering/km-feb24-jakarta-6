@@ -247,6 +247,11 @@ canvas{
 .chart {
     padding: 48px;
 }
+}
+.scorecard{
+    padding: 6px 24px;
+    text-align: center;
+}
 .tabel{
     width: 100%;
     margin-top: 48px;
