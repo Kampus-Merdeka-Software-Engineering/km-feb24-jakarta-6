@@ -234,23 +234,18 @@ canvas{
 
 }
 .scorecard{
-    padding: 6px;
+    padding: 6px 24px;
     text-align: center;
 }
 .chart-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 40px;
     width: 100%;
     padding: 24px;
 }
 .chart {
     padding: 48px;
-}
-}
-.scorecard{
-    padding: 6px 24px;
-    text-align: center;
 }
 .tabel{
     width: 100%;
@@ -659,20 +654,37 @@ textarea{
     }
 
     /* Dashboard */
+    .dashboard-padding{
+        padding-inline: 4px;
+    }
+    .dashboard{
+        margin: 24px;
+    }
     .dashboard-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
-        gap: 20px;
-        margin: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 600px));
+        gap: 12px;
+        margin: 12px;
         background-color: none;
         border-radius: 8px;
     }
     .scorecard-container{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 768px));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 600px));
+        gap: 12px;
+        width: 100%;
+        padding: 12px;
+        font-size: 12px;
+    }
+    .scorecard{
+        padding: 4px;
+    }
+    .chart-container{
+        display: grid;
+        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
         gap: 20px;
         width: 100%;
-        padding: 24px;
+        padding: 12px;
     }
     .tabel #dataTable1_wrapper,#dataTable2_wrapper{
         width: calc(100%);
@@ -681,8 +693,30 @@ textarea{
     }
     
     /* Insight Section */
-    .recomendation-item {
-        padding: 12px 24px;
+    .insight-content {
+        border-radius: 12px;
+    }
+    .insight {
+        display: flex;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        padding: 12px 0px;
+    }
+    .recomendation{
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    .active .recomendation {
+        max-height: 500px;
+        opacity: 1;
+        padding: 12px;
+        font-size: 12px;
+    }
+    .recomendation-title {
+        margin-bottom: 12px;
+    }.recomendation-item {
+        padding: 6px 12px;
         border-bottom: 1px solid var(--text-color);
         width: calc(100% - 48px);
         margin: auto;
