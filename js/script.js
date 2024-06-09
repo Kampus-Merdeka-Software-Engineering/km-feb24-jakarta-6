@@ -107,7 +107,6 @@ function applyFilters() {
       selectedValues[selects[i].id] = selects[i].value;
   }
   // Lakukan sesuatu dengan nilai yang telah dipilih (misalnya, kirim ke server)
-  console.log(selectedValues);
   toggleDropdownFilter(); // Tutup dropdown setelah menerapkan filter
 }
 window.onclick = function(event) {
@@ -143,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
           populateFilterDropdown('continent', uniqueValues.continent);
           populateFilterDropdown('sub-category', uniqueValues.subCategory);
 
-          chart = lineChartAverageRevenue(data); // Assign the returned value to chart variable
+          chart = lineChartAverageProfit(data); // Assign the returned value to chart variable
 
           // Menambahkan event listener untuk tombol OK dan Reset
           document.getElementById('ok').addEventListener('click', applyFilters);
@@ -180,13 +179,13 @@ document.addEventListener('DOMContentLoaded', function() {
           if (!uniqueValues.year.includes(item.Year)) {
               uniqueValues.year.push(item.Year);
           }
-          if (!uniqueValues.gender.includes(item.Customer_Gender) && item.Customer !== "-") {
+          if (!uniqueValues.gender.includes(item.Customer_Gender) && item.Customer_Gender !== "-") {
               uniqueValues.gender.push(item.Customer_Gender);
           }
-          if (!uniqueValues.country.includes(item.Country)) {
+          if (!uniqueValues.country.includes(item.Country) && item.Country !== "-") {
               uniqueValues.country.push(item.Country);
           }
-          if (!uniqueValues.continent.includes(item.Continent)) {
+          if (!uniqueValues.continent.includes(item.Continent) && item.Continent !== "-") {
               uniqueValues.continent.push(item.Continent);
           }
           if (!uniqueValues.subCategory.includes(item.Sub_Category) && item.Sub_Category !== "-") {
@@ -284,8 +283,8 @@ function formatNumber(num) {
 }
 
 
-  function lineChartAverageRevenue(data) {
-      const ctx = document.getElementById('line-average-revenue').getContext('2d');
+  function lineChartAverageProfit(data) {
+      const ctx = document.getElementById('line-average-profit').getContext('2d');
       return new Chart(ctx, {
           type: 'line',
           data: getData(data),
@@ -293,7 +292,7 @@ function formatNumber(num) {
             plugins: {
               title: {
                   display: true,
-                  text: 'Average Revenue',
+                  text: 'Average Profit',
                   font: {
                       size: 20
                   }
@@ -309,7 +308,7 @@ function formatNumber(num) {
                       beginAtZero: true,
                       title: {
                           display: true,
-                          text: 'Average Revenue'
+                          text: 'Average Profit'
                       }
                   },
                   x: {
@@ -329,7 +328,7 @@ function formatNumber(num) {
           gender: document.getElementById('gender').value,
           country: document.getElementById('country').value,
           continent: document.getElementById('continent').value,
-          category: document.getElementById('sub-category').value
+          subCategory: document.getElementById('sub-category').value
       };
 
       const chartData = getData(data, filters);
@@ -351,8 +350,8 @@ function formatNumber(num) {
       if (filters.continent) {
           filteredData = filteredData.filter(d => d.Continent == filters.continent);
       }
-      if (filters.category) {
-          filteredData = filteredData.filter(d => d.Sub_Category == filters.category);
+      if (filters.subCategory) {
+          filteredData = filteredData.filter(d => d.Sub_Category == filters.subCategory);
       }
 
       if (filters.year && filters.year !== 'all') {
@@ -366,22 +365,22 @@ function formatNumber(num) {
   function getYearlyData(data) {
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Year]) {
-              acc[curr.Year] = { totalRevenue: 0, count: 0 };
+              acc[curr.Year] = { totalProfit: 0, count: 0 };
           }
-          acc[curr.Year].totalRevenue += curr.Revenue;
+          acc[curr.Year].totalProfit += curr.Profit;
           acc[curr.Year].count += 1;
           return acc;
       }, {});
 
       const years = Object.keys(groupedData);
-      const averageRevenues = years.map(year => groupedData[year].totalRevenue / groupedData[year].count);
+      const averageProfits = years.map(year => groupedData[year].totalProfit / groupedData[year].count);
 
       return {
           data: {
               labels: years,
               datasets: [{
-                  label: 'Average Revenue',
-                  data: averageRevenues,
+                  label: 'Average Profit',
+                  data: averageProfits,
                   backgroundColor: '#4F6F52',
                   borderColor: '#4F6F52',
                   borderWidth: 2
@@ -395,21 +394,21 @@ function formatNumber(num) {
       const uniqueMonths = [...new Set(data.map(d => d.Month))];
       const groupedData = data.reduce((acc, curr) => {
           if (!acc[curr.Month]) {
-              acc[curr.Month] = { totalRevenue: 0, count: 0 };
+              acc[curr.Month] = { totalProfit: 0, count: 0 };
           }
-          acc[curr.Month].totalRevenue += curr.Revenue;
+          acc[curr.Month].totalProfit += curr.Profit;
           acc[curr.Month].count += 1;
           return acc;
       }, {});
 
-      const averageRevenues = uniqueMonths.map(month => groupedData[month].totalRevenue / groupedData[month].count);
+      const averageProfits = uniqueMonths.map(month => groupedData[month].totalProfit / groupedData[month].count);
 
       return {
           data: {
               labels: uniqueMonths,
               datasets: [{
-                  label: 'Average Revenue',
-                  data: averageRevenues,
+                  label: 'Average Profit',
+                  data: averageProfits,
                   backgroundColor: '#4F6F52',
                   borderColor: '#4F6F52',
                   borderWidth: 1
@@ -421,7 +420,8 @@ function formatNumber(num) {
 
   function drawHorizontalBarChart(data) {
     // Group data by Country and calculate total profit
-    const groupedData = data.reduce((acc, curr) => {
+    const filteredData = data.filter(entry => entry.Country !== '-');
+    const groupedData = filteredData.reduce((acc, curr) => {
         if (!acc[curr.Country]) {
             acc[curr.Country] = 0;
         }
@@ -430,7 +430,7 @@ function formatNumber(num) {
     }, {});
 
     const countries = Object.keys(groupedData);
-    const totalProfits = countries.map(country => groupedData[country]);
+    const totalProfits = countries.map(country => groupedData[country]).filter((data) => data.Country !== '-');
 
     // Get the canvas element
     const canvas = document.getElementById('bar-country-profit');
@@ -477,24 +477,25 @@ function formatNumber(num) {
 
 function productComposition(data) {
   // Group data by Sub_Category and Product_Type
-  const groupedData = data.reduce((acc, curr) => {
-      if (!acc[curr.Sub_Category]) {
-          acc[curr.Sub_Category] = {};
+  const filteredData = data.filter((data) => data.Sub_Category !== '-');
+  const groupedData = filteredData.reduce((acc, curr) => {
+      if (!acc[curr.Year]) {
+          acc[curr.Year] = {};
       }
-      if (!acc[curr.Sub_Category][curr.Product_Type]) {
-          acc[curr.Sub_Category][curr.Product_Type] = 0;
+      if (!acc[curr.Year][curr.Sub_Category]) {
+          acc[curr.Year][curr.Sub_Category] = 0;
       }
-      acc[curr.Sub_Category][curr.Product_Type] += curr.Order_Quantity;
+      acc[curr.Year][curr.Sub_Category] += curr.Order_Quantity;
       return acc;
   }, {});
 
-  const subCategories = Object.keys(groupedData);
-  const productTypes = [...new Set(data.map(d => d.Product_Type))];
+  const years = Object.keys(groupedData)
+  const subCategories = [...new Set(data.map(d => d.Sub_Category))];
 
-  const datasets = productTypes.map(productType => {
+  const datasets = subCategories.map(subCategory => {
       return {
-          label: productType,
-          data: subCategories.map(subCategory => groupedData[subCategory][productType] || 0),
+          label: subCategory,
+          data: years.map(years => groupedData[years][subCategory] || 0),
           backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
           // borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
           // borderWidth: 1
@@ -515,14 +516,14 @@ function productComposition(data) {
   const config = {
       type: 'bar',
       data: {
-          labels: subCategories,
+          labels: years,
           datasets: datasets
       },
       options: {
           plugins: {
               title: {
                   display: true,
-                  text: 'Product Type Composition by Sub Category',
+                  text: 'Product Type Composition in Years',
                   font: {
                       size: 20
                   }
@@ -538,7 +539,7 @@ function productComposition(data) {
                   stacked: true,
                   title: {
                       display: true,
-                      text: 'Sub Category'
+                      text: 'Year'
                   }
               },
               y: {
@@ -556,7 +557,8 @@ function productComposition(data) {
 
 function profitByGender(data) {
   // Group data by gender
-  const groupedData = data.reduce((acc, curr) => {
+  const filteredData = data.filter((data) => data.Customer_Gender !== '-');
+  const groupedData = filteredData.reduce((acc, curr) => {
     if (!acc[curr.Customer_Gender]) {
       acc[curr.Customer_Gender] = 0;
     }
@@ -585,8 +587,8 @@ function profitByGender(data) {
         label: 'Profit by Gender',
         data: Object.values(groupedData),
         backgroundColor: [
-          '#658D68', // Red for Female
-          '#DFCEB7'   // Blue for Male
+          '#658D68',
+          '#DFCEB7'   
         ],
         borderColor: [
           '#658D68',
@@ -612,7 +614,8 @@ function profitByGender(data) {
 
 function profitByAge(data) {
   // Group data by age and calculate total profit for each age
-  const groupedData = data.reduce((acc, curr) => {
+  const filteredData = data.filter((data) => data.Customer_Age !== '-');
+  const groupedData = filteredData.reduce((acc, curr) => {
     if (!acc[curr.Customer_Age]) {
       acc[curr.Customer_Age] = 0;
     }
@@ -633,7 +636,8 @@ function profitByAge(data) {
 
   // Create data for pie chart
   const labels = Object.keys(profitPercentageData);
-  const dataValues = Object.values(profitPercentageData);
+  const dataValues = Object.values(profitPercentageData)
+  
 
   // Generate random colors dynamically
   const colors = labels.map(() => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.5)`);
@@ -686,7 +690,6 @@ function profitByAge(data) {
 $(document).ready(function() {
   // Fungsi untuk menginisialisasi tabel pertama
   function initializeTable(data) {
-      console.log("Data for table1:", data);  // Debugging log
       var keys = Object.keys(data[0]);
       
       var thead = "<tr>";
@@ -711,7 +714,6 @@ $(document).ready(function() {
 
   // Fungsi untuk menginisialisasi tabel kedua
   function pivotTotalByCountry(data) {
-      console.log("Data for table2:", data);  // Debugging log
       // Agregasi data berdasarkan negara
       var aggregatedData = data.reduce((acc, item) => {
           if (!acc[item.Country]) {
@@ -731,8 +733,7 @@ $(document).ready(function() {
       }, {});
 
       // Konversi data agregasi ke dalam format array
-      var tableData = Object.values(aggregatedData);
-      console.log("Aggregated data for table2:", tableData);  // Debugging log
+      var tableData = Object.values(aggregatedData).filter((data) => data.Country !== '-');
 
       // Inisialisasi DataTable
       $('#dataTable2').DataTable({
@@ -749,7 +750,6 @@ $(document).ready(function() {
 
   // Memuat data untuk kedua tabel dari satu file JSON
   $.getJSON("./assets/data/dataset.json", function(data) {
-      console.log("Loaded data:", data);  // Debugging log
       initializeTable(data);  // Menginisialisasi tabel pertama dengan seluruh data
       pivotTotalByCountry(data);  // Menginisialisasi tabel kedua dengan data agregat
   }).fail(function() {
