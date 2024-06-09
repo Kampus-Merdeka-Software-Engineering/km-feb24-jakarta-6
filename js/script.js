@@ -154,14 +154,29 @@ document.addEventListener('DOMContentLoaded', function() {
           drawHorizontalBarChart(data);
           productComposition(data);
           profitByGender(data);
-          profitByAge(data);
+          // profitByAge(data);
 
           loadingIndicator.style.display = 'none';
+
+          fetchSecondDataset();
       })
       .catch(error => {
           console.error('Error loading the dataset:', error);
           loadingIndicator.style.display = 'none';
       });
+
+      function fetchSecondDataset() {
+        fetch('./assets/data/dataset-all-age.json')
+          .then(response => response.json())
+          .then(dataset2 => {
+            data = dataset2;
+
+            profitByAge(data);
+          })
+          .catch(error => {
+            console.error('Error loading the second dataset:', error);
+        });
+      }
 
   // Function definitions
 
@@ -420,7 +435,7 @@ function formatNumber(num) {
 
   function drawHorizontalBarChart(data) {
     // Group data by Country and calculate total profit
-    const filteredData = data.filter(entry => entry.Country !== '-');
+    const filteredData = data.filter((data) => data.Country !== '-');
     const groupedData = filteredData.reduce((acc, curr) => {
         if (!acc[curr.Country]) {
             acc[curr.Country] = 0;
@@ -476,9 +491,8 @@ function formatNumber(num) {
 }
 
 function productComposition(data) {
-  // Group data by Sub_Category and Product_Type
-  const filteredData = data.filter((data) => data.Sub_Category !== '-');
-  const groupedData = filteredData.reduce((acc, curr) => {
+  // Group data by Sub_Category 
+  const groupedData = data.reduce((acc, curr) => {
       if (!acc[curr.Year]) {
           acc[curr.Year] = {};
       }
@@ -614,12 +628,12 @@ function profitByGender(data) {
 
 function profitByAge(data) {
   // Group data by age and calculate total profit for each age
-  const filteredData = data.filter((data) => data.Customer_Age !== '-');
+  const filteredData = data.filter((data) => data.Age_Group !== '-');
   const groupedData = filteredData.reduce((acc, curr) => {
-    if (!acc[curr.Customer_Age]) {
-      acc[curr.Customer_Age] = 0;
+    if (!acc[curr.Age_Group]) {
+      acc[curr.Age_Group] = 0;
     }
-    acc[curr.Customer_Age] += curr.Profit;
+    acc[curr.Age_Group] += curr.Profit;
     return acc;
   }, {});
 
