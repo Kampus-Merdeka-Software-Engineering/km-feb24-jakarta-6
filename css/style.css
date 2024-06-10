@@ -68,7 +68,7 @@ a{
 }
 
 .navbar{
-    min-height: 80px;
+    min-height: 85px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -324,7 +324,7 @@ canvas{
 .recomendation {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     opacity: 0;
     padding: 0 24px;
     border: inset 1px var(--text-color);
@@ -338,7 +338,7 @@ canvas{
     padding: 24px;
     border: inset 1px var(--text-color);
     border-radius: 0 0 12px 12px;
-    transition: max-height 0.5s, opacity 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .recomendation-title {
@@ -642,6 +642,51 @@ textarea{
     .section-title{
         font-size: 0.8rem;
     }
+
+    /* Dashboard */
+    .dashboard-container {
+        display: grid;
+        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin: 12px;
+        background-color: none;
+        border-radius: 8px;
+    }
+    .scorecard-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 12px;
+        width: 100%;
+        padding: 12px;
+        font-size: 12px;
+    }
+    .scorecard{
+        padding: 4px;
+    }
+    .chart-container1{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        width: 100%;
+        padding: 6px;
+    }
+    .chart-container2{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        width: 100%;
+        padding: 6px;
+    }
+    .chart {
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
+    }
+    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
+        width: calc(100%);
+        overflow: scroll;
+        overflow-y: hidden;
+    }    
 }
 
 
