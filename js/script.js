@@ -834,9 +834,10 @@ const insightsData = [
     ]
   },
   {
-    insight: "Company's Annual Profit Graphic",
+    insight: "Average Annual Profit of the Company",
     recomendations: [
-      "The graph shows that the company's annual profit decreased dramatically in 2014 due to the absence of bicycle sales. The highest profit recorded was in 2015, amounting to 530,758 dollars."
+      "The graph shows that the company's annual profit decreased dramatically in 2014 due to the absence of bicycle sales. The highest profit recorded was in 2015, amounting to 530,758 dollars.",
+     "The 'Average Profit' graph shows that the company's average annual profit experienced a drastic decline in 2014 due to no bicycle sales. The highest profit recorded in the last 5 years occurred in 2011 with an average of 1.05 million dollars."
     ]
   },
   {
@@ -848,24 +849,26 @@ const insightsData = [
   {
     insight: 'Product Type Composition in Years',
     recomendations: [
+      "As you can see in the stack bar chart 'Product Type Composition in Years' shows that in 2015, the product that was most in demand was road bikes, while touring bikes sold the least. This reflects consumer preferences for road bikes compared to touring bikes that year.",
       'Phoenix companies in Europe need to increase their product variations to boost profits from bicycle sales, particularly for road bikes, which are the best-selling products and contribute the highest profits.'
     ]
   },
   {
     insight: 'Comparison of Customer Gender',
     recomendations: [
-      'Purchases were made by 51.7% men and 48.3% women.'
+      'The "Profit by Gender" donut chart illustrates the distribution of sales profit according to gender. Men accounted for $733,707 or 49.6% of the total profit, while women contributed $745,191, making up 50.4% of the overall profit.'
     ]
   },
   {
     insight: 'Comparison of Customer Age',
     recomendations: [
-      "The age difference in bicycle purchases is significant, indicating that buyers come from various age groups."
+      "The pie chart 'Profit Percentage by Age' explains that The notable variance in age among bicycle purchasers underscores the diverse demographics of the market. This observation suggests that bicycle buyers span a wide range of age groups, indicating potential opportunities for targeted marketing strategies tailored to specific age demographics."
     ]
   },
   {
     insight: 'Average Discount per Country',
     recomendations: [
+      "The chart indicates that the country with the largest discount is Australia, reaching 16.25%, which also indicates the highest number of orders and large profits. However, there is a slight difference in the discount value between Australia and France.",
       "Phoenix companies in Germany and France do not need to offer discounts, as they are less effective in increasing company profits."
     ]
   }
