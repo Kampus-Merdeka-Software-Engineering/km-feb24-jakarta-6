@@ -11,7 +11,6 @@
     /* Font */
     --font-family: "Poppins", sans-serif;
 }
-
 *{
     box-sizing: border-box;
     margin: 0;
@@ -20,7 +19,6 @@
     scroll-behavior: smooth;
     color: var(--text-color);
 }
-
 * > h1, .nav-link{
     color: var(--title-color);
     
@@ -35,18 +33,16 @@ header{
     top: 0;
     background-color: var(--primary-color);
     padding-inline: 36px;
-    z-index: 1;
+    z-index: 10;
+    overflow: hidden;
 }
-
 header ul li{
     list-style: none;
 }
-
 .title {
     color: var(--title-color);
     position: relative;
 }
-
 .title::before {
     content: "";
     height: 30px;
@@ -58,17 +54,14 @@ header ul li{
     transform: translateY(-45%);
     animation: blink 0.7s infinite;
 }
-
 @keyframes blink {
     50% { opacity: 0 }
 }
-
 a{
     text-decoration: none;
 }
-
 .navbar{
-    min-height: 85px;
+    min-height: 90px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,21 +72,16 @@ a{
     justify-content: space-between;
     align-items: center;
 }
-
-.nav-link{
+.nav-item{
     transition: all 0.5s ease;
     font-size: 1.2rem;
     padding: 7px 25px 7px 25px;
     border-radius: 10px;
+    text-align: center;
 }
-.nav-link:hover{
+.nav-item:hover{
     background-color: var(--secondary-color);
 }
-
-.nav-link.active {
-    color: var(--secondary-color);
-}
-
 .menu-icon{
     display: none;
     cursor: pointer;
@@ -109,14 +97,11 @@ a{
 }
 
 /* dashboard */
-.dashboard-padding{
-    padding-inline: 48px;
-}
 .dashboard{
     border: 1px solid ;
     border-radius: 24px;
-    width: calc(100% - 48px);
-    margin: 40px auto;
+    width: calc(100% - 120px);
+    margin: 48px auto;
 }
 .dashboard-header{
     display: flex;
@@ -146,7 +131,7 @@ a{
 .dropbtn:hover{
     background-color: var(--primary-color);
     color: var(--title-color);
-} 
+}
 .dropdown-content {
     display: none;
     position: absolute;
@@ -167,10 +152,12 @@ a{
     padding: 8px 12px;
 }  
 .dropdown-item label {
-    width: 100px; /* Sesuaikan lebar label sesuai kebutuhan */
+    width: 100px;
 }
 .dropdown-item select {
     flex: 1;
+    padding: 4px 12px;
+    border-radius: 8px;
 }
 .dropdown-content button {
     width: 82px;
@@ -202,55 +189,49 @@ a{
 }
 .dashboard-container {
     display: grid;
-    gap: 20px;
     margin: 24px;
+    gap: 24px;
+    padding: 48px;
 }
 canvas{
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
 }
 .scorecard-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
+    gap: 24px;
     width: 100%;
-    padding: 24px;
 }
 .scorecard{
-    padding: 6px 24px;
     text-align: center;
     border-radius: 8px;
     border-radius: 12px;
-    box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
+    box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5);
+    padding: 12px;
 }
-.chart-container1{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    width: 100%;
-    padding: 24px;
-}
-.chart-container2{
+.chart-container{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 40px;
+    gap: 48px;
     width: 100%;
-    padding: 24px;
+    margin-top: 24px;
 }
 .chart {
-    padding: 48px;
+    padding: 24px;
     border-radius: 12px;
-    box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
+    box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); 
 }
 .tabel{
     width: 100%;
     margin-top: 48px;
     margin-bottom: 3px;
 }
-#dataTable1_wrapper{
+#dataTable1_wrapper, #dataTable2_wrapper{
     width: calc(100%);
     overflow: scroll;
-    overflow-y: hidden;  
+    overflow-y: hidden;
+    margin-top: 48px;
 }
 #dataTable1_wrapper div{
     padding: 12px 24px;
@@ -265,13 +246,12 @@ canvas{
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin: 48px 0;
+    margin-top: 92px;
+    margin-bottom: 32px;
 }
-
 .background-line {
     position: absolute;
 }
-
 .section-title {
     position: absolute;
     background-color: white;
@@ -279,19 +259,16 @@ canvas{
     text-wrap: wrap;
     text-align: center;
 }
-
 .insight-title h1 {
     font-size: 1.2rem;
     font-weight: 500;
 }
-
 .insight-list {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 48px;
 }
-
 .insight-item {
     cursor: pointer;
     transition: all 0.5s;
@@ -299,7 +276,6 @@ canvas{
     width: calc(100% - 48px);
     margin: 12px auto;
 }
-
 .insight-content {
     display: flex;
     justify-content: center;
@@ -308,7 +284,6 @@ canvas{
     border-radius: 12px;
     cursor: pointer;
 }
-
 .insight {
     display: flex;
     font-size: 1.2rem;
@@ -316,11 +291,9 @@ canvas{
     text-align: center;
     padding: 24px 0px;
 }
-
 .active .insight {
     border-radius: 12px 12px 0 0;
 }
-
 .recomendation {
     max-height: 0;
     overflow: hidden;
@@ -331,7 +304,6 @@ canvas{
     border-radius: 0 0 12px 12px;
     text-align: justify;
 }
-
 .active .recomendation {
     max-height: 500px;
     opacity: 1;
@@ -340,11 +312,9 @@ canvas{
     border-radius: 0 0 12px 12px;
     transition: all 0.5s ease-in-out;
 }
-
 .recomendation-title {
     margin-bottom: 24px;
 }
-
 .recomendation-item {
     padding: 12px 24px;
     border-bottom: 1px solid var(--text-color);
@@ -354,12 +324,6 @@ canvas{
     align-items: center;
 }
 
-.recomendation-item img {
-    margin-right: 10px;
-}
-
-
-
 /* About-Us */
 .cards-container{
     display: flex;
@@ -367,7 +331,6 @@ canvas{
     justify-content: space-evenly;
     padding: 20px;
 }
-
 .card {
     display: flex;
     flex-direction: column;
@@ -383,12 +346,10 @@ canvas{
     border-radius: 24px;
     border: 1px solid var(--text-color) ;
 }
-
 .card:first-child{
     order: -1;
     margin: 24px calc(50% - 200px);
 }
-
 .card .image {
     flex: 1;
     position: relative;
@@ -397,7 +358,6 @@ canvas{
     justify-content: center;
     transition: all 0.5s;
 }   
-
 .card .image img {
     border-radius: 18px;
     width: 100%;
@@ -405,7 +365,6 @@ canvas{
     object-fit: cover;
     transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease; 
 }
-
 .card:hover .image{
     flex: none;
     width: 200px;
@@ -413,32 +372,26 @@ canvas{
     transform: scale(0.90);
     
 }
-
 .name, .role, .icons {
     display: none;
     text-align: center;
     color: #f4eadd;
     width: 100%;
 }
-
 .name{
     font-size: 1.2rem;
 }
-
 .role{
     font-size: 0.8rem;
 }
-
 .card:hover .name, .card:hover .role, .card:hover .icons {
     display: block;
 }
-
 .icons a {
     display: inline-flex;
     height: 16px;
     padding-inline: 12px;
 }
-
 
 /* Feedback*/
 .feedback{
@@ -483,7 +436,7 @@ input{
     margin: 8px 0px 0px 0px;
 }
 textarea{
-    width: 15rem;
+    width: 20rem;
     height: 5rem;
     font-size: 1rem;
     border: none;
@@ -499,7 +452,7 @@ textarea{
     font-weight: 500;
     border: none;
     border-radius: 8px;
-    padding: 8px;
+    padding: 8px 24px;
     margin-top: 12px;
     cursor: pointer;
 }
@@ -520,7 +473,6 @@ textarea{
     height: 4rem;
     padding: 10px;
 }
-
 .success-message {
     display: flex;
     flex-direction: column;
@@ -538,7 +490,6 @@ textarea{
 }
 
 /*Footer */
-
 .phoenix-bikes {
     display: flex;
     background-color: #4F6F52;
@@ -547,52 +498,42 @@ textarea{
     padding: 70px 77px;
     flex-wrap: wrap;
 }
-
 .phoenix-bikes_info {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     text-align:start;
 }
-
 .phoenix-bikes_title {
     color: var(--title-color);
     margin-right: 30;
 }
-
 .phoenix-bikes_subtitle {
     color: var(--title-color);
 }
-
 .phoenix-bikes_images {
     margin-top: 48px;
 }
-
 .phoenix-bikes_logo {
     height: 48px;
     padding-right: 24px;
 }
-
 .location-description {
     text-align: center;
     background-color: var(--primary-color);
     padding-bottom: 48px;
 }
-
-
 .phoenix-bikes_nav-item {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: var(--title-color);
 }
-
 .phoenix-bikes_nav-title {
     font-weight: bold;
     color: var(--title-color);
     margin-bottom: 10px;
 }
-
 .phoenix-bikes_nav-item:hover {
     text-decoration: underline;
 }
@@ -604,172 +545,6 @@ textarea{
 .location-description {
     padding: 24px;
     color: var(--title-color);
-}
-
-
-@media screen and (max-width: 1200px){
-    /* Header/Navigation Bar */
-    .menu-icon{
-        display: block;
-    }
-    .menu-icon.active .bar:nth-child(1){
-        transform: translateY(8px) rotate(45deg);
-    }
-    .menu-icon.active .bar:nth-child(2){
-        opacity: 0;
-    }
-    .menu-icon.active .bar:nth-child(3){
-        transform: translateY(-8px) rotate(-45deg);
-    }
-    .nav-menu{
-        position: fixed;
-        top: -100%;
-        left: 0;
-        gap: 0;
-        flex-direction: column;
-        background-color: var(--primary-color);
-        width: 100%;
-        text-align: center;
-        transition: 1s;
-    }
-    .nav-item{
-        margin: 16px 0;
-    }
-    .nav-menu.active{
-        top: calc(0% + 80px);
-    }
-    
-    .section-title{
-        font-size: 0.8rem;
-    }
-
-    /* Dashboard */
-    .dashboard-container {
-        display: grid;
-        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 12px;
-        margin: 12px;
-        background-color: none;
-        border-radius: 8px;
-    }
-    .scorecard-container{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 12px;
-        width: 100%;
-        padding: 12px;
-        font-size: 12px;
-    }
-    .scorecard{
-        padding: 4px;
-    }
-    .chart-container1{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
-        width: 100%;
-        padding: 6px;
-    }
-    .chart-container2{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
-        width: 100%;
-        padding: 6px;
-    }
-    .chart {
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
-    }
-    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
-        width: calc(100%);
-        overflow: scroll;
-        overflow-y: hidden;
-    }    
-}
-
-
-@media screen and (max-width: 992px){
-    /* Header/Navigation Bar */
-    .menu-icon{
-        display: block;
-    }
-    .menu-icon.active .bar:nth-child(1){
-        transform: translateY(8px) rotate(45deg);
-    }
-    .menu-icon.active .bar:nth-child(2){
-        opacity: 0;
-    }
-    .menu-icon.active .bar:nth-child(3){
-        transform: translateY(-8px) rotate(-45deg);
-    }
-    .nav-menu{
-        position: fixed;
-        top: -100%;
-        left: 0;
-        gap: 0;
-        flex-direction: column;
-        background-color: var(--primary-color);
-        width: 100%;
-        text-align: center;
-        transition: 1s;
-    }
-    .nav-item{
-        margin: 16px 0;
-    }
-    .nav-menu.active{
-        top: calc(0% + 80px);
-    }
-    
-    .section-title{
-        font-size: 0.8rem;
-    }
-
-    /* Dashboard */
-    .dashboard-container {
-        display: grid;
-        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 12px;
-        margin: 12px;
-        background-color: none;
-        border-radius: 8px;
-    }
-    .scorecard-container{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 12px;
-        width: 100%;
-        padding: 12px;
-        font-size: 12px;
-    }
-    .scorecard{
-        padding: 4px;
-    }
-    .chart-container1{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
-        width: 100%;
-        padding: 6px;
-    }
-    .chart-container2{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
-        width: 100%;
-        padding: 6px;
-    }
-    .chart {
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
-    }
-    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
-        width: calc(100%);
-        overflow: scroll;
-        overflow-y: hidden;
-    }
 }
 
 @media screen and (max-width: 768px){
@@ -810,50 +585,28 @@ textarea{
 
     /* Dashboard */
     .dashboard{
-        margin: 24px;
+        border: 1px solid ;
+        border-radius: 24px;
+        width: calc(100% - 60px);
+        margin: 24px auto;
     }
     .dashboard-container {
         display: grid;
-        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 12px;
-        margin: 12px;
-        background-color: none;
-        border-radius: 8px;
+        gap: 24px;
+        padding: 24px;
     }
     .scorecard-container{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 12px;
-        width: 100%;
-        padding: 12px;
-        font-size: 12px;
-    }
-    .scorecard{
-        padding: 4px;
-    }
-    .chart-container1{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(150px, 768px));
         gap: 24px;
         width: 100%;
-        padding: 6px;
     }
-    .chart-container2{
+    .chart-container{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 768px));
+        gap: 48px;
         width: 100%;
-        padding: 6px;
-    }
-    .chart {
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px 1px rgba(51, 51, 51, 0.5); /* Darker and more spread out shadow */
-    }
-    .tabel #dataTable1_wrapper,#dataTable2_wrapper{
-        width: calc(100%);
-        overflow: scroll;
-        overflow-y: hidden;
+        margin-top: 24px;
     }
     
     /* Insight Section */
