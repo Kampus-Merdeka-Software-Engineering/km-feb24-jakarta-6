@@ -891,7 +891,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Elsa Hanifah Ananda",
-      role: "Front End Engineer",
+      role: "Data Communication PIC and Front End Engineer",
       imgSrc: "./assets/img/elsa.png",
       social: {
         linkedin: "https://www.linkedin.com/in/elsa-ananda-1a5230265/",
@@ -901,7 +901,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Ica Nur Halimah",
-      role: "Front End Engineer",
+      role: "Data Analyst PIC and Front End Engineer",
       imgSrc: "./assets/img/ica.png",
       social: {
         linkedin: "https://www.linkedin.com/in/ica-nur-halimah/",
@@ -911,7 +911,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Nurul Syifa Khairani",
-      role: "Front End Engineer",
+      role: "Data Visualization PIC and Front End Engineer",
       imgSrc: "./assets/img/syifa.png",
       social: {
         linkedin: "https://www.linkedin.com/in/nurul-syifa-khairani-395484219",
@@ -921,7 +921,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Arya Syamudra",
-      role: "Front End Engineer",
+      role: "Data Cleaning PIC and Front End Engineer",
       imgSrc: "./assets/img/Arya.png",
       social: {
         linkedin: "https://www.linkedin.com/in/arya-syamudra/",
@@ -931,7 +931,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Rizal Maulana",
-      role: "Deployment Team",
+      role: "Data Cleaning PIC and Deployment Team",
       imgSrc: "./assets/img/rizalmaulana.png",
       social: {
         linkedin: "linkedin.com/in/rizal-maulana-sanjaya-470612277",
@@ -951,7 +951,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Nabila Balqis",
-      role: "Quality Assurance",
+      role: "Data Analyst PIC and Quality Assurance",
       imgSrc: "./assets/img/nabila.png",
       social: {
         linkedin: "https://www.linkedin.com/in/nabila-balqis-7121712b2",
@@ -1001,7 +1001,7 @@ insightsData.forEach((insight) => {
     },
     {
       name: "Ferdinand Ramadhani Firmansyah",
-      role: "Pitch Deck Team",
+      role: "Data Visualization PIC and Pitch Deck Team",
       imgSrc: "./assets/img/ferdi.png",
       social: {
         linkedin: "https://www.linkedin.com/in/ferdinand-ramadhani-firmansyah-a703b02a5/",
