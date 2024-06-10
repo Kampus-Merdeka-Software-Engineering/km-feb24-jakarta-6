@@ -324,7 +324,7 @@ canvas{
 .recomendation {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     opacity: 0;
     padding: 0 24px;
     border: inset 1px var(--text-color);
@@ -338,7 +338,7 @@ canvas{
     padding: 24px;
     border: inset 1px var(--text-color);
     border-radius: 0 0 12px 12px;
-    transition: max-height 0.5s, opacity 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .recomendation-title {
