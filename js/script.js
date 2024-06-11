@@ -836,7 +836,6 @@ const insightsData = [
   {
     insight: "Average Annual Profit of the Company",
     recomendations: [
-      "The graph shows that the company's annual profit decreased dramatically in 2014 due to the absence of bicycle sales. The highest profit recorded was in 2015, amounting to 530,758 dollars.",
      "The 'Average Profit' graph shows that the company's average annual profit experienced a drastic decline in 2014 due to no bicycle sales. The highest profit recorded in the last 5 years occurred in 2011 with an average of 1.05 million dollars."
     ]
   },
