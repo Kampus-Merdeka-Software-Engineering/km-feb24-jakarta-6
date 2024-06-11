@@ -239,6 +239,9 @@ canvas{
 #dataTable2_wrapper div{
     display: none;
 }
+#dataTable3_wrapper div{
+    display: none;
+}  
 
 /* Insight Section */
 .section-header {

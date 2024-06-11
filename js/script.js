@@ -765,10 +765,59 @@ $(document).ready(function () {
     });
   }
 
+  // Fungsi untuk menginisialisasi tabel kedua
+function pivotTotalByCountry2(data) {
+  // Agregasi data berdasarkan negara
+  var aggregatedData = data.reduce((acc, item) => {
+    if (!acc[item.Country]) {
+      acc[item.Country] = {
+        "Country": item.Country,
+        "Total_Order_Quantity": 0,
+        "Total_Discount": 0,
+        "Total_Profit": 0,
+        "Count": 0
+      };
+    }
+    acc[item.Country].Total_Order_Quantity += item.Order_Quantity;
+    acc[item.Country].Total_Discount += item.Discount;
+    acc[item.Country].Total_Profit += item.Profit;
+    acc[item.Country].Count += 1;
+    return acc;
+  }, {});
+
+  // Konversi data agregasi ke dalam format array
+  var tableData = Object.values(aggregatedData).filter((data) => data.Country !== '-');
+
+  // Hitung rata-rata diskon
+  tableData.forEach(item => {
+    item.Average_Discount = item.Total_Discount / item.Count;
+    delete item.Total_Discount; // Menghapus total diskon karena tidak diperlukan lagi
+    delete item.Count; // Menghapus count karena tidak diperlukan dalam tabel
+  });
+
+  // Inisialisasi DataTable
+  $('#dataTable3').DataTable({
+    data: tableData,
+    columns: [
+      { data: 'Country' },
+      { data: 'Total_Order_Quantity' },
+      {
+        data: 'Average_Discount',
+        render: function(data, type, row) {
+          return data.toFixed(2) + '%'; // Format ke 2 desimal dan tambahkan tanda %
+        }
+      },
+      { data: 'Total_Profit' }
+    ]
+  });
+}
+
+
   // Memuat data untuk kedua tabel dari satu file JSON
   $.getJSON("./assets/data/dataset.json", function (data) {
     initializeTable(data);  // Menginisialisasi tabel pertama dengan seluruh data
     pivotTotalByCountry(data);  // Menginisialisasi tabel kedua dengan data agregat
+    pivotTotalByCountry2(data);  // Menginisialisasi tabel kedua dengan data agregat
   }).fail(function () {
     console.error("An error occurred while loading the JSON file.");
   });
