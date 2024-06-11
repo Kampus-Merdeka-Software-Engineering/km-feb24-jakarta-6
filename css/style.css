@@ -547,6 +547,133 @@ textarea{
     color: var(--title-color);
 }
 
+@media screen and (max-width: 1200px){
+    /* Header/Navigation Bar */
+    .menu-icon{
+        display: block;
+    }
+    .menu-icon.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-icon.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .menu-icon.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        width: 100%;
+        text-align: center;
+        transition: 1s;
+    }
+    .nav-item{
+        margin: 16px 0;
+    }
+    .nav-menu.active{
+        top: calc(0% + 80px);
+    }
+    
+    .section-title{
+        font-size: 0.8rem;
+    }
+
+    /* Dashboard */
+    .dashboard{
+        border: 1px solid ;
+        border-radius: 24px;
+        width: calc(100% - 60px);
+        margin: 24px auto;
+    }
+    .dashboard-container {
+        display: grid;
+        gap: 24px;
+        padding: 24px;
+    }
+    .scorecard-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
+        gap: 24px;
+        width: 100%;
+    }
+    .chart-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 2fr));
+        gap: 48px;
+        width: 100%;
+        margin-top: 24px;
+    }
+}
+
+
+@media screen and (max-width: 992px){
+    /* Header/Navigation Bar */
+    .menu-icon{
+        display: block;
+    }
+    .menu-icon.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-icon.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .menu-icon.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        gap: 0;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        width: 100%;
+        text-align: center;
+        transition: 1s;
+    }
+    .nav-item{
+        margin: 16px 0;
+    }
+    .nav-menu.active{
+        top: calc(0% + 80px);
+    }
+    
+    .section-title{
+        font-size: 0.8rem;
+    }
+
+    /* Dashboard */
+    .dashboard{
+        border: 1px solid ;
+        border-radius: 24px;
+        width: calc(100% - 60px);
+        margin: 24px auto;
+    }
+    .dashboard-container {
+        display: grid;
+        gap: 24px;
+        padding: 24px;
+    }
+    .scorecard-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 768px));
+        gap: 24px;
+        width: 100%;
+    }
+    .chart-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 768px));
+        gap: 48px;
+        width: 100%;
+        margin-top: 24px;
+    }
+}
+
 @media screen and (max-width: 768px){
     /* Header/Navigation Bar */
     .menu-icon{
